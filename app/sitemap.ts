@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 
 const BASE_URL = "https://sumart.com.br";
 
+export const dynamic = "force-dynamic";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const projects = await prisma.project.findMany({ select: { slug: true, updatedAt: true } });
 
