@@ -94,7 +94,7 @@ export default async function HomePage() {
               Sistemas híbridos com bateria · Juiz de Fora e região
             </span>
             <h1 className="mt-5 text-4xl font-extrabold leading-tight text-brand-navy sm:text-5xl">
-              Nunca Mais Fique no Escuro E Ainda Economize na Conta de Luz!
+              Nunca Mais Fique no Escuro e Economize na Conta!
             </h1>
             <div className="mt-5 max-w-lg space-y-4 text-lg leading-relaxed text-brand-navy/70">
               <p>
