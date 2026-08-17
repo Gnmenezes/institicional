@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
+import { upload } from "@vercel/blob/client";
 
 export default function ImageUploader({
   value,
@@ -22,21 +23,24 @@ export default function ImageUploader({
     setError(null);
 
     const uploaded: string[] = [];
-    for (const file of Array.from(files)) {
-      const formData = new FormData();
-      formData.append("file", file);
-      const response = await fetch("/api/admin/upload", { method: "POST", body: formData });
-      const data = await response.json();
-      if (!response.ok) {
-        setError(data?.error ?? "Falha no upload.");
-        continue;
+    try {
+      for (const file of Array.from(files)) {
+        try {
+          const blob = await upload(`portfolio/${Date.now()}-${file.name}`, file, {
+            access: "public",
+            handleUploadUrl: "/api/admin/upload",
+            multipart: true,
+          });
+          uploaded.push(blob.url);
+        } catch (err) {
+          setError(err instanceof Error ? err.message : "Falha no upload.");
+        }
       }
-      uploaded.push(data.url);
+    } finally {
+      if (uploaded.length > 0) onChange([...value, ...uploaded]);
+      setUploading(false);
+      if (inputRef.current) inputRef.current.value = "";
     }
-
-    onChange([...value, ...uploaded]);
-    setUploading(false);
-    if (inputRef.current) inputRef.current.value = "";
   }
 
   function removeAt(index: number) {
