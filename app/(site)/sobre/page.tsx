@@ -5,10 +5,15 @@ import SectionHeading from "@/components/SectionHeading";
 export const metadata: Metadata = {
   title: "Sobre a Sumart",
   description:
-    "Conheça a Sumart Energia Solar: instalação de painéis solares e microinversores em Juiz de Fora, Guiricema e região de Ubá (MG).",
+    "Conheça a Sumart Energia Solar: especialista em sistemas híbridos com armazenamento em bateria em Juiz de Fora, Guiricema e região de Ubá (MG).",
 };
 
 const DIFERENCIAIS = [
+  {
+    title: "Especialistas em híbrido",
+    description:
+      "Projetamos sistemas com armazenamento em bateria pensados pra economia e autonomia de energia.",
+  },
   {
     title: "Atendimento próximo",
     description:
@@ -20,10 +25,6 @@ const DIFERENCIAIS = [
       "Explicamos cada item do projeto para que você entenda exatamente o que está contratando.",
   },
   {
-    title: "Equipe especializada",
-    description: "Instalação feita por profissionais com conhecimento técnico em energia solar.",
-  },
-  {
     title: "Suporte pós-instalação",
     description:
       "Continuamos disponíveis depois da instalação para manutenção e dúvidas sobre o sistema.",
@@ -33,21 +34,24 @@ const DIFERENCIAIS = [
 export default function SobrePage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-20 sm:px-6">
-      <SectionHeading eyebrow="Sobre a Sumart" title="Energia solar com atendimento próximo" />
+      <SectionHeading
+        eyebrow="Sobre a Sumart"
+        title="Especialistas em sistemas híbridos com bateria"
+      />
 
       <div className="mt-8 space-y-5 text-base leading-relaxed text-brand-navy/70">
         <p>
-          A Sumart Energia Solar trabalha com instalação de painéis solares e
-          microinversores para residências, empresas e propriedades rurais.
-          Nosso objetivo é ajudar cada cliente a reduzir a conta de luz com um
-          sistema bem dimensionado para o seu consumo real — sem exagero de
-          equipamentos e com equipamentos de qualidade.
+          A Sumart Energia Solar é especializada em sistemas híbridos de energia
+          solar com armazenamento em bateria — a forma mais completa de reduzir a
+          conta de luz e manter energia disponível mesmo durante quedas na rede.
+          Também seguimos instalando sistemas convencionais com microinversores,
+          para residências, empresas, indústrias e propriedades rurais.
         </p>
         <p>
           Acompanhamos todo o processo: da visita técnica e dimensionamento do
-          sistema até a instalação e a homologação junto à distribuidora de
-          energia. Depois da instalação, seguimos disponíveis para manutenção
-          e suporte.
+          sistema — incluindo o banco de baterias, quando faz parte do projeto —
+          até a instalação e a homologação junto à distribuidora de energia.
+          Depois da instalação, seguimos disponíveis para manutenção e suporte.
         </p>
         <p>
           Atendemos Juiz de Fora, Guiricema e a região do polo moveleiro de Ubá,

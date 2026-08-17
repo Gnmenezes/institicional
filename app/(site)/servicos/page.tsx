@@ -6,28 +6,40 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 export const metadata: Metadata = {
   title: "Serviços",
   description:
-    "Instalação de energia solar residencial, comercial/industrial e rural, além de manutenção e monitoramento de sistemas fotovoltaicos.",
+    "Sistemas híbridos de energia solar com armazenamento em bateria, instalação residencial, comercial, industrial e rural, além de manutenção e monitoramento.",
 };
 
 const SERVICES = [
   {
+    title: "Sistemas híbridos com bateria",
+    highlight: true,
+    description:
+      "A solução mais completa: gera energia solar, armazena o excedente em bateria e usa quando você precisar — inclusive durante quedas na rede elétrica. Ideal para quem quer economia e mais autonomia.",
+    items: [
+      "Armazenamento em bateria para uso a qualquer hora",
+      "Energia disponível mesmo em quedas de energia",
+      "Dimensionamento do banco de baterias conforme sua necessidade",
+      "Instalação por equipe especializada em sistemas híbridos",
+    ],
+  },
+  {
     title: "Instalação residencial",
     description:
-      "Projeto e instalação de sistemas fotovoltaicos para casas e apartamentos, dimensionados para o seu consumo médio de energia, reduzindo a conta de luz mês a mês.",
+      "Projeto e instalação de sistemas fotovoltaicos para casas e apartamentos, híbridos com bateria ou convencionais com microinversores, dimensionados para o seu consumo médio de energia.",
     items: [
       "Visita técnica e análise do telhado",
       "Dimensionamento do sistema conforme consumo",
-      "Instalação de painéis e microinversores",
+      "Instalação híbrida (com bateria) ou convencional (microinversores)",
       "Homologação junto à distribuidora de energia",
     ],
   },
   {
     title: "Comercial e industrial",
     description:
-      "Sistemas de maior porte para empresas, indústrias e comércios que buscam reduzir custos de energia e ganhar previsibilidade no orçamento.",
+      "Sistemas de maior porte para empresas, indústrias e comércios que buscam reduzir custos de energia, ganhar previsibilidade no orçamento e, com bateria, evitar perdas em quedas de energia.",
     items: [
       "Estudo de viabilidade e retorno do investimento",
-      "Projetos de médio e grande porte",
+      "Projetos de médio e grande porte, com ou sem bateria",
       "Instalação em telhados, estruturas metálicas ou solo",
       "Acompanhamento da geração de energia",
     ],
@@ -35,9 +47,10 @@ const SERVICES = [
   {
     title: "Rural",
     description:
-      "Soluções para propriedades rurais, incluindo geração de energia para a sede e sistemas de bombeamento solar.",
+      "Soluções para propriedades rurais, incluindo geração de energia para a sede, sistemas híbridos com bateria e bombeamento solar.",
     items: [
       "Geração de energia para propriedades remotas",
+      "Sistemas híbridos para regiões com fornecimento instável",
       "Bombeamento solar para irrigação e abastecimento",
       "Sistemas adaptados à realidade do campo",
     ],
@@ -45,12 +58,12 @@ const SERVICES = [
   {
     title: "Manutenção e monitoramento",
     description:
-      "Acompanhamento pós-instalação para garantir que o seu sistema continue gerando energia com o desempenho esperado.",
+      "Acompanhamento pós-instalação para garantir que o seu sistema — híbrido ou convencional — continue gerando e armazenando energia com o desempenho esperado.",
     items: [
-      "Revisão periódica de painéis e inversores",
-      "Monitoramento de geração de energia",
+      "Revisão periódica de painéis, inversores e baterias",
+      "Monitoramento de geração e armazenamento de energia",
       "Suporte técnico em caso de falhas",
-      "Troca ou upgrade de microinversores",
+      "Troca ou upgrade de microinversores e baterias",
     ],
   },
 ];
@@ -60,17 +73,26 @@ export default function ServicosPage() {
     <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
       <SectionHeading
         eyebrow="Serviços"
-        title="Energia solar para cada tipo de projeto"
-        description="Da instalação residencial ao suporte pós-venda, cuidamos de todas as etapas do seu sistema fotovoltaico."
+        title="Sistemas híbridos e soluções sob medida"
+        description="Do armazenamento em bateria ao suporte pós-venda, cuidamos de todas as etapas do seu sistema de energia solar."
       />
 
       <div className="mt-12 space-y-6">
         {SERVICES.map((service) => (
           <div
             key={service.title}
-            className="grid gap-6 rounded-2xl border border-black/5 p-8 md:grid-cols-[1fr_1.4fr]"
+            className={`grid gap-6 rounded-2xl border p-8 md:grid-cols-[1fr_1.4fr] ${
+              service.highlight
+                ? "border-brand-orange/30 bg-brand-orange-light"
+                : "border-black/5"
+            }`}
           >
             <div>
+              {service.highlight && (
+                <span className="mb-2 inline-block rounded-full bg-brand-orange px-3 py-1 text-xs font-semibold text-white">
+                  Em destaque
+                </span>
+              )}
               <h2 className="text-xl font-bold text-brand-navy">{service.title}</h2>
               <p className="mt-3 text-sm leading-relaxed text-brand-navy/60">
                 {service.description}
@@ -90,7 +112,7 @@ export default function ServicosPage() {
 
       <div className="mt-16 flex flex-col items-center gap-4 rounded-2xl bg-brand-navy-light p-10 text-center">
         <h2 className="text-2xl font-bold text-brand-navy">
-          Não sabe qual serviço é o ideal para você?
+          Não sabe se o sistema híbrido é pra você?
         </h2>
         <p className="max-w-xl text-sm text-brand-navy/60">
           Fale com a gente e receba uma recomendação personalizada, sem compromisso.

@@ -25,9 +25,10 @@ export default function Footer() {
             className="h-14 w-auto"
           />
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/60">
-            Instalação de painéis solares e microinversores para residências,
-            empresas e propriedades rurais em Juiz de Fora, Guiricema e região
-            do polo moveleiro de Ubá (MG).
+            Sistemas híbridos de energia solar com armazenamento em bateria,
+            além de instalação convencional com microinversores, para
+            residências, empresas, indústrias e propriedades rurais em Juiz de
+            Fora, Guiricema e região do polo moveleiro de Ubá (MG).
           </p>
         </div>
 

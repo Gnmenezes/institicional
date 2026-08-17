@@ -7,24 +7,31 @@ import { getFeaturedProjects, getFeaturedTestimonials } from "@/lib/data";
 
 const VALUE_PROPS = [
   {
+    title: "Energia mesmo sem rede",
+    description:
+      "Sistemas híbridos com bateria mantêm o essencial funcionando durante quedas de energia.",
+  },
+  {
     title: "Projeto sob medida",
     description:
-      "Dimensionamento do sistema de acordo com o seu consumo real, sem exagero de equipamentos.",
+      "Dimensionamento do sistema — com ou sem bateria — de acordo com o seu consumo real.",
   },
   {
     title: "Equipe especializada",
     description:
-      "Instalação de painéis solares e microinversores feita por uma equipe própria e experiente.",
-  },
-  {
-    title: "Acompanhamento completo",
-    description:
-      "Da homologação junto à distribuidora até a colocação em funcionamento do sistema.",
+      "Instalação de sistemas híbridos, microinversores e baterias por uma equipe própria e experiente.",
   },
   {
     title: "Suporte pós-instalação",
     description: "Ficamos disponíveis para manutenção e monitoramento depois da instalação.",
   },
+];
+
+const HYBRID_BENEFITS = [
+  "Continue com energia durante quedas na rede elétrica",
+  "Armazene o excedente gerado durante o dia para usar à noite",
+  "Reduza ainda mais a dependência da distribuidora",
+  "Também seguimos instalando sistemas convencionais com microinversores, quando é a melhor opção pro seu perfil",
 ];
 
 const SERVICES = [
@@ -54,15 +61,18 @@ export default async function HomePage() {
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-20 sm:px-6 md:grid-cols-2 md:items-center md:py-28">
           <div>
             <span className="inline-block rounded-full bg-white px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-brand-orange shadow-sm">
-              Energia solar em Juiz de Fora e região
+              Sistemas híbridos com bateria · Juiz de Fora e região
             </span>
             <h1 className="mt-5 text-4xl font-extrabold leading-tight text-brand-navy sm:text-5xl">
-              Reduza sua conta de luz com energia solar de verdade
+              Gere sua própria energia e continue com luz mesmo quando a rede cai
             </h1>
             <p className="mt-5 max-w-lg text-lg leading-relaxed text-brand-navy/70">
-              A Sumart instala painéis solares e microinversores para residências,
-              empresas e propriedades rurais em Juiz de Fora, Guiricema e região do
-              polo moveleiro de Ubá.
+              A Sumart projeta e instala sistemas híbridos com armazenamento em
+              bateria — a forma mais completa de economizar na conta de luz e manter
+              o essencial funcionando durante quedas de energia. Também instalamos
+              sistemas convencionais com microinversores, conforme a necessidade de
+              cada projeto, em Juiz de Fora, Guiricema e região do polo moveleiro de
+              Ubá.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
@@ -77,15 +87,68 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            {VALUE_PROPS.map((item) => (
-              <div key={item.title} className="rounded-2xl bg-white p-5 shadow-sm">
-                <h3 className="text-sm font-semibold text-brand-navy">{item.title}</h3>
-                <p className="mt-2 text-xs leading-relaxed text-brand-navy/60">
-                  {item.description}
-                </p>
-              </div>
-            ))}
+          <div className="rounded-2xl bg-white p-6 shadow-sm sm:p-8">
+            <span className="text-xs font-semibold uppercase tracking-widest text-brand-orange">
+              Como funciona
+            </span>
+            <ol className="mt-4 space-y-5">
+              {[
+                { step: "1. Gera", text: "Os painéis solares captam energia do sol durante o dia." },
+                { step: "2. Armazena", text: "O excedente gerado fica guardado na bateria do sistema." },
+                {
+                  step: "3. Usa",
+                  text: "Você consome essa energia quando precisar — inclusive se a rede cair.",
+                },
+              ].map((item) => (
+                <li key={item.step} className="flex items-start gap-3">
+                  <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-orange-light text-xs font-bold text-brand-orange">
+                    {item.step[0]}
+                  </span>
+                  <div>
+                    <p className="text-sm font-semibold text-brand-navy">{item.step}</p>
+                    <p className="mt-0.5 text-sm text-brand-navy/60">{item.text}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+        <div className="grid gap-10 md:grid-cols-2 md:items-center">
+          <div>
+            <SectionHeading
+              eyebrow="Novidade"
+              title="Sistemas híbridos com armazenamento em bateria"
+              description="A forma mais completa de aproveitar a energia solar: gera, armazena e usa quando você mais precisa — inclusive sem rede elétrica."
+            />
+            <ul className="mt-6 space-y-3">
+              {HYBRID_BENEFITS.map((benefit) => (
+                <li key={benefit} className="flex items-start gap-2 text-sm text-brand-navy/80">
+                  <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-orange" />
+                  {benefit}
+                </li>
+              ))}
+            </ul>
+            <Link
+              href="/contato"
+              className="mt-7 inline-block rounded-full bg-brand-orange px-7 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-orange-dark"
+            >
+              Quero saber se o híbrido é pra mim
+            </Link>
+          </div>
+          <div className="rounded-2xl bg-brand-navy-light p-8">
+            <div className="grid grid-cols-2 gap-4">
+              {VALUE_PROPS.map((item) => (
+                <div key={item.title} className="rounded-2xl bg-white p-5 shadow-sm">
+                  <h3 className="text-sm font-semibold text-brand-navy">{item.title}</h3>
+                  <p className="mt-2 text-xs leading-relaxed text-brand-navy/60">
+                    {item.description}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -94,7 +157,7 @@ export default async function HomePage() {
         <SectionHeading
           eyebrow="Serviços"
           title="Soluções em energia solar para cada necessidade"
-          description="Atendemos projetos residenciais, comerciais/industriais e rurais, do dimensionamento à manutenção."
+          description="Sistemas híbridos com bateria ou convencionais — atendemos projetos residenciais, comerciais, industriais e rurais, do dimensionamento à manutenção."
         />
         <div className="mt-10 grid gap-6 sm:grid-cols-3">
           {SERVICES.map((service) => (
@@ -164,11 +227,11 @@ export default async function HomePage() {
       <section className="bg-brand-navy py-20 text-center text-white">
         <div className="mx-auto max-w-2xl px-4 sm:px-6">
           <h2 className="text-3xl font-bold sm:text-4xl">
-            Pronto para economizar na conta de luz?
+            Pronto para economizar e ter mais autonomia de energia?
           </h2>
           <p className="mt-4 text-white/70">
-            Fale com a Sumart e receba uma proposta personalizada para o seu perfil
-            de consumo.
+            Fale com a Sumart e descubra se um sistema híbrido com bateria é a
+            melhor opção pro seu perfil de consumo.
           </p>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
             <Link

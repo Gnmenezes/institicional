@@ -10,11 +10,11 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL("https://sumart.com.br"),
   title: {
-    default: "Sumart Energia Solar — Instalação de Painéis Solares",
+    default: "Sumart Energia Solar — Sistemas Híbridos com Bateria",
     template: "%s | Sumart Energia Solar",
   },
   description:
-    "Instalação de painéis solares e microinversores em Juiz de Fora, Guiricema e região de Ubá (MG). Economize na conta de luz com a Sumart Energia Solar.",
+    "Sistemas híbridos de energia solar com armazenamento em bateria em Juiz de Fora, Guiricema e região de Ubá (MG). Economize na conta de luz e tenha energia mesmo em quedas da rede.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

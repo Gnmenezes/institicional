@@ -5,7 +5,7 @@ import SectionHeading from "@/components/SectionHeading";
 export const metadata: Metadata = {
   title: "Contato e orçamento",
   description:
-    "Solicite um orçamento gratuito de energia solar com a Sumart em Juiz de Fora, Guiricema e região de Ubá (MG).",
+    "Solicite um orçamento gratuito de sistema híbrido com bateria ou energia solar convencional com a Sumart em Juiz de Fora, Guiricema e região de Ubá (MG).",
 };
 
 export default function ContatoPage() {
