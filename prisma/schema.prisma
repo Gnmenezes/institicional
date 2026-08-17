@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ProjectCategory {
+  RESIDENCIAL
+  COMERCIAL
+  RURAL
+}
+
+model Project {
+  id          String          @id @default(cuid())
+  slug        String          @unique
+  title       String
+  description String
+  city        String
+  state       String          @default("MG")
+  category    ProjectCategory
+  powerKwp    Float?
+  featured    Boolean         @default(false)
+  order       Int             @default(0)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  photos      ProjectPhoto[]
+}
+
+model ProjectPhoto {
+  id        String   @id @default(cuid())
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  url       String
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model Testimonial {
+  id             String   @id @default(cuid())
+  authorName     String
+  authorLocation String?
+  text           String
+  rating         Int      @default(5)
+  photoUrl       String?
+  featured       Boolean  @default(true)
+  order          Int      @default(0)
+  createdAt      DateTime @default(now())
+}
+
+model Lead {
+  id         String   @id @default(cuid())
+  name       String
+  phone      String
+  email      String?
+  city       String?
+  billAmount String?
+  message    String?
+  createdAt  DateTime @default(now())
+}
+
+model SiteSettings {
+  id             String   @id @default("singleton")
+  whatsappNumber String   @default("")
+  updatedAt      DateTime @updatedAt
+}
