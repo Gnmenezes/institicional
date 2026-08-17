@@ -94,7 +94,7 @@ export default async function HomePage() {
               Sistemas híbridos com bateria · Juiz de Fora e região
             </span>
             <h1 className="mt-5 text-4xl font-extrabold leading-tight text-brand-navy sm:text-5xl">
-              Gere sua própria energia e continue com luz mesmo quando a rede cai
+              Faltou energia? Veja como nunca ficar no escuro economizando
             </h1>
             <p className="mt-5 max-w-lg text-lg leading-relaxed text-brand-navy/70">
               A Sumart projeta e instala sistemas híbridos com armazenamento em
