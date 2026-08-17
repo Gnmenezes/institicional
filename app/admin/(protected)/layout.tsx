@@ -6,6 +6,7 @@ import LogoutButton from "@/components/admin/LogoutButton";
 
 const NAV = [
   { href: "/admin/dashboard", label: "Dashboard" },
+  { href: "/admin/carrossel", label: "Carrossel" },
   { href: "/admin/portfolio", label: "Portfólio" },
   { href: "/admin/depoimentos", label: "Depoimentos" },
   { href: "/admin/leads", label: "Leads" },

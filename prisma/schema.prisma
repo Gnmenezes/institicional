@@ -72,3 +72,11 @@ model SiteSettings {
   whatsappNumber String   @default("")
   updatedAt      DateTime @updatedAt
 }
+
+model HeroPhoto {
+  id        String   @id @default(cuid())
+  url       String
+  caption   String
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}

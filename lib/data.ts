@@ -23,6 +23,12 @@ export function getProjectBySlug(slug: string) {
   });
 }
 
+export function getHeroPhotos() {
+  return prisma.heroPhoto.findMany({
+    orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+  });
+}
+
 export function getFeaturedTestimonials(take = 6) {
   return prisma.testimonial.findMany({
     where: { featured: true },

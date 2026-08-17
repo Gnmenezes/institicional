@@ -1,12 +1,12 @@
 import Link from "next/link";
-import Image from "next/image";
 import SectionHeading from "@/components/SectionHeading";
 import ProjectCard from "@/components/ProjectCard";
 import TestimonialCard from "@/components/TestimonialCard";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import HeroCarousel from "@/components/HeroCarousel";
 import { SunPanelIcon, BatteryIcon, HomeUsageIcon } from "@/components/illustrations/SolarIcons";
 import HybridSystemIllustration from "@/components/illustrations/HybridSystemIllustration";
-import { getFeaturedProjects, getFeaturedTestimonials } from "@/lib/data";
+import { getFeaturedProjects, getFeaturedTestimonials, getHeroPhotos } from "@/lib/data";
 
 const HOW_IT_WORKS = [
   {
@@ -71,9 +71,10 @@ const SERVICES = [
 ];
 
 export default async function HomePage() {
-  const [featuredProjects, featuredTestimonials] = await Promise.all([
+  const [featuredProjects, featuredTestimonials, heroPhotos] = await Promise.all([
     getFeaturedProjects(3),
     getFeaturedTestimonials(3),
+    getHeroPhotos(),
   ]);
 
   return (
@@ -108,19 +109,15 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div className="relative aspect-[3/4] w-full max-w-sm justify-self-center overflow-hidden rounded-2xl shadow-lg md:justify-self-end">
-            <Image
-              src="/obras/rooftop-hero.jpg"
-              alt="Painéis solares instalados em telhado pela Sumart"
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 90vw, 400px"
-              priority
+          {heroPhotos.length > 0 && (
+            <HeroCarousel
+              photos={heroPhotos.map((photo) => ({
+                src: photo.url,
+                alt: photo.caption,
+                caption: photo.caption,
+              }))}
             />
-            <span className="absolute bottom-4 left-4 rounded-full bg-white/95 px-4 py-1.5 text-xs font-semibold text-brand-navy shadow-sm">
-              Instalação real de um cliente Sumart
-            </span>
-          </div>
+          )}
         </div>
       </section>
 
