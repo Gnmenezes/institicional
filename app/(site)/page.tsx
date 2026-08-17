@@ -94,16 +94,21 @@ export default async function HomePage() {
               Sistemas híbridos com bateria · Juiz de Fora e região
             </span>
             <h1 className="mt-5 text-4xl font-extrabold leading-tight text-brand-navy sm:text-5xl">
-              Faltou energia? Veja como nunca ficar no escuro economizando
+              Nunca Mais Fique no Escuro E Ainda Economize na Conta de Luz!
             </h1>
-            <p className="mt-5 max-w-lg text-lg leading-relaxed text-brand-navy/70">
-              A Sumart projeta e instala sistemas híbridos com armazenamento em
-              bateria — a forma mais completa de economizar na conta de luz e manter
-              o essencial funcionando durante quedas de energia. Também instalamos
-              sistemas convencionais com microinversores, conforme a necessidade de
-              cada projeto, em Juiz de Fora, Guiricema e região do polo moveleiro de
-              Ubá.
-            </p>
+            <div className="mt-5 max-w-lg space-y-4 text-lg leading-relaxed text-brand-navy/70">
+              <p>
+                Já imaginou ter energia solar e ainda assim ficar no escuro
+                quando a rede cai?
+              </p>
+              <p>
+                Isso acaba hoje. Com nosso sistema híbrido, você continua com
+                luz mesmo durante apagões e ainda economiza na conta de luz. É
+                energia de verdade, sem interrupções, sem surpresas e com o
+                bolso cheio.
+              </p>
+              <p>Fale conosco e nunca mais dependa da rede!</p>
+            </div>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/contato"
