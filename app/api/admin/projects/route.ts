@@ -8,7 +8,7 @@ const projectSchema = z.object({
   description: z.string().trim().min(1).max(5000),
   city: z.string().trim().min(1).max(200),
   state: z.string().trim().min(1).max(10).default("MG"),
-  category: z.enum(["RESIDENCIAL", "COMERCIAL", "RURAL"]),
+  category: z.enum(["RESIDENCIAL", "COMERCIAL", "INDUSTRIAL", "RURAL"]),
   powerKwp: z.number().positive().nullable().optional(),
   featured: z.boolean().default(false),
   order: z.number().int().default(0),

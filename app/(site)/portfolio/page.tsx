@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     "Confira projetos de energia solar já instalados pela Sumart em Juiz de Fora, Guiricema e região de Ubá (MG).",
 };
 
-const CATEGORIES = ["RESIDENCIAL", "COMERCIAL", "RURAL"];
+const CATEGORIES = ["RESIDENCIAL", "COMERCIAL", "INDUSTRIAL", "RURAL"];
 
 export default async function PortfolioPage({
   searchParams,

@@ -34,5 +34,6 @@ export function getFeaturedTestimonials(take = 6) {
 export const CATEGORY_LABELS: Record<string, string> = {
   RESIDENCIAL: "Residencial",
   COMERCIAL: "Comercial",
+  INDUSTRIAL: "Industrial",
   RURAL: "Rural",
 };

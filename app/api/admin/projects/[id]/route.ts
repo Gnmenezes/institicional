@@ -7,7 +7,7 @@ const projectUpdateSchema = z.object({
   description: z.string().trim().min(1).max(5000),
   city: z.string().trim().min(1).max(200),
   state: z.string().trim().min(1).max(10),
-  category: z.enum(["RESIDENCIAL", "COMERCIAL", "RURAL"]),
+  category: z.enum(["RESIDENCIAL", "COMERCIAL", "INDUSTRIAL", "RURAL"]),
   powerKwp: z.number().positive().nullable().optional(),
   featured: z.boolean(),
   order: z.number().int(),

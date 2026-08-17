@@ -10,7 +10,7 @@ type ProjectFormValues = {
   description: string;
   city: string;
   state: string;
-  category: "RESIDENCIAL" | "COMERCIAL" | "RURAL";
+  category: "RESIDENCIAL" | "COMERCIAL" | "INDUSTRIAL" | "RURAL";
   powerKwp: string;
   featured: boolean;
   order: number;
@@ -148,6 +148,7 @@ export default function ProjectForm({
           >
             <option value="RESIDENCIAL">Residencial</option>
             <option value="COMERCIAL">Comercial</option>
+            <option value="INDUSTRIAL">Industrial</option>
             <option value="RURAL">Rural</option>
           </select>
         </div>
