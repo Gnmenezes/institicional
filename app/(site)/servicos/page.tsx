@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import SectionHeading from "@/components/SectionHeading";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import HybridSystemIllustration from "@/components/illustrations/HybridSystemIllustration";
 
 export const metadata: Metadata = {
   title: "Serviços",
@@ -89,9 +90,12 @@ export default function ServicosPage() {
           >
             <div>
               {service.highlight && (
-                <span className="mb-2 inline-block rounded-full bg-brand-orange px-3 py-1 text-xs font-semibold text-white">
-                  Em destaque
-                </span>
+                <>
+                  <span className="mb-2 inline-block rounded-full bg-brand-orange px-3 py-1 text-xs font-semibold text-white">
+                    Em destaque
+                  </span>
+                  <HybridSystemIllustration className="my-3 h-28 w-auto" />
+                </>
               )}
               <h2 className="text-xl font-bold text-brand-navy">{service.title}</h2>
               <p className="mt-3 text-sm leading-relaxed text-brand-navy/60">

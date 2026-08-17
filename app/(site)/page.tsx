@@ -3,7 +3,27 @@ import SectionHeading from "@/components/SectionHeading";
 import ProjectCard from "@/components/ProjectCard";
 import TestimonialCard from "@/components/TestimonialCard";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import { SunPanelIcon, BatteryIcon, HomeUsageIcon } from "@/components/illustrations/SolarIcons";
+import HybridSystemIllustration from "@/components/illustrations/HybridSystemIllustration";
 import { getFeaturedProjects, getFeaturedTestimonials } from "@/lib/data";
+
+const HOW_IT_WORKS = [
+  {
+    step: "1. Gera",
+    text: "Os painéis solares captam energia do sol durante o dia.",
+    Icon: SunPanelIcon,
+  },
+  {
+    step: "2. Armazena",
+    text: "O excedente gerado fica guardado na bateria do sistema.",
+    Icon: BatteryIcon,
+  },
+  {
+    step: "3. Usa",
+    text: "Você consome essa energia quando precisar — inclusive se a rede cair.",
+    Icon: HomeUsageIcon,
+  },
+];
 
 const VALUE_PROPS = [
   {
@@ -92,18 +112,9 @@ export default async function HomePage() {
               Como funciona
             </span>
             <ol className="mt-4 space-y-5">
-              {[
-                { step: "1. Gera", text: "Os painéis solares captam energia do sol durante o dia." },
-                { step: "2. Armazena", text: "O excedente gerado fica guardado na bateria do sistema." },
-                {
-                  step: "3. Usa",
-                  text: "Você consome essa energia quando precisar — inclusive se a rede cair.",
-                },
-              ].map((item) => (
+              {HOW_IT_WORKS.map((item) => (
                 <li key={item.step} className="flex items-start gap-3">
-                  <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-orange-light text-xs font-bold text-brand-orange">
-                    {item.step[0]}
-                  </span>
+                  <item.Icon className="h-10 w-10 shrink-0" />
                   <div>
                     <p className="text-sm font-semibold text-brand-navy">{item.step}</p>
                     <p className="mt-0.5 text-sm text-brand-navy/60">{item.text}</p>
@@ -139,7 +150,8 @@ export default async function HomePage() {
             </Link>
           </div>
           <div className="rounded-2xl bg-brand-navy-light p-8">
-            <div className="grid grid-cols-2 gap-4">
+            <HybridSystemIllustration className="w-full h-auto" />
+            <div className="mt-6 grid grid-cols-2 gap-4">
               {VALUE_PROPS.map((item) => (
                 <div key={item.title} className="rounded-2xl bg-white p-5 shadow-sm">
                   <h3 className="text-sm font-semibold text-brand-navy">{item.title}</h3>
