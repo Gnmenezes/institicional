@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import SectionHeading from "@/components/SectionHeading";
 import ProjectCard from "@/components/ProjectCard";
 import TestimonialCard from "@/components/TestimonialCard";
@@ -107,22 +108,33 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div className="rounded-2xl bg-white p-6 shadow-sm sm:p-8">
-            <span className="text-xs font-semibold uppercase tracking-widest text-brand-orange">
-              Como funciona
+          <div className="relative aspect-[3/4] w-full max-w-sm justify-self-center overflow-hidden rounded-2xl shadow-lg md:justify-self-end">
+            <Image
+              src="/obras/rooftop-hero.jpg"
+              alt="Painéis solares instalados em telhado pela Sumart"
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 90vw, 400px"
+              priority
+            />
+            <span className="absolute bottom-4 left-4 rounded-full bg-white/95 px-4 py-1.5 text-xs font-semibold text-brand-navy shadow-sm">
+              Instalação real de um cliente Sumart
             </span>
-            <ol className="mt-4 space-y-5">
-              {HOW_IT_WORKS.map((item) => (
-                <li key={item.step} className="flex items-start gap-3">
-                  <item.Icon className="h-10 w-10 shrink-0" />
-                  <div>
-                    <p className="text-sm font-semibold text-brand-navy">{item.step}</p>
-                    <p className="mt-0.5 text-sm text-brand-navy/60">{item.text}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
           </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+        <div className="grid gap-6 sm:grid-cols-3">
+          {HOW_IT_WORKS.map((item) => (
+            <div key={item.step} className="flex items-start gap-3 rounded-2xl border border-black/5 p-6">
+              <item.Icon className="h-10 w-10 shrink-0" />
+              <div>
+                <p className="text-sm font-semibold text-brand-navy">{item.step}</p>
+                <p className="mt-0.5 text-sm text-brand-navy/60">{item.text}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
