@@ -80,3 +80,11 @@ model HeroPhoto {
   order     Int      @default(0)
   createdAt DateTime @default(now())
 }
+
+model Video {
+  id         String   @id @default(cuid())
+  title      String
+  youtubeId  String
+  order      Int      @default(0)
+  createdAt  DateTime @default(now())
+}

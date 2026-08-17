@@ -4,9 +4,15 @@ import ProjectCard from "@/components/ProjectCard";
 import TestimonialCard from "@/components/TestimonialCard";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import HeroCarousel from "@/components/HeroCarousel";
+import YouTubeEmbed from "@/components/YouTubeEmbed";
 import { SunPanelIcon, BatteryIcon, HomeUsageIcon } from "@/components/illustrations/SolarIcons";
 import HybridSystemIllustration from "@/components/illustrations/HybridSystemIllustration";
-import { getFeaturedProjects, getFeaturedTestimonials, getHeroPhotos } from "@/lib/data";
+import {
+  getFeaturedProjects,
+  getFeaturedTestimonials,
+  getHeroPhotos,
+  getVideos,
+} from "@/lib/data";
 
 const HOW_IT_WORKS = [
   {
@@ -71,11 +77,13 @@ const SERVICES = [
 ];
 
 export default async function HomePage() {
-  const [featuredProjects, featuredTestimonials, heroPhotos] = await Promise.all([
+  const [featuredProjects, featuredTestimonials, heroPhotos, videos] = await Promise.all([
     getFeaturedProjects(3),
     getFeaturedTestimonials(3),
     getHeroPhotos(),
+    getVideos(),
   ]);
+  const teaserVideo = videos[0];
 
   return (
     <>
@@ -194,6 +202,33 @@ export default async function HomePage() {
           <Link href="/servicos" className="text-sm font-semibold text-brand-orange hover:underline">
             Ver todos os serviços →
           </Link>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+        <div className="grid gap-10 md:grid-cols-2 md:items-center">
+          <div className={teaserVideo ? "" : "md:col-span-2"}>
+            <span className="inline-block rounded-full bg-brand-orange-light px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-brand-orange">
+              Nosso diferencial
+            </span>
+            <h2 className="mt-3 text-3xl font-bold text-brand-navy">
+              Instalação com elevador de placas
+            </h2>
+            <p className="mt-4 max-w-lg text-base leading-relaxed text-brand-navy/70">
+              Usamos um elevador próprio para subir os painéis solares até o
+              telhado — mais segurança pra equipe, menos risco de dano aos
+              equipamentos, e uma instalação mais ágil.
+            </p>
+            <Link
+              href="/servicos#elevador"
+              className="mt-6 inline-block text-sm font-semibold text-brand-orange hover:underline"
+            >
+              Ver vídeos do elevador em ação →
+            </Link>
+          </div>
+          {teaserVideo && (
+            <YouTubeEmbed youtubeId={teaserVideo.youtubeId} title={teaserVideo.title} />
+          )}
         </div>
       </section>
 

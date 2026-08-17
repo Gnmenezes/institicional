@@ -29,6 +29,12 @@ export function getHeroPhotos() {
   });
 }
 
+export function getVideos() {
+  return prisma.video.findMany({
+    orderBy: [{ order: "asc" }, { createdAt: "asc" }],
+  });
+}
+
 export function getFeaturedTestimonials(take = 6) {
   return prisma.testimonial.findMany({
     where: { featured: true },

@@ -3,6 +3,8 @@ import Link from "next/link";
 import SectionHeading from "@/components/SectionHeading";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import HybridSystemIllustration from "@/components/illustrations/HybridSystemIllustration";
+import YouTubeEmbed from "@/components/YouTubeEmbed";
+import { getVideos } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Serviços",
@@ -69,7 +71,9 @@ const SERVICES = [
   },
 ];
 
-export default function ServicosPage() {
+export default async function ServicosPage() {
+  const videos = await getVideos();
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
       <SectionHeading
@@ -112,6 +116,36 @@ export default function ServicosPage() {
             </ul>
           </div>
         ))}
+      </div>
+
+      <div id="elevador" className="mt-16 scroll-mt-24 rounded-2xl border border-brand-orange/30 bg-brand-orange-light p-8 sm:p-10">
+        <span className="inline-block rounded-full bg-brand-orange px-3 py-1 text-xs font-semibold text-white">
+          Nosso diferencial
+        </span>
+        <h2 className="mt-3 text-2xl font-bold text-brand-navy">
+          Instalação com elevador de placas
+        </h2>
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-brand-navy/70">
+          Usamos um elevador próprio para subir os painéis solares até o telhado —
+          mais segurança para a equipe, menos risco de dano aos equipamentos durante
+          o transporte, e uma instalação mais ágil. É um jeito de trabalhar que poucas
+          instaladoras da região oferecem.
+        </p>
+
+        {videos.length > 0 ? (
+          <div className="mt-8 grid gap-6 sm:grid-cols-2">
+            {videos.map((video) => (
+              <div key={video.id}>
+                <YouTubeEmbed youtubeId={video.youtubeId} title={video.title} />
+                <p className="mt-2 text-sm font-medium text-brand-navy">{video.title}</p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="mt-8 text-sm text-brand-navy/50">
+            Vídeos do elevador em ação chegando em breve.
+          </p>
+        )}
       </div>
 
       <div className="mt-16 flex flex-col items-center gap-4 rounded-2xl bg-brand-navy-light p-10 text-center">
