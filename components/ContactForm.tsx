@@ -38,6 +38,7 @@ export default function ContactForm() {
   const whatsappNumber = useWhatsappNumber();
   const [form, setForm] = useState<FormState>(INITIAL_STATE);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [whatsappUrl, setWhatsappUrl] = useState("");
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -56,12 +57,14 @@ export default function ContactForm() {
 
       if (!response.ok) throw new Error("Falha ao enviar");
 
+      // Guarda a URL antes de limpar o form: a tela de sucesso depende dela.
+      const url = buildWhatsappUrl(whatsappNumber, buildWhatsappMessage(form));
+      setWhatsappUrl(url);
       setStatus("success");
-      window.open(
-        buildWhatsappUrl(whatsappNumber, buildWhatsappMessage(form)),
-        "_blank",
-        "noopener,noreferrer"
-      );
+      // Tentativa automática: funciona no desktop, mas no celular o navegador
+      // costuma bloquear window.open disparado depois do await (sem gesto do
+      // usuário). Por isso a tela de sucesso traz o botão como caminho real.
+      window.open(url, "_blank", "noopener,noreferrer");
       setForm(INITIAL_STATE);
     } catch {
       setStatus("error");
@@ -73,13 +76,28 @@ export default function ContactForm() {
       <div className="rounded-2xl border border-brand-orange/30 bg-brand-orange-light p-8 text-center">
         <h3 className="text-lg font-bold text-brand-navy">Recebemos seu pedido!</h3>
         <p className="mt-2 text-sm text-brand-navy/70">
-          Abrimos o WhatsApp com sua mensagem pronta para envio. Se não abriu
-          automaticamente, verifique se seu navegador bloqueou a nova aba.
+          Seus dados já chegaram pra gente. Para adiantar seu atendimento,
+          continue a conversa no WhatsApp — a mensagem já está pronta.
+        </p>
+        <a
+          href={whatsappUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-brand-orange px-7 py-3.5 text-sm font-bold text-white shadow-sm transition-colors hover:bg-brand-orange-dark"
+        >
+          <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor" aria-hidden="true">
+            <path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.5c.1-.2.2-.3.3-.5 0-.2 0-.4-.1-.5l-.9-2.1c-.2-.5-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1.1 2.8 1.2 3c.2.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.2-.5-.4z" />
+            <path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z" />
+          </svg>
+          Abrir WhatsApp
+        </a>
+        <p className="mt-4 text-xs text-brand-navy/50">
+          Prefere esperar? Sem problema — a gente também entra em contato.
         </p>
         <button
           type="button"
           onClick={() => setStatus("idle")}
-          className="mt-5 text-sm font-semibold text-brand-orange hover:underline"
+          className="mt-5 block w-full text-sm font-semibold text-brand-orange hover:underline"
         >
           Enviar outro pedido
         </button>
@@ -183,8 +201,13 @@ export default function ContactForm() {
         disabled={status === "loading"}
         className="w-full rounded-full bg-brand-orange px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-orange-dark disabled:opacity-60"
       >
-        {status === "loading" ? "Enviando..." : "Solicitar orçamento"}
+        {status === "loading" ? "Enviando..." : "Quero meu estudo gratuito"}
       </button>
+
+      <p className="text-center text-xs leading-relaxed text-brand-navy/50">
+        Visita técnica e estudo de economia <strong className="font-semibold text-brand-navy/70">gratuitos</strong> e
+        sem compromisso. Seus dados não são compartilhados com terceiros.
+      </p>
     </form>
   );
 }
