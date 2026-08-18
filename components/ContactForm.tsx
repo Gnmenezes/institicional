@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { buildWhatsappUrl } from "@/lib/whatsapp";
 import { useWhatsappNumber } from "@/components/WhatsAppNumberProvider";
+import { RESPONSE_TIME } from "@/lib/company";
 
 type FormState = {
   name: string;
@@ -92,7 +93,7 @@ export default function ContactForm() {
           Abrir WhatsApp
         </a>
         <p className="mt-4 text-xs text-brand-navy/50">
-          Prefere esperar? Sem problema — a gente também entra em contato.
+          Prefere esperar? Sem problema — respondemos em até {RESPONSE_TIME}.
         </p>
         <button
           type="button"

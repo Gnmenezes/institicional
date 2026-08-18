@@ -14,6 +14,7 @@ import {
   getHeroPhotos,
   getVideos,
 } from "@/lib/data";
+import { PROJECTS_COMPLETED, RESPONSE_TIME, getYearsInBusiness } from "@/lib/company";
 
 const HERO_TRUST = ["Equipe própria", "Projeto sob medida", "Suporte pós-instalação"];
 
@@ -56,6 +57,26 @@ const INVESTMENT_POINTS = [
   {
     title: "Rende por décadas",
     text: "Depois de se pagar, o sistema segue gerando economia e autonomia.",
+  },
+];
+
+// Faixas reais de garantia de fábrica: variam conforme o equipamento
+// escolhido, por isso o site mostra o intervalo e remete à proposta.
+const WARRANTIES = [
+  {
+    term: "12 a 15 anos",
+    title: "Módulos fotovoltaicos",
+    text: "Garantia de fábrica dos painéis, conforme o modelo definido no projeto.",
+  },
+  {
+    term: "5 a 25 anos",
+    title: "Inversores",
+    text: "O prazo varia bastante entre fabricantes — a gente explica a diferença antes de você escolher.",
+  },
+  {
+    term: "Pós-obra",
+    title: "Suporte da Sumart",
+    text: "Seguimos disponíveis para manutenção, revisão e dúvidas depois da instalação.",
   },
 ];
 
@@ -111,6 +132,14 @@ const SERVICES = [
 ];
 
 export default async function HomePage() {
+  const yearsInBusiness = getYearsInBusiness();
+  const CREDIBILITY_STATS = [
+    { value: `${PROJECTS_COMPLETED}`, label: "obras entregues na região" },
+    { value: `${yearsInBusiness} anos`, label: "de mercado, desde 2021" },
+    { value: "Equipe", label: "própria, sem terceirização" },
+    { value: RESPONSE_TIME, label: "é o nosso prazo de resposta" },
+  ];
+
   const [featuredProjects, featuredTestimonials, heroPhotos, videos] = await Promise.all([
     getFeaturedProjects(3),
     getFeaturedTestimonials(3),
@@ -196,6 +225,22 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ---------- PROVA DE CREDIBILIDADE ---------- */}
+      <section className="border-b border-black/5 bg-white py-8">
+        <div className="mx-auto grid max-w-5xl grid-cols-2 gap-6 px-4 sm:px-6 md:grid-cols-4">
+          {CREDIBILITY_STATS.map((stat) => (
+            <div key={stat.label} className="text-center">
+              <span className="block text-3xl font-extrabold tracking-tight text-brand-navy sm:text-4xl">
+                {stat.value}
+              </span>
+              <span className="mt-1 block text-xs leading-snug text-brand-navy/55 sm:text-sm">
+                {stat.label}
+              </span>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* ---------- A DOR ---------- */}
       <section className="py-20 sm:py-24">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -257,6 +302,37 @@ export default async function HomePage() {
               </Reveal>
             ))}
           </div>
+
+          <Reveal delay={220}>
+            <div className="mx-auto mt-8 max-w-4xl rounded-2xl border border-brand-orange/30 bg-white p-7 sm:p-9">
+              <span className="inline-flex items-center gap-2 rounded-full bg-brand-orange-light px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-brand-orange">
+                <span className="h-1.5 w-1.5 rounded-full bg-brand-orange" />
+                Financiamento
+              </span>
+              <h3 className="mt-4 text-xl font-extrabold text-brand-navy sm:text-2xl">
+                Dá para começar sem tirar o valor todo do bolso
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-brand-navy/70 sm:text-base">
+                Trabalhamos com linhas de financiamento para energia solar. Na
+                maioria dos projetos on-grid, é possível buscar uma parcela
+                próxima do que você já paga de luz hoje — ou seja, a economia
+                gerada ajuda a custear o próprio sistema, e quando o
+                financiamento termina a economia fica inteira pra você.
+              </p>
+              <p className="mt-3 text-xs leading-relaxed text-brand-navy/45">
+                O valor da parcela depende de análise de crédito, prazo, taxa do
+                banco e do seu consumo — por isso simulamos o seu caso antes de
+                qualquer compromisso.
+              </p>
+              <Link
+                href="/contato"
+                className="mt-6 inline-flex items-center gap-1.5 text-sm font-bold text-brand-orange hover:gap-2.5"
+              >
+                Simular meu financiamento
+                <span className="transition-all">→</span>
+              </Link>
+            </div>
+          </Reveal>
         </div>
       </section>
 
@@ -485,6 +561,35 @@ export default async function HomePage() {
           </div>
         </section>
       )}
+
+      {/* ---------- GARANTIAS ---------- */}
+      <section className="bg-brand-navy-light py-20 sm:py-24">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <Reveal>
+            <SectionHeading
+              eyebrow="Segurança do investimento"
+              title="Equipamento com garantia de fábrica"
+              description="Trabalhamos com equipamentos de fabricantes reconhecidos. O prazo exato de cada item vem discriminado na sua proposta, antes de qualquer assinatura."
+              center
+            />
+          </Reveal>
+          <div className="mx-auto mt-12 grid max-w-4xl gap-5 sm:grid-cols-3">
+            {WARRANTIES.map((warranty, i) => (
+              <Reveal key={warranty.title} delay={i * 110}>
+                <div className="shadow-brand h-full rounded-2xl bg-white p-7 text-center">
+                  <span className="block text-2xl font-extrabold text-brand-orange">
+                    {warranty.term}
+                  </span>
+                  <h3 className="mt-2 text-base font-bold text-brand-navy">{warranty.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-brand-navy/60">
+                    {warranty.text}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* ---------- CTA FINAL ---------- */}
       <section className="relative overflow-hidden bg-brand-navy-dark py-20 text-center text-white sm:py-24">

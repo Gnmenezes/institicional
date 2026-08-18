@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import { CNPJ, LEGAL_NAME } from "@/lib/company";
 
 const NAV_LINKS = [
   { href: "/", label: "Início" },
@@ -67,8 +68,11 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-white/10 px-4 py-6 text-center text-xs text-white/40 sm:px-6">
-        © {year} Sumart Energia Solar. Todos os direitos reservados.
+      <div className="border-t border-white/10 px-4 py-6 text-center text-xs leading-relaxed text-white/40 sm:px-6">
+        <p>{LEGAL_NAME} — CNPJ {CNPJ}</p>
+        <p className="mt-1">
+          © {year} Sumart Energia Solar. Todos os direitos reservados.
+        </p>
       </div>
     </footer>
   );

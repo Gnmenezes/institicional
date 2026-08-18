@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import ContactForm from "@/components/ContactForm";
 import SectionHeading from "@/components/SectionHeading";
+import { RESPONSE_TIME } from "@/lib/company";
 
 export const metadata: Metadata = {
   title: "Contato e orçamento",
@@ -12,6 +13,7 @@ const QUOTE_INCLUDES = [
   "Visita técnica para avaliar seu telhado e seu consumo",
   "Dimensionamento do sistema ideal para o seu caso",
   "Estimativa de economia mensal e de retorno do investimento",
+  "Simulação de financiamento, se fizer sentido pra você",
   "Proposta detalhada, item por item, sem compromisso",
 ];
 
@@ -45,6 +47,13 @@ export default function ContatoPage() {
         </div>
 
         <div className="mt-10 space-y-4 text-sm text-brand-navy/70">
+          <div>
+            <span className="block text-xs font-semibold uppercase tracking-widest text-brand-navy/40">
+              Prazo de resposta
+            </span>
+            Respondemos em até {RESPONSE_TIME} e já agendamos a reunião de
+            apresentação da proposta.
+          </div>
           <div>
             <span className="block text-xs font-semibold uppercase tracking-widest text-brand-navy/40">
               Área de atendimento

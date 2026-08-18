@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import SectionHeading from "@/components/SectionHeading";
+import {
+  CNPJ,
+  LEGAL_NAME,
+  PROJECTS_COMPLETED,
+  getYearsInBusiness,
+} from "@/lib/company";
 
 export const metadata: Metadata = {
   title: "Sobre a Sumart",
@@ -54,8 +60,13 @@ export default function SobrePage() {
           Depois da instalação, seguimos disponíveis para manutenção e suporte.
         </p>
         <p>
-          Atendemos Juiz de Fora, Guiricema e a região do polo moveleiro de Ubá,
-          em Minas Gerais.
+          Estamos no mercado desde agosto de 2021 — são {getYearsInBusiness()}{" "}
+          anos e {PROJECTS_COMPLETED} obras entregues em Juiz de Fora, Guiricema
+          e na região do polo moveleiro de Ubá, em Minas Gerais.
+        </p>
+
+        <p className="text-sm text-brand-navy/50">
+          {LEGAL_NAME} — CNPJ {CNPJ}
         </p>
       </div>
 
