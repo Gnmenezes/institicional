@@ -207,22 +207,22 @@ export default async function HomePage() {
               center
             />
           </Reveal>
-          <div className="mx-auto mt-12 grid max-w-5xl gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mx-auto mt-12 grid max-w-5xl grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
             {PAIN_MOMENTS.map((moment, i) => (
               <Reveal key={moment.title} delay={i * 90}>
-                <div className="card-lift shadow-brand-lg group relative aspect-[16/10] overflow-hidden rounded-2xl bg-brand-navy-dark sm:aspect-[4/5]">
+                <div className="card-lift shadow-brand-lg group relative aspect-[4/5] overflow-hidden rounded-2xl bg-brand-navy-dark">
                   <Image
                     src={moment.image}
                     alt={moment.alt}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 25vw"
+                    sizes="(max-width: 640px) 45vw, (max-width: 1024px) 45vw, 25vw"
                   />
                   {/* Escurece a base pra garantir leitura do texto sobre a foto */}
                   <div className="absolute inset-0 bg-gradient-to-t from-brand-navy-dark via-brand-navy-dark/55 to-transparent" />
-                  <div className="absolute inset-x-0 bottom-0 p-6">
-                    <h3 className="text-base font-bold leading-snug text-white">{moment.title}</h3>
-                    <p className="mt-1.5 text-sm leading-relaxed text-white/70">{moment.text}</p>
+                  <div className="absolute inset-x-0 bottom-0 p-3 sm:p-6">
+                    <h3 className="text-sm font-bold leading-snug text-white sm:text-base">{moment.title}</h3>
+                    <p className="mt-1 text-xs leading-relaxed text-white/70 sm:mt-1.5 sm:text-sm">{moment.text}</p>
                   </div>
                 </div>
               </Reveal>
