@@ -210,7 +210,7 @@ export default async function HomePage() {
           <div className="mx-auto mt-12 grid max-w-5xl gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {PAIN_MOMENTS.map((moment, i) => (
               <Reveal key={moment.title} delay={i * 90}>
-                <div className="card-lift shadow-brand-lg group relative aspect-[4/5] overflow-hidden rounded-2xl bg-brand-navy-dark">
+                <div className="card-lift shadow-brand-lg group relative aspect-[16/10] overflow-hidden rounded-2xl bg-brand-navy-dark sm:aspect-[4/5]">
                   <Image
                     src={moment.image}
                     alt={moment.alt}
