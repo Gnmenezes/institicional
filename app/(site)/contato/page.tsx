@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import ContactForm from "@/components/ContactForm";
 import SectionHeading from "@/components/SectionHeading";
 import { RESPONSE_TIME } from "@/lib/company";
@@ -72,7 +73,11 @@ export default function ContatoPage() {
       </div>
 
       <div className="rounded-2xl border border-black/5 p-6 shadow-sm sm:p-8">
-        <ContactForm />
+        {/* ContactForm lê a query string pra pré-preencher os dados vindos da
+            calculadora, e useSearchParams exige este limite de Suspense. */}
+        <Suspense fallback={<div className="h-96" />}>
+          <ContactForm />
+        </Suspense>
       </div>
     </div>
   );

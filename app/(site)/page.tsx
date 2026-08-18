@@ -15,6 +15,8 @@ import {
   getVideos,
 } from "@/lib/data";
 import { PROJECTS_COMPLETED, RESPONSE_TIME, getYearsInBusiness } from "@/lib/company";
+import { getFinancingRate } from "@/lib/settings";
+import SavingsCalculator from "@/components/SavingsCalculator";
 
 const HERO_TRUST = ["Equipe própria", "Projeto sob medida", "Suporte pós-instalação"];
 
@@ -140,12 +142,14 @@ export default async function HomePage() {
     { value: RESPONSE_TIME, label: "é o nosso prazo de resposta" },
   ];
 
-  const [featuredProjects, featuredTestimonials, heroPhotos, videos] = await Promise.all([
-    getFeaturedProjects(3),
-    getFeaturedTestimonials(3),
-    getHeroPhotos(),
-    getVideos(),
-  ]);
+  const [featuredProjects, featuredTestimonials, heroPhotos, videos, financingRate] =
+    await Promise.all([
+      getFeaturedProjects(3),
+      getFeaturedTestimonials(3),
+      getHeroPhotos(),
+      getVideos(),
+      getFinancingRate(),
+    ]);
   const teaserVideo = videos[0];
 
   return (
@@ -190,9 +194,12 @@ export default async function HomePage() {
               >
                 Solicitar orçamento gratuito
               </Link>
-              <WhatsAppButton className="rounded-full border border-white/20 bg-white/5 px-8 py-4 text-center text-sm font-semibold text-white backdrop-blur transition-colors hover:border-white/40 hover:bg-white/10">
-                Falar no WhatsApp
-              </WhatsAppButton>
+              <Link
+                href="#calculadora"
+                className="rounded-full border border-white/20 bg-white/5 px-8 py-4 text-center text-sm font-semibold text-white backdrop-blur transition-colors hover:border-white/40 hover:bg-white/10"
+              >
+                Calcular minha economia
+              </Link>
             </div>
 
             <ul className="mt-9 flex flex-wrap gap-x-6 gap-y-3 border-t border-white/10 pt-6">
@@ -325,12 +332,31 @@ export default async function HomePage() {
                 qualquer compromisso.
               </p>
               <Link
-                href="/contato"
+                href="#calculadora"
                 className="mt-6 inline-flex items-center gap-1.5 text-sm font-bold text-brand-orange hover:gap-2.5"
               >
                 Simular meu financiamento
                 <span className="transition-all">→</span>
               </Link>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ---------- CALCULADORA ---------- */}
+      <section id="calculadora" className="scroll-mt-20 bg-brand-navy-light py-20 sm:py-24">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <Reveal>
+            <SectionHeading
+              eyebrow="Simule agora"
+              title="Quanto você economizaria por mês?"
+              description="Coloque o valor da sua conta de luz e veja uma estimativa do sistema, da economia e de quanto tempo o investimento leva pra se pagar."
+              center
+            />
+          </Reveal>
+          <Reveal delay={120}>
+            <div className="mt-12">
+              <SavingsCalculator monthlyRate={financingRate.monthlyRate} />
             </div>
           </Reveal>
         </div>

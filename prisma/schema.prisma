@@ -70,6 +70,19 @@ model Lead {
 model SiteSettings {
   id             String   @id @default("singleton")
   whatsappNumber String   @default("")
+
+  // Amostra de um financiamento real. A taxa efetiva da calculadora é
+  // derivada destes três valores, e não digitada — o banco anuncia uma
+  // taxa menor do que a que sai depois de IOF, tarifas e seguro.
+  financingAmount      Float?
+  financingInstallment Float?
+  financingTerm        Int?
+  // Margem somada à taxa apurada, em pontos percentuais. Existe para o
+  // site prometer uma parcela um pouco pior que a real: é melhor
+  // surpreender pra baixo na proposta do que ter que justificar alta.
+  financingMarginPp    Float     @default(0.25)
+  financingUpdatedAt   DateTime?
+
   updatedAt      DateTime @updatedAt
 }
 

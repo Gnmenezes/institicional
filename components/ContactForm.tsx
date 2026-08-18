@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { useSearchParams } from "next/navigation";
 import { buildWhatsappUrl } from "@/lib/whatsapp";
 import { useWhatsappNumber } from "@/components/WhatsAppNumberProvider";
 import { RESPONSE_TIME } from "@/lib/company";
@@ -37,7 +38,13 @@ function buildWhatsappMessage(data: FormState) {
 
 export default function ContactForm() {
   const whatsappNumber = useWhatsappNumber();
-  const [form, setForm] = useState<FormState>(INITIAL_STATE);
+  const searchParams = useSearchParams();
+  // A calculadora manda conta e cidade na URL, pra pessoa não digitar de novo.
+  const [form, setForm] = useState<FormState>(() => ({
+    ...INITIAL_STATE,
+    billAmount: searchParams.get("conta") ?? "",
+    city: searchParams.get("cidade") ?? "",
+  }));
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [whatsappUrl, setWhatsappUrl] = useState("");
 
