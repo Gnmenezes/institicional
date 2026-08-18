@@ -9,6 +9,7 @@ import YouTubeEmbed from "@/components/YouTubeEmbed";
 import Reveal from "@/components/Reveal";
 import { SunPanelIcon, BatteryIcon, HomeUsageIcon } from "@/components/illustrations/SolarIcons";
 import {
+  getCalculatorCities,
   getFeaturedProjects,
   getFeaturedTestimonials,
   getHeroPhotos,
@@ -150,14 +151,21 @@ export default async function HomePage() {
     { value: RESPONSE_TIME, label: "é o nosso prazo de resposta" },
   ];
 
-  const [featuredProjects, featuredTestimonials, heroPhotos, videos, financingRate] =
-    await Promise.all([
-      getFeaturedProjects(3),
-      getFeaturedTestimonials(3),
-      getHeroPhotos(),
-      getVideos(),
-      getFinancingRate(),
-    ]);
+  const [
+    featuredProjects,
+    featuredTestimonials,
+    heroPhotos,
+    videos,
+    financingRate,
+    calculatorCities,
+  ] = await Promise.all([
+    getFeaturedProjects(3),
+    getFeaturedTestimonials(3),
+    getHeroPhotos(),
+    getVideos(),
+    getFinancingRate(),
+    getCalculatorCities(),
+  ]);
   const teaserVideo = videos[0];
 
   return (
@@ -366,7 +374,10 @@ export default async function HomePage() {
           </Reveal>
           <Reveal delay={120}>
             <div className="mt-9">
-              <SavingsCalculator monthlyRate={financingRate.monthlyRate} />
+              <SavingsCalculator
+                monthlyRate={financingRate.monthlyRate}
+                cities={calculatorCities}
+              />
             </div>
           </Reveal>
         </div>

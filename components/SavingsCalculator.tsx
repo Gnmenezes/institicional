@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import {
-  GENERATION_BY_CITY,
+  type CityOption,
   estimateSystem,
   financingOptions,
   formatBRL,
@@ -11,23 +11,30 @@ import {
   parseHumanNumber,
 } from "@/lib/solar";
 
-const CITIES = [...Object.keys(GENERATION_BY_CITY), "Outra cidade da região"];
-
 /** Contas abaixo disso não chegam nem no sistema mínimo. */
 const MIN_BILL = 80;
 
-export default function SavingsCalculator({ monthlyRate }: { monthlyRate: number }) {
+const OTHER_CITY = "Outra cidade da região";
+
+export default function SavingsCalculator({
+  monthlyRate,
+  cities,
+}: {
+  monthlyRate: number;
+  cities: CityOption[];
+}) {
   const [bill, setBill] = useState("");
-  const [city, setCity] = useState(CITIES[0]);
+  const [city, setCity] = useState(cities[0]?.name ?? OTHER_CITY);
 
   const billValue = useMemo(() => parseHumanNumber(bill), [bill]);
 
   const result = useMemo(() => {
     if (!Number.isFinite(billValue) || billValue < MIN_BILL) return null;
-    const estimate = estimateSystem(billValue, city);
+    const hsp = cities.find((c) => c.name === city)?.hsp;
+    const estimate = estimateSystem(billValue, hsp);
     const options = financingOptions(estimate.investment, estimate.monthlySavings, monthlyRate);
     return { estimate, options };
-  }, [billValue, city, monthlyRate]);
+  }, [billValue, city, monthlyRate, cities]);
 
   const bestCovered = result?.options.filter((o) => o.coveredBySavings).at(0);
 
@@ -63,11 +70,13 @@ export default function SavingsCalculator({ monthlyRate }: { monthlyRate: number
               onChange={(e) => setCity(e.target.value)}
               className="mt-2 w-full rounded-xl border border-black/10 bg-white py-3.5 pl-4 pr-4 text-base text-brand-navy outline-none focus:border-brand-orange"
             >
-              {CITIES.map((option) => (
-                <option key={option} value={option}>
-                  {option}
+              {cities.map((option) => (
+                <option key={`${option.name}-${option.state}`} value={option.name}>
+                  {option.name} — {option.state}
                 </option>
               ))}
+              {/* Fora da lista, a conta usa a irradiação de Juiz de Fora. */}
+              <option value={OTHER_CITY}>{OTHER_CITY}</option>
             </select>
           </div>
         </div>

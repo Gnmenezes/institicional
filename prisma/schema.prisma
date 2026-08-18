@@ -88,6 +88,26 @@ model SiteSettings {
   updatedAt      DateTime @updatedAt
 }
 
+/// Cidades oferecidas no seletor da calculadora, com a irradiação local.
+/// Listar uma cidade aqui equivale a anunciar atendimento nela.
+model City {
+  id        String   @id @default(cuid())
+  name      String
+  state     String   @default("MG")
+  /// Irradiação média diária (HSP) em kWh/m²/dia.
+  hsp       Float
+  latitude  Float
+  longitude Float
+  /// Fonte do HSP, para o dado ser auditável.
+  source    String   @default("NASA POWER (climatologia 2001-2020)")
+  active    Boolean  @default(true)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([name, state])
+}
+
 model HeroPhoto {
   id        String   @id @default(cuid())
   url       String

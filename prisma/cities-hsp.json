@@ -1,0 +1,226 @@
+[
+  {
+    "name": "Juiz de Fora",
+    "state": "MG",
+    "lat": -21.76,
+    "lon": -43.35,
+    "hsp": 4.6771
+  },
+  {
+    "name": "Guiricema",
+    "state": "MG",
+    "lat": -21.07,
+    "lon": -42.72,
+    "hsp": 4.8238
+  },
+  {
+    "name": "Ubá",
+    "state": "MG",
+    "lat": -21.12,
+    "lon": -42.94,
+    "hsp": 4.8238
+  },
+  {
+    "name": "Muriaé",
+    "state": "MG",
+    "lat": -21.13,
+    "lon": -42.37,
+    "hsp": 4.8238
+  },
+  {
+    "name": "Cataguases",
+    "state": "MG",
+    "lat": -21.39,
+    "lon": -42.69,
+    "hsp": 4.8238
+  },
+  {
+    "name": "Leopoldina",
+    "state": "MG",
+    "lat": -21.53,
+    "lon": -42.64,
+    "hsp": 4.8238
+  },
+  {
+    "name": "Barbacena",
+    "state": "MG",
+    "lat": -21.23,
+    "lon": -43.77,
+    "hsp": 4.6771
+  },
+  {
+    "name": "Viçosa",
+    "state": "MG",
+    "lat": -20.75,
+    "lon": -42.88,
+    "hsp": 4.8554
+  },
+  {
+    "name": "Ponte Nova",
+    "state": "MG",
+    "lat": -20.41,
+    "lon": -42.91,
+    "hsp": 4.8554
+  },
+  {
+    "name": "Além Paraíba",
+    "state": "MG",
+    "lat": -21.87,
+    "lon": -42.7,
+    "hsp": 4.8238
+  },
+  {
+    "name": "Santos Dumont",
+    "state": "MG",
+    "lat": -21.45,
+    "lon": -43.55,
+    "hsp": 4.6771
+  },
+  {
+    "name": "Miraí",
+    "state": "MG",
+    "lat": -21.2,
+    "lon": -42.61,
+    "hsp": 4.8238
+  },
+  {
+    "name": "Visconde do Rio Branco",
+    "state": "MG",
+    "lat": -21.01,
+    "lon": -42.84,
+    "hsp": 4.8238
+  },
+  {
+    "name": "São João Nepomuceno",
+    "state": "MG",
+    "lat": -21.54,
+    "lon": -43.01,
+    "hsp": 4.6771
+  },
+  {
+    "name": "Bicas",
+    "state": "MG",
+    "lat": -21.72,
+    "lon": -43.06,
+    "hsp": 4.6771
+  },
+  {
+    "name": "Rio Novo",
+    "state": "MG",
+    "lat": -21.48,
+    "lon": -43.12,
+    "hsp": 4.6771
+  },
+  {
+    "name": "Rio Pomba",
+    "state": "MG",
+    "lat": -21.27,
+    "lon": -43.17,
+    "hsp": 4.6771
+  },
+  {
+    "name": "Lima Duarte",
+    "state": "MG",
+    "lat": -21.84,
+    "lon": -43.79,
+    "hsp": 4.6771
+  },
+  {
+    "name": "Astolfo Dutra",
+    "state": "MG",
+    "lat": -21.31,
+    "lon": -42.86,
+    "hsp": 4.8238
+  },
+  {
+    "name": "Rodeiro",
+    "state": "MG",
+    "lat": -21.2,
+    "lon": -42.86,
+    "hsp": 4.8238
+  },
+  {
+    "name": "Piau",
+    "state": "MG",
+    "lat": -21.55,
+    "lon": -43.28,
+    "hsp": 4.6771
+  },
+  {
+    "name": "Mar de Espanha",
+    "state": "MG",
+    "lat": -21.87,
+    "lon": -43.01,
+    "hsp": 4.6771
+  },
+  {
+    "name": "Matias Barbosa",
+    "state": "MG",
+    "lat": -21.87,
+    "lon": -43.31,
+    "hsp": 4.6771
+  },
+  {
+    "name": "Ervália",
+    "state": "MG",
+    "lat": -20.84,
+    "lon": -42.66,
+    "hsp": 4.8554
+  },
+  {
+    "name": "Coimbra",
+    "state": "MG",
+    "lat": -20.85,
+    "lon": -42.8,
+    "hsp": 4.8554
+  },
+  {
+    "name": "Tocantins",
+    "state": "MG",
+    "lat": -21.17,
+    "lon": -43.02,
+    "hsp": 4.6771
+  },
+  {
+    "name": "Senador Firmino",
+    "state": "MG",
+    "lat": -20.91,
+    "lon": -43.09,
+    "hsp": 4.811
+  },
+  {
+    "name": "Dona Euzébia",
+    "state": "MG",
+    "lat": -21.32,
+    "lon": -42.8,
+    "hsp": 4.8238
+  },
+  {
+    "name": "Divinésia",
+    "state": "MG",
+    "lat": -20.98,
+    "lon": -43.13,
+    "hsp": 4.811
+  },
+  {
+    "name": "Descoberto",
+    "state": "MG",
+    "lat": -21.46,
+    "lon": -42.96,
+    "hsp": 4.8238
+  },
+  {
+    "name": "Goianá",
+    "state": "MG",
+    "lat": -21.54,
+    "lon": -43.19,
+    "hsp": 4.6771
+  },
+  {
+    "name": "Chácara",
+    "state": "MG",
+    "lat": -21.66,
+    "lon": -43.19,
+    "hsp": 4.6771
+  }
+]

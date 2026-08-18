@@ -10,9 +10,10 @@
  */
 import {
   MIN_KWP,
+  REFERENCE_HSP,
   estimatePrice,
   estimateSystem,
-  generationForCity,
+  generationFromHsp,
   parseHumanNumber,
   solveMonthlyRate,
   monthlyPayment,
@@ -70,21 +71,28 @@ for (let kwp = MIN_KWP; kwp <= 60; kwp += 0.02) {
 }
 console.log("OK     monotônico de 2,34 a 60 kWp");
 
-console.log("\n== Geração por kWp bate com os orçamentos ==");
+console.log("\n== Geração derivada do HSP bate com os orçamentos ==");
 for (const q of QUOTES) {
   if (GENERATION_EXCEPTIONS.has(q.label)) continue;
   const real = q.generation / q.kwp;
-  const model = generationForCity("Juiz de Fora");
+  const model = generationFromHsp(REFERENCE_HSP);
   const errPct = Math.abs((model - real) / real) * 100;
   if (errPct > 1) fail(`${q.label}: geração ${model} vs ${real.toFixed(2)} (${errPct.toFixed(2)}%)`);
 }
-console.log("OK     115,2 kWh/kWp/mês bate com todos dentro de 1%");
+console.log("OK     o HSP de Juiz de Fora reproduz 115,2 e bate com todos dentro de 1%");
+
+console.log("\n== HSP maior gera mais, e a âncora de Juiz de Fora não se move ==");
+if (generationFromHsp(REFERENCE_HSP) !== 115.2) fail("âncora de Juiz de Fora saiu de 115,2");
+if (generationFromHsp(5.2) <= generationFromHsp(4.6)) fail("HSP maior deveria gerar mais");
+if (generationFromHsp(0) !== 115.2 || generationFromHsp(Number.NaN) !== 115.2)
+  fail("HSP inválido deveria cair no padrão de Juiz de Fora");
+console.log("OK");
 
 console.log("\n== Dimensionamento a partir da conta reproduz os orçamentos ==");
 for (const q of QUOTES) {
   if (GENERATION_EXCEPTIONS.has(q.label)) continue;
   const bill = q.generation * 1.15; // conta que esse sistema zera
-  const estimate = estimateSystem(bill, "Juiz de Fora");
+  const estimate = estimateSystem(bill, REFERENCE_HSP);
   const errPct = Math.abs((estimate.kwp - q.kwp) / q.kwp) * 100;
   if (errPct > 2) fail(`${q.label}: kWp ${estimate.kwp.toFixed(2)} vs ${q.kwp} (${errPct.toFixed(2)}%)`);
 }

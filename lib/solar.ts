@@ -14,24 +14,30 @@ export const TARIFF = 1.15;
  */
 export const SAVINGS_SHARE = 0.86;
 
-/**
- * Geração média por cidade, em kWh por kWp instalado por mês.
- *
- * Só entram aqui cidades que devem aparecer no seletor da calculadora —
- * listar uma cidade é anunciar que a Sumart atende lá.
- *
- * Medido, mas fora da lista por enquanto: Rio de Janeiro, 120,9 kWh/kWp/mês
- * (obra de 113,10 kWp em execução em ago/2026). A área de atendimento
- * divulgada no site é Juiz de Fora, Guiricema e região de Ubá, então o Rio
- * só entra aqui se a Sumart quiser atender a região.
- */
-export const GENERATION_BY_CITY: Record<string, number> = {
-  "Juiz de Fora": 115.2,
-  Guiricema: 123.5,
-};
+// A geração de cada cidade sai do HSP local (tabela City no banco), mas
+// ancorada na realidade: em Juiz de Fora os orçamentos reais dão 115,2
+// kWh/kWp/mês, e é esse o ponto fixo. As demais cidades escalam pela razão
+// entre o HSP delas e o de Juiz de Fora.
+//
+// Por que não calcular direto do HSP com um fator de desempenho: o software
+// que gera os orçamentos da Sumart usa outra base de irradiação, então a
+// conta puramente física se afasta do que a proposta entrega. Ancorar em JF
+// mantém a praça principal batendo exatamente com os orçamentos.
 
-/** Cidades sem medição própria usam o menor valor conhecido (conservador). */
-export const DEFAULT_GENERATION = 115.2;
+/** Geração medida em Juiz de Fora, a partir de orçamentos reais. */
+export const REFERENCE_GENERATION = 115.2;
+
+/** HSP de Juiz de Fora, o par do valor acima. */
+export const REFERENCE_HSP = 4.6771;
+
+/** Usado quando a cidade não está cadastrada — o mesmo de Juiz de Fora. */
+export const DEFAULT_GENERATION = REFERENCE_GENERATION;
+
+/** Converte a irradiação local em geração mensal por kWp instalado. */
+export function generationFromHsp(hsp: number) {
+  if (!Number.isFinite(hsp) || hsp <= 0) return DEFAULT_GENERATION;
+  return REFERENCE_GENERATION * (hsp / REFERENCE_HSP);
+}
 
 /** Menor sistema que a Sumart instala, e o preço dele. */
 export const MIN_KWP = 2.34;
@@ -81,10 +87,12 @@ export function estimatePrice(kwp: number) {
   return Math.max(base * PRICE_MARGIN, MIN_PRICE);
 }
 
-export function generationForCity(city?: string | null) {
-  if (!city) return DEFAULT_GENERATION;
-  return GENERATION_BY_CITY[city] ?? DEFAULT_GENERATION;
-}
+/** Cidade como a calculadora precisa dela. */
+export type CityOption = {
+  name: string;
+  state: string;
+  hsp: number;
+};
 
 /** Parcela de um financiamento (Tabela Price). */
 export function monthlyPayment(principal: number, months: number, monthlyRate: number) {
@@ -129,9 +137,13 @@ export type SystemEstimate = {
   oversized: boolean;
 };
 
-/** Estima o sistema a partir do valor da conta de luz. */
-export function estimateSystem(monthlyBill: number, city?: string | null): SystemEstimate {
-  const generationPerKwp = generationForCity(city);
+/**
+ * Estima o sistema a partir do valor da conta de luz.
+ *
+ * `hsp` é a irradiação da cidade escolhida; sem ela a conta usa Juiz de Fora.
+ */
+export function estimateSystem(monthlyBill: number, hsp?: number | null): SystemEstimate {
+  const generationPerKwp = hsp ? generationFromHsp(hsp) : DEFAULT_GENERATION;
   const consumptionKwh = monthlyBill / TARIFF;
   const rawKwp = consumptionKwh / generationPerKwp;
 

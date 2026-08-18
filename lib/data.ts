@@ -43,6 +43,15 @@ export function getFeaturedTestimonials(take = 6) {
   });
 }
 
+/** Cidades do seletor da calculadora, com a irradiação de cada uma. */
+export function getCalculatorCities() {
+  return prisma.city.findMany({
+    where: { active: true },
+    orderBy: [{ order: "asc" }, { name: "asc" }],
+    select: { name: true, state: true, hsp: true },
+  });
+}
+
 export const CATEGORY_LABELS: Record<string, string> = {
   RESIDENCIAL: "Residencial",
   COMERCIAL: "Comercial",
