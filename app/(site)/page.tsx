@@ -13,6 +13,35 @@ import {
   getVideos,
 } from "@/lib/data";
 
+const PAIN_MOMENTS = [
+  {
+    emoji: "⚽",
+    title: "O jogo decisivo",
+    text: "Aquele jogo que não pode ficar pela metade.",
+  },
+  {
+    emoji: "🎉",
+    title: "O encontro com amigos",
+    text: "A resenha não pode parar por falta de luz.",
+  },
+  {
+    emoji: "🎄",
+    title: "A ceia de Natal",
+    text: "A família reunida merece uma noite sem sustos.",
+  },
+  {
+    emoji: "🎆",
+    title: "A virada de Ano Novo",
+    text: "A contagem regressiva não espera a energia voltar.",
+  },
+];
+
+const INVESTMENT_POINTS = [
+  "Economia na conta de luz todo mês",
+  "O sistema se paga com o tempo",
+  "Continua rendendo por décadas",
+];
+
 const SYSTEM_COMPARISON = [
   {
     name: "On-Grid (convencional)",
@@ -82,20 +111,24 @@ export default async function HomePage() {
               Sistemas híbridos com baterias
             </span>
             <h1 className="mt-5 text-4xl font-extrabold leading-tight text-brand-navy sm:text-5xl">
-              Nunca Mais Fique no Escuro e Economize na Conta!
+              A luz caiu bem na hora do jogo? Ou no meio da ceia de Natal?
             </h1>
             <div className="mt-5 max-w-lg space-y-4 text-lg leading-relaxed text-brand-navy/70">
               <p>
-                Já imaginou ter energia solar e ainda assim ficar no escuro
-                quando a rede cai?
+                Todo mundo já passou por isso: a energia falta justo no jogo
+                decisivo, na virada de Ano Novo ou no jantar em família — e a
+                festa acaba no escuro.
               </p>
               <p>
-                Isso acaba hoje. Com nosso sistema híbrido, você continua com
-                luz mesmo durante apagões e ainda economiza na conta de luz. É
-                energia de verdade, sem interrupções, sem surpresas e com o
-                bolso cheio.
+                Com um sistema híbrido de energia solar, isso não acontece
+                mais. Sua casa continua com luz nos momentos que mais
+                importam, mesmo com a rede caída.
               </p>
-              <p>Fale conosco e nunca mais dependa da rede!</p>
+              <p>
+                E tem mais: o sistema se paga com o tempo e vira um
+                investimento rentável e duradouro — não é gasto, é patrimônio
+                trabalhando por você.
+              </p>
             </div>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
@@ -119,6 +152,56 @@ export default async function HomePage() {
               }))}
             />
           )}
+        </div>
+      </section>
+
+      <section className="py-20">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <SectionHeading
+            eyebrow="A dor é real"
+            title="Os momentos que você não pode perder"
+            description="É nesses momentos que a falta de energia dói mais."
+            center
+          />
+          <div className="mx-auto mt-10 grid max-w-4xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {PAIN_MOMENTS.map((moment) => (
+              <div
+                key={moment.title}
+                className="rounded-2xl border border-black/5 bg-white p-6 text-center"
+              >
+                <span className="text-3xl">{moment.emoji}</span>
+                <h3 className="mt-3 text-sm font-semibold text-brand-navy">{moment.title}</h3>
+                <p className="mt-1 text-xs leading-relaxed text-brand-navy/60">{moment.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-brand-navy-light py-20">
+        <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
+          <span className="text-sm font-semibold uppercase tracking-widest text-brand-orange">
+            Não é gasto, é investimento
+          </span>
+          <h2 className="mt-2 text-3xl font-bold text-brand-navy sm:text-4xl">
+            Seu sistema se paga — e depois continua rendendo
+          </h2>
+          <p className="mt-4 text-base leading-relaxed text-brand-navy/70">
+            Além de acabar com a preocupação de ficar no escuro, o sistema
+            híbrido reduz sua conta de luz todos os meses. Com o tempo, o
+            valor investido se paga sozinho — e você continua economizando
+            (e protegido de apagões) por décadas.
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            {INVESTMENT_POINTS.map((point) => (
+              <span
+                key={point}
+                className="rounded-full bg-white px-4 py-2 text-sm font-medium text-brand-navy shadow-sm"
+              >
+                {point}
+              </span>
+            ))}
+          </div>
         </div>
       </section>
 
