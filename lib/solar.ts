@@ -16,20 +16,38 @@ export const SAVINGS_SHARE = 0.86;
 
 /** Geração média por cidade, em kWh por kWp instalado por mês. */
 export const GENERATION_BY_CITY: Record<string, number> = {
-  "Juiz de Fora": 115.3,
+  "Juiz de Fora": 115.2,
   Guiricema: 123.5,
 };
 
 /** Cidades sem medição própria usam o menor valor conhecido (conservador). */
-export const DEFAULT_GENERATION = 115.3;
+export const DEFAULT_GENERATION = 115.2;
 
 /** Menor sistema que a Sumart instala, e o preço dele. */
-export const MIN_KWP = 2.4;
+export const MIN_KWP = 2.34;
 export const MIN_PRICE = 8500;
 
-/** Curva de preço: R$/kWp = A * kWp^B, ajustada em propostas reais. */
-const PRICE_A = 3236;
-const PRICE_B = -0.0949;
+// Preço: custo fixo + custo por kWp, e não lei de potência. Os orçamentos
+// reais mostram o R$/kWp caindo forte até ~9 kWp e parando de cair depois —
+// comportamento de custo fixo diluído, que uma curva de potência não captura.
+//
+// Duas retas, ajustadas em orçamentos reais:
+//   residencial  2,34 / 4,68 / 7,02 / 9,36 kWp
+//   maior        9,36 -> 17,40 kWp
+// Elas se cruzam por volta de 9,4 kWp, então usar a maior das duas dá uma
+// curva contínua, sem degrau, que passa por todos os pontos medidos.
+const PRICE_FIXED = 3085.11;
+const PRICE_PER_KWP = 2108.11;
+const PRICE_FIXED_LARGE = -699.9;
+const PRICE_PER_KWP_LARGE = 2508.0;
+
+/**
+ * Margem sobre o preço estimado, pela mesma razão da margem do financiamento:
+ * é melhor a proposta chegar mais barata que a estimativa do que ter que
+ * explicar um aumento. Com ela o modelo não fica abaixo de nenhum orçamento
+ * real conhecido.
+ */
+const PRICE_MARGIN = 1.03;
 
 /**
  * Taxa mensal usada quando ainda não há amostra de financiamento cadastrada.
@@ -39,6 +57,15 @@ const PRICE_B = -0.0949;
 export const FALLBACK_MONTHLY_RATE = 0.025;
 
 export const FINANCING_TERMS = [36, 48, 60] as const;
+
+/** Preço estimado de um sistema on-grid, em reais. */
+export function estimatePrice(kwp: number) {
+  const base = Math.max(
+    PRICE_FIXED + PRICE_PER_KWP * kwp,
+    PRICE_FIXED_LARGE + PRICE_PER_KWP_LARGE * kwp
+  );
+  return Math.max(base * PRICE_MARGIN, MIN_PRICE);
+}
 
 export function generationForCity(city?: string | null) {
   if (!city) return DEFAULT_GENERATION;
@@ -97,7 +124,7 @@ export function estimateSystem(monthlyBill: number, city?: string | null): Syste
   const oversized = rawKwp < MIN_KWP;
   const kwp = Math.max(rawKwp, MIN_KWP);
 
-  const investment = Math.max(kwp * PRICE_A * kwp ** PRICE_B, MIN_PRICE);
+  const investment = estimatePrice(kwp);
   const monthlySavings = monthlyBill * SAVINGS_SHARE;
 
   return {
