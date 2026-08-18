@@ -75,7 +75,7 @@ export default async function ServicosPage() {
   const videos = await getVideos();
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+    <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
       <SectionHeading
         eyebrow="Serviços"
         title="Sistemas híbridos e soluções sob medida"

@@ -170,7 +170,7 @@ export default async function HomePage() {
         </div>
         <div className="pointer-events-none absolute inset-0 bg-grid opacity-[0.06]" />
 
-        <div className="relative mx-auto grid max-w-6xl gap-12 px-4 py-16 sm:px-6 md:grid-cols-[1.05fr_0.95fr] md:items-center md:py-20">
+        <div className="relative mx-auto grid max-w-6xl gap-12 px-4 py-10 sm:px-6 md:grid-cols-[1.05fr_0.95fr] md:items-center md:py-14">
           <div>
             <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-white/90 backdrop-blur">
               <span className="h-1.5 w-1.5 rounded-full bg-brand-orange" />
@@ -257,7 +257,7 @@ export default async function HomePage() {
       </section>
 
       {/* ---------- A DOR ---------- */}
-      <section className="py-20 sm:py-24">
+      <section className="py-12 sm:py-16">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <Reveal>
             <SectionHeading
@@ -267,7 +267,7 @@ export default async function HomePage() {
               center
             />
           </Reveal>
-          <div className="mx-auto mt-12 grid max-w-5xl grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
+          <div className="mx-auto mt-9 grid max-w-5xl grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
             {PAIN_MOMENTS.map((moment, i) => (
               <Reveal key={moment.title} delay={i * 90}>
                 <div className="card-lift shadow-brand-lg group relative aspect-[4/5] overflow-hidden rounded-2xl bg-brand-navy-dark">
@@ -292,7 +292,7 @@ export default async function HomePage() {
       </section>
 
       {/* ---------- O INVESTIMENTO ---------- */}
-      <section className="relative overflow-hidden bg-brand-navy-light py-20 sm:py-24">
+      <section className="relative overflow-hidden bg-brand-navy-light py-12 sm:py-16">
         <div className="pointer-events-none absolute -right-32 top-0 h-96 w-96 rounded-full bg-brand-orange/10 blur-[100px]" />
         <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
           <Reveal>
@@ -303,7 +303,7 @@ export default async function HomePage() {
               center
             />
           </Reveal>
-          <div className="mx-auto mt-12 grid max-w-4xl gap-5 sm:grid-cols-3">
+          <div className="mx-auto mt-9 grid max-w-4xl gap-5 sm:grid-cols-3">
             {INVESTMENT_POINTS.map((point, i) => (
               <Reveal key={point.title} delay={i * 110}>
                 <div className="card-lift shadow-brand relative h-full overflow-hidden rounded-2xl bg-white p-7">
@@ -352,7 +352,7 @@ export default async function HomePage() {
       </section>
 
       {/* ---------- CALCULADORA ---------- */}
-      <section id="calculadora" className="scroll-mt-20 bg-brand-navy-light py-20 sm:py-24">
+      <section id="calculadora" className="scroll-mt-20 bg-brand-navy-light py-12 sm:py-16">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <Reveal>
             <SectionHeading
@@ -363,7 +363,7 @@ export default async function HomePage() {
             />
           </Reveal>
           <Reveal delay={120}>
-            <div className="mt-12">
+            <div className="mt-9">
               <SavingsCalculator monthlyRate={financingRate.monthlyRate} />
             </div>
           </Reveal>
@@ -371,7 +371,7 @@ export default async function HomePage() {
       </section>
 
       {/* ---------- COMPARAÇÃO ---------- */}
-      <section className="py-20 sm:py-24">
+      <section className="py-12 sm:py-16">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <Reveal>
             <SectionHeading
@@ -382,7 +382,7 @@ export default async function HomePage() {
             />
           </Reveal>
 
-          <div className="mx-auto mt-12 grid max-w-4xl items-start gap-6 sm:grid-cols-2">
+          <div className="mx-auto mt-9 grid max-w-4xl items-start gap-6 sm:grid-cols-2">
             {SYSTEM_COMPARISON.map((system, i) => (
               <Reveal key={system.name} delay={i * 120}>
                 <div
@@ -445,7 +445,7 @@ export default async function HomePage() {
           </div>
 
           <Reveal delay={200}>
-            <div className="mt-12 text-center">
+            <div className="mt-9 text-center">
               <p className="mx-auto max-w-2xl text-sm text-brand-navy/60">
                 Não sabe qual dos dois combina com você? A gente te ajuda a
                 decidir sem compromisso.
@@ -462,7 +462,7 @@ export default async function HomePage() {
       </section>
 
       {/* ---------- SERVIÇOS ---------- */}
-      <section className="bg-brand-navy-light py-20 sm:py-24">
+      <section className="bg-brand-navy-light py-12 sm:py-16">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <Reveal>
             <SectionHeading
@@ -471,7 +471,7 @@ export default async function HomePage() {
               description="Sistemas híbridos com bateria ou convencionais — atendemos projetos residenciais, comerciais, industriais e rurais, do dimensionamento à manutenção."
             />
           </Reveal>
-          <div className="mt-12 grid gap-5 sm:grid-cols-3">
+          <div className="mt-9 grid gap-5 sm:grid-cols-3">
             {SERVICES.map((service, i) => (
               <Reveal key={service.title} delay={i * 100}>
                 <div className="card-lift shadow-brand group h-full rounded-2xl bg-white p-7">
@@ -499,7 +499,7 @@ export default async function HomePage() {
       </section>
 
       {/* ---------- DIFERENCIAL: ELEVADOR ---------- */}
-      <section className="py-20 sm:py-24">
+      <section className="py-12 sm:py-16">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="grid gap-12 md:grid-cols-2 md:items-center">
             <Reveal className={teaserVideo ? "" : "md:col-span-2"}>
@@ -534,7 +534,7 @@ export default async function HomePage() {
 
       {/* ---------- PORTFÓLIO ---------- */}
       {featuredProjects.length > 0 && (
-        <section className="bg-brand-navy-light py-20 sm:py-24">
+        <section className="bg-brand-navy-light py-12 sm:py-16">
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <Reveal>
               <SectionHeading
@@ -543,7 +543,7 @@ export default async function HomePage() {
                 description="Alguns dos projetos realizados pela Sumart na região."
               />
             </Reveal>
-            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-9 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {featuredProjects.map((project, i) => (
                 <Reveal key={project.id} delay={i * 100}>
                   <ProjectCard
@@ -575,12 +575,12 @@ export default async function HomePage() {
 
       {/* ---------- DEPOIMENTOS ---------- */}
       {featuredTestimonials.length > 0 && (
-        <section className="py-20 sm:py-24">
+        <section className="py-12 sm:py-16">
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <Reveal>
               <SectionHeading eyebrow="Depoimentos" title="O que nossos clientes dizem" center />
             </Reveal>
-            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-9 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {featuredTestimonials.map((testimonial, i) => (
                 <Reveal key={testimonial.id} delay={i * 100}>
                   <TestimonialCard
@@ -597,7 +597,7 @@ export default async function HomePage() {
       )}
 
       {/* ---------- GARANTIAS ---------- */}
-      <section className="bg-brand-navy-light py-20 sm:py-24">
+      <section className="bg-brand-navy-light py-12 sm:py-16">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <Reveal>
             <SectionHeading
@@ -607,7 +607,7 @@ export default async function HomePage() {
               center
             />
           </Reveal>
-          <div className="mx-auto mt-12 grid max-w-4xl gap-5 sm:grid-cols-3">
+          <div className="mx-auto mt-9 grid max-w-4xl gap-5 sm:grid-cols-3">
             {WARRANTIES.map((warranty, i) => (
               <Reveal key={warranty.title} delay={i * 110}>
                 <div className="shadow-brand h-full rounded-2xl bg-white p-7 text-center">
@@ -626,7 +626,7 @@ export default async function HomePage() {
       </section>
 
       {/* ---------- CTA FINAL ---------- */}
-      <section className="relative overflow-hidden bg-brand-navy-dark py-20 text-center text-white sm:py-24">
+      <section className="relative overflow-hidden bg-brand-navy-dark py-12 text-center text-white sm:py-16">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -top-32 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-brand-orange/20 blur-[120px]" />
         </div>

@@ -20,7 +20,7 @@ const QUOTE_INCLUDES = [
 
 export default function ContatoPage() {
   return (
-    <div className="mx-auto grid max-w-6xl gap-12 px-4 py-20 sm:px-6 md:grid-cols-[1fr_1.2fr]">
+    <div className="mx-auto grid max-w-6xl gap-12 px-4 py-12 sm:px-6 sm:py-16 md:grid-cols-[1fr_1.2fr]">
       <div>
         <SectionHeading
           eyebrow="Contato"

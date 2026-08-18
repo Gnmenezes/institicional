@@ -40,7 +40,7 @@ const DIFERENCIAIS = [
 
 export default function SobrePage() {
   return (
-    <div className="mx-auto max-w-4xl px-4 py-20 sm:px-6">
+    <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 sm:py-16">
       <SectionHeading
         eyebrow="Sobre a Sumart"
         title="Especialistas em sistemas híbridos com bateria"
