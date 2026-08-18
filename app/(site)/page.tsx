@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import SectionHeading from "@/components/SectionHeading";
 import ProjectCard from "@/components/ProjectCard";
 import TestimonialCard from "@/components/TestimonialCard";
@@ -18,22 +19,26 @@ const HERO_TRUST = ["Equipe própria", "Projeto sob medida", "Suporte pós-insta
 
 const PAIN_MOMENTS = [
   {
-    emoji: "⚽",
+    image: "/momentos/jogo.jpg",
+    alt: "Torcedores no escuro durante uma queda de energia no meio do jogo",
     title: "O jogo decisivo",
     text: "Aquele jogo que não pode ficar pela metade.",
   },
   {
-    emoji: "🎉",
+    image: "/momentos/amigos.jpg",
+    alt: "Amigos reunidos à luz de vela e lanterna após a energia cair",
     title: "O encontro com amigos",
     text: "A resenha não pode parar por falta de luz.",
   },
   {
-    emoji: "🎄",
+    image: "/momentos/natal.jpg",
+    alt: "Família na ceia de Natal iluminada apenas por velas e lanterna",
     title: "A ceia de Natal",
     text: "A família reunida merece uma noite sem sustos.",
   },
   {
-    emoji: "🎆",
+    image: "/momentos/ano-novo.jpg",
+    alt: "Festa de Ano Novo no escuro depois de uma queda de energia",
     title: "A virada de Ano Novo",
     text: "A contagem regressiva não espera a energia voltar.",
   },
@@ -205,12 +210,20 @@ export default async function HomePage() {
           <div className="mx-auto mt-12 grid max-w-5xl gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {PAIN_MOMENTS.map((moment, i) => (
               <Reveal key={moment.title} delay={i * 90}>
-                <div className="card-lift shadow-brand h-full rounded-2xl border border-black/5 bg-white p-7 text-center">
-                  <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-orange-light text-2xl">
-                    {moment.emoji}
-                  </span>
-                  <h3 className="mt-4 text-base font-bold text-brand-navy">{moment.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-brand-navy/60">{moment.text}</p>
+                <div className="card-lift shadow-brand-lg group relative aspect-[4/5] overflow-hidden rounded-2xl bg-brand-navy-dark">
+                  <Image
+                    src={moment.image}
+                    alt={moment.alt}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 25vw"
+                  />
+                  {/* Escurece a base pra garantir leitura do texto sobre a foto */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-navy-dark via-brand-navy-dark/55 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 p-6">
+                    <h3 className="text-base font-bold leading-snug text-white">{moment.title}</h3>
+                    <p className="mt-1.5 text-sm leading-relaxed text-white/70">{moment.text}</p>
+                  </div>
                 </div>
               </Reveal>
             ))}
