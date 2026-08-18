@@ -1,8 +1,17 @@
 // Fatos institucionais usados como prova de credibilidade no site.
 // Ponto único de edição: atualize aqui e todas as páginas acompanham.
 
-/** Obras concluídas. Atualize conforme novas instalações são entregues. */
+/**
+ * Obras concluídas de fato. Em 18/08/2026 eram 86, com 3 em andamento.
+ *
+ * O site publica um piso arredondado para baixo (`PROJECTS_FLOOR`), não este
+ * número: assim a frase continua verdadeira à medida que novas obras entram,
+ * sem precisar de manutenção. Ao atualizar aqui, suba o piso junto.
+ */
 export const PROJECTS_COMPLETED = 86;
+
+/** Piso publicado no site. Sempre menor ou igual a PROJECTS_COMPLETED. */
+export const PROJECTS_FLOOR = 85;
 
 /** Início das atividades da Sumart. */
 export const FOUNDED_AT = new Date(2021, 7); // agosto/2021

@@ -14,7 +14,7 @@ import {
   getHeroPhotos,
   getVideos,
 } from "@/lib/data";
-import { PROJECTS_COMPLETED, RESPONSE_TIME, getYearsInBusiness } from "@/lib/company";
+import { PROJECTS_FLOOR, RESPONSE_TIME, getYearsInBusiness } from "@/lib/company";
 import { getFinancingRate } from "@/lib/settings";
 import SavingsCalculator from "@/components/SavingsCalculator";
 
@@ -136,7 +136,7 @@ const SERVICES = [
 export default async function HomePage() {
   const yearsInBusiness = getYearsInBusiness();
   const CREDIBILITY_STATS = [
-    { value: `${PROJECTS_COMPLETED}`, label: "obras entregues na região" },
+    { value: `+${PROJECTS_FLOOR}`, label: "obras entregues na região" },
     { value: `${yearsInBusiness} anos`, label: "de mercado, desde 2021" },
     { value: "Equipe", label: "capacitada e treinada por nós" },
     { value: RESPONSE_TIME, label: "é o nosso prazo de resposta" },

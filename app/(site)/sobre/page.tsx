@@ -4,7 +4,7 @@ import SectionHeading from "@/components/SectionHeading";
 import {
   CNPJ,
   LEGAL_NAME,
-  PROJECTS_COMPLETED,
+  PROJECTS_FLOOR,
   getYearsInBusiness,
 } from "@/lib/company";
 
@@ -61,8 +61,8 @@ export default function SobrePage() {
         </p>
         <p>
           Estamos no mercado desde agosto de 2021 — são {getYearsInBusiness()}{" "}
-          anos e {PROJECTS_COMPLETED} obras entregues em Juiz de Fora, Guiricema
-          e na região do polo moveleiro de Ubá, em Minas Gerais.
+          anos e mais de {PROJECTS_FLOOR} obras entregues em Juiz de Fora,
+          Guiricema e na região do polo moveleiro de Ubá, em Minas Gerais.
         </p>
 
         <p className="text-sm text-brand-navy/50">
