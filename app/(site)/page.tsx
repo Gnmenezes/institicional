@@ -6,7 +6,6 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import HeroCarousel from "@/components/HeroCarousel";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
 import { SunPanelIcon, BatteryIcon, HomeUsageIcon } from "@/components/illustrations/SolarIcons";
-import HybridSystemIllustration from "@/components/illustrations/HybridSystemIllustration";
 import {
   getFeaturedProjects,
   getFeaturedTestimonials,
@@ -30,35 +29,6 @@ const HOW_IT_WORKS = [
     text: "Você consome essa energia quando precisar — inclusive se a rede cair.",
     Icon: HomeUsageIcon,
   },
-];
-
-const VALUE_PROPS = [
-  {
-    title: "Energia mesmo sem rede",
-    description:
-      "Sistemas híbridos com bateria mantêm o essencial funcionando durante quedas de energia.",
-  },
-  {
-    title: "Projeto sob medida",
-    description:
-      "Dimensionamento do sistema — com ou sem bateria — de acordo com o seu consumo real.",
-  },
-  {
-    title: "Equipe especializada",
-    description:
-      "Instalação de sistemas híbridos, microinversores e baterias por uma equipe própria e experiente.",
-  },
-  {
-    title: "Suporte pós-instalação",
-    description: "Ficamos disponíveis para manutenção e monitoramento depois da instalação.",
-  },
-];
-
-const HYBRID_BENEFITS = [
-  "Continue com energia durante quedas na rede elétrica",
-  "Armazene o excedente gerado durante o dia para usar à noite",
-  "Reduza ainda mais a dependência da distribuidora",
-  "Também seguimos instalando sistemas convencionais com microinversores, quando é a melhor opção pro seu perfil",
 ];
 
 const SYSTEM_COMPARISON = [
@@ -172,45 +142,6 @@ export default async function HomePage() {
               </div>
             </div>
           ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-        <div className="grid gap-10 md:grid-cols-2 md:items-center">
-          <div>
-            <SectionHeading
-              eyebrow="Novidade"
-              title="Sistemas híbridos com armazenamento em bateria"
-              description="A forma mais completa de aproveitar a energia solar: gera, armazena e usa quando você mais precisa — inclusive sem rede elétrica."
-            />
-            <ul className="mt-6 space-y-3">
-              {HYBRID_BENEFITS.map((benefit) => (
-                <li key={benefit} className="flex items-start gap-2 text-sm text-brand-navy/80">
-                  <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-orange" />
-                  {benefit}
-                </li>
-              ))}
-            </ul>
-            <Link
-              href="/contato"
-              className="mt-7 inline-block rounded-full bg-brand-orange px-7 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-orange-dark"
-            >
-              Quero saber se o híbrido é pra mim
-            </Link>
-          </div>
-          <div className="rounded-2xl bg-brand-navy-light p-8">
-            <HybridSystemIllustration className="w-full h-auto" />
-            <div className="mt-6 grid grid-cols-2 gap-4">
-              {VALUE_PROPS.map((item) => (
-                <div key={item.title} className="rounded-2xl bg-white p-5 shadow-sm">
-                  <h3 className="text-sm font-semibold text-brand-navy">{item.title}</h3>
-                  <p className="mt-2 text-xs leading-relaxed text-brand-navy/60">
-                    {item.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </section>
 
