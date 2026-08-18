@@ -13,6 +13,12 @@ export const PROJECTS_COMPLETED = 86;
 /** Piso publicado no site. Sempre menor ou igual a PROJECTS_COMPLETED. */
 export const PROJECTS_FLOOR = 85;
 
+/**
+ * Potência total instalada, em kWp, publicada também como piso.
+ * Em 18/08/2026 o total passava de 1000 com folga e não chegava a 1500.
+ */
+export const INSTALLED_KWP_FLOOR = 1000;
+
 /** Início das atividades da Sumart. */
 export const FOUNDED_AT = new Date(2021, 7); // agosto/2021
 

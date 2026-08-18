@@ -3,6 +3,7 @@ import Link from "next/link";
 import SectionHeading from "@/components/SectionHeading";
 import {
   CNPJ,
+  INSTALLED_KWP_FLOOR,
   LEGAL_NAME,
   PROJECTS_FLOOR,
   getYearsInBusiness,
@@ -61,8 +62,10 @@ export default function SobrePage() {
         </p>
         <p>
           Estamos no mercado desde agosto de 2021 — são {getYearsInBusiness()}{" "}
-          anos e mais de {PROJECTS_FLOOR} obras entregues em Juiz de Fora,
-          Guiricema e na região do polo moveleiro de Ubá, em Minas Gerais.
+          anos, mais de {PROJECTS_FLOOR} obras entregues e mais de{" "}
+          {INSTALLED_KWP_FLOOR.toLocaleString("pt-BR")} kWp de potência
+          instalada em Juiz de Fora, Guiricema e na região do polo moveleiro de
+          Ubá, em Minas Gerais.
         </p>
 
         <p className="text-sm text-brand-navy/50">
