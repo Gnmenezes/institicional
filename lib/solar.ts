@@ -33,13 +33,17 @@ export const MIN_PRICE = 8500;
 //
 // Duas retas, ajustadas em orçamentos reais:
 //   residencial  2,34 / 4,68 / 7,02 / 9,36 kWp
-//   maior        9,36 -> 17,40 kWp
-// Elas se cruzam por volta de 9,4 kWp, então usar a maior das duas dá uma
+//   maior        17,40 -> 113,10 kWp
+// Elas se cruzam por volta de 6,8 kWp, então usar a maior das duas dá uma
 // curva contínua, sem degrau, que passa por todos os pontos medidos.
+//
+// A obra de 113,10 kWp mostrou que o R$/kWp fica praticamente plano de 9 a
+// 113 kWp (R$ 2.433 -> R$ 2.417). A reta anterior, ajustada só até 17,40,
+// subia rápido demais e superestimava essa obra em 6,6%.
 const PRICE_FIXED = 3085.11;
 const PRICE_PER_KWP = 2108.11;
-const PRICE_FIXED_LARGE = -699.9;
-const PRICE_PER_KWP_LARGE = 2508.0;
+const PRICE_FIXED_LARGE = 1046.03;
+const PRICE_PER_KWP_LARGE = 2407.65;
 
 /**
  * Margem sobre o preço estimado, pela mesma razão da margem do financiamento:
