@@ -454,7 +454,7 @@ export default async function HomePage() {
                   href="/portfolio"
                   className="inline-flex items-center gap-1.5 text-sm font-bold text-brand-orange hover:gap-2.5"
                 >
-                  Ver portfólio completo
+                  Ver algumas de nossas obras
                   <span className="transition-all">→</span>
                 </Link>
               </div>
