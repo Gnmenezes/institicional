@@ -18,7 +18,7 @@ import { PROJECTS_COMPLETED, RESPONSE_TIME, getYearsInBusiness } from "@/lib/com
 import { getFinancingRate } from "@/lib/settings";
 import SavingsCalculator from "@/components/SavingsCalculator";
 
-const HERO_TRUST = ["Equipe própria", "Projeto sob medida", "Suporte pós-instalação"];
+const HERO_TRUST = ["Equipe capacitada", "Projeto sob medida", "Suporte pós-instalação"];
 
 const PAIN_MOMENTS = [
   {
@@ -138,7 +138,7 @@ export default async function HomePage() {
   const CREDIBILITY_STATS = [
     { value: `${PROJECTS_COMPLETED}`, label: "obras entregues na região" },
     { value: `${yearsInBusiness} anos`, label: "de mercado, desde 2021" },
-    { value: "Equipe", label: "própria, sem terceirização" },
+    { value: "Equipe", label: "capacitada e treinada por nós" },
     { value: RESPONSE_TIME, label: "é o nosso prazo de resposta" },
   ];
 
