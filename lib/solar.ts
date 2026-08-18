@@ -44,8 +44,15 @@ export function generationFromHsp(hsp: number) {
 // 6 placas não existe na prática: seriam 8, com dois microinversores.
 export const PANELS_PER_INVERTER = 4;
 
-/** Potência da placa usada hoje nos orçamentos. */
-export const PANEL_WP = 585;
+/**
+ * Potência da placa assumida na estimativa.
+ *
+ * Na prática a Sumart usa o que faz sentido para cada obra — 620 Wp, 730 Wp
+ * e outras aparecem nos projetos —, mas a calculadora precisa de um valor
+ * único e 590 Wp é o padrão atual. A diferença muda o tamanho do bloco em
+ * poucos por cento, e o dimensionamento exato sai na visita técnica.
+ */
+export const PANEL_WP = 590;
 
 /** Potência de um bloco de 4 placas com um microinversor. */
 export const BLOCK_KWP = (PANELS_PER_INVERTER * PANEL_WP) / 1000;
@@ -79,6 +86,19 @@ const PRICE_PER_KWP_LARGE = 2407.65;
  * real conhecido.
  */
 const PRICE_MARGIN = 1.03;
+
+/**
+ * Âncora de sanidade para revisar este modelo no futuro.
+ *
+ * Em ago/2026 o kit de 8 placas de 590 Wp — com microinversores, estruturas e
+ * acessórios — custava R$ 7.259,62 para a Sumart, contra R$ 12.861,24
+ * cobrados do cliente pelo sistema equivalente. Equipamento é 56% do preço
+ * final; o resto é mão de obra, projeto, homologação e margem.
+ *
+ * Se um dia esse percentual sair muito dessa faixa, é sinal de que os preços
+ * ao cliente aqui envelheceram e precisam de orçamentos novos.
+ */
+export const EQUIPMENT_SHARE_REFERENCE = 0.564;
 
 /**
  * Taxa mensal usada quando ainda não há amostra de financiamento cadastrada.
