@@ -47,12 +47,15 @@ Site completo do zero → domínio próprio configurado → reposicionamento de 
 
 ## Pendências / próximos passos
 
-1. **Pedido em aberto do usuário**: permitir escolher qual foto vira a **capa** de uma obra no portfólio (hoje usa a primeira foto por ordem de upload, sem UI explícita pra marcar qual é a capa). Provavelmente: adicionar um botão "definir como capa" em cada miniatura no `ProjectForm`/`ImageUploader`, que reordena a foto escolhida pra posição 0 (já é essa posição 0 que o `ProjectCard` usa como capa).
-2. Usuário está subindo fotos reais das obras via `/admin/portfolio` agora — substituindo as 3 obras de exemplo.
-3. Substituir depoimentos de exemplo pelos reais.
-4. Resend (e-mail de notificação de lead) ainda não configurado — `RESEND_API_KEY` vazio. Leads continuam sendo salvos no banco normalmente, só o e-mail que não dispara.
-5. Considerar deixar o repositório GitHub privado.
-6. Considerar trocar a senha do admin por uma definitiva (hoje é uma senha de teste).
+1. Usuário está subindo fotos reais das obras via `/admin/portfolio` agora — substituindo as 3 obras de exemplo.
+2. Substituir depoimentos de exemplo pelos reais.
+3. Resend (e-mail de notificação de lead) ainda não configurado — `RESEND_API_KEY` vazio. Leads continuam sendo salvos no banco normalmente, só o e-mail que não dispara.
+4. Considerar deixar o repositório GitHub privado.
+5. Considerar trocar a senha do admin por uma definitiva (hoje é uma senha de teste).
+
+## Resolvido recentemente
+
+- **Escolher a foto de capa da obra** (commit `7806360`): `ImageUploader` ganhou a prop `allowCover`, usada só pelo `ProjectForm`. A primeira miniatura mostra a faixa "Capa"; as outras têm o botão "Definir capa", que move a foto pra posição 0 do array. Não precisou mexer no banco nem na API — o `PATCH` de `/api/admin/projects/[id]` já grava `order: index`, e o `ProjectCard` já lê a foto de `order` 0. Na mesma mudança, o "✕" de remover foto deixou de ser só-hover (`sm:opacity-0 sm:group-hover:opacity-100`), porque no celular hover não existe e o botão era inalcançável.
 
 ## Comandos úteis
 
