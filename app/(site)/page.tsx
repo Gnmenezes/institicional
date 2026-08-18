@@ -352,7 +352,9 @@ export default async function HomePage() {
       </section>
 
       {/* ---------- CALCULADORA ---------- */}
-      <section id="calculadora" className="scroll-mt-20 bg-brand-navy-light py-12 sm:py-16">
+      {/* Continua o mesmo fundo da seção de investimento, então o respiro de
+          cima seria buraco no meio de um bloco só — o de baixo dela basta. */}
+      <section id="calculadora" className="scroll-mt-20 bg-brand-navy-light pb-12 pt-2 sm:pb-16 sm:pt-4">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <Reveal>
             <SectionHeading
@@ -597,7 +599,14 @@ export default async function HomePage() {
       )}
 
       {/* ---------- GARANTIAS ---------- */}
-      <section className="bg-brand-navy-light py-12 sm:py-16">
+      {/* Sem depoimentos cadastrados, esta seção encosta direto no portfólio,
+          que tem o mesmo fundo — aí o respiro de cima vira buraco. Com
+          depoimentos no meio existe troca de cor e o espaço normal se justifica. */}
+      <section
+        className={`bg-brand-navy-light pb-12 sm:pb-16 ${
+          featuredTestimonials.length > 0 ? "pt-12 sm:pt-16" : "pt-2 sm:pt-4"
+        }`}
+      >
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <Reveal>
             <SectionHeading
