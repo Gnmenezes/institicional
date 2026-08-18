@@ -8,10 +8,12 @@ export default function ImageUploader({
   value,
   onChange,
   label = "Fotos",
+  allowCover = false,
 }: {
   value: string[];
   onChange: (urls: string[]) => void;
   label?: string;
+  allowCover?: boolean;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
@@ -47,9 +49,21 @@ export default function ImageUploader({
     onChange(value.filter((_, i) => i !== index));
   }
 
+  function makeCover(index: number) {
+    if (index === 0) return;
+    const next = [...value];
+    const [chosen] = next.splice(index, 1);
+    onChange([chosen, ...next]);
+  }
+
   return (
     <div>
       <label className="text-sm font-medium text-brand-navy">{label}</label>
+      {allowCover && value.length > 1 && (
+        <p className="mt-1 text-xs text-brand-navy/50">
+          A primeira foto é a capa da obra. Toque em &ldquo;Definir capa&rdquo; para trocar.
+        </p>
+      )}
 
       {value.length > 0 && (
         <div className="mt-3 grid grid-cols-3 gap-3 sm:grid-cols-4">
@@ -59,10 +73,25 @@ export default function ImageUploader({
               <button
                 type="button"
                 onClick={() => removeAt(index)}
-                className="absolute right-1 top-1 flex h-6 w-6 items-center justify-center rounded-full bg-black/60 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100"
+                aria-label="Remover foto"
+                className="absolute right-1 top-1 flex h-6 w-6 items-center justify-center rounded-full bg-black/60 text-xs text-white transition-opacity sm:opacity-0 sm:group-hover:opacity-100"
               >
                 ✕
               </button>
+              {allowCover &&
+                (index === 0 ? (
+                  <span className="absolute inset-x-0 bottom-0 bg-brand-orange py-1 text-center text-[11px] font-bold uppercase tracking-wide text-white">
+                    Capa
+                  </span>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => makeCover(index)}
+                    className="absolute inset-x-0 bottom-0 bg-black/60 py-1 text-center text-[11px] font-semibold text-white transition-colors hover:bg-black/80"
+                  >
+                    Definir capa
+                  </button>
+                ))}
             </div>
           ))}
         </div>

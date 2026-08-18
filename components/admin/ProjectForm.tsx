@@ -190,7 +190,11 @@ export default function ProjectForm({
         Destacar na página inicial
       </label>
 
-      <ImageUploader value={form.photos} onChange={(photos) => update("photos", photos)} />
+      <ImageUploader
+        value={form.photos}
+        onChange={(photos) => update("photos", photos)}
+        allowCover
+      />
 
       {error && <p className="text-sm text-red-600">{error}</p>}
 
