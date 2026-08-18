@@ -61,6 +61,33 @@ const HYBRID_BENEFITS = [
   "Também seguimos instalando sistemas convencionais com microinversores, quando é a melhor opção pro seu perfil",
 ];
 
+const SYSTEM_COMPARISON = [
+  {
+    name: "On-Grid (convencional)",
+    tagline: "Conectado direto à rede, com microinversores",
+    highlight: false,
+    pros: [
+      "Investimento inicial menor",
+      "Reduz bastante a conta de luz",
+      "Instalação mais simples",
+      "Ótimo custo-benefício pra quem não sofre com quedas de energia",
+    ],
+    cons: ["Desliga junto com a rede em caso de queda de energia, por segurança"],
+  },
+  {
+    name: "Híbrido (com bateria)",
+    tagline: "Gera, armazena em bateria e continua funcionando sem rede",
+    highlight: true,
+    pros: [
+      "Continua com energia durante quedas na rede",
+      "Armazena o excedente gerado para usar depois",
+      "Mais economia e mais autonomia",
+      "Ideal pra quem sofre com quedas de energia frequentes",
+    ],
+    cons: ["Investimento inicial um pouco maior, por causa do banco de baterias"],
+  },
+];
+
 const SERVICES = [
   {
     title: "Residencial",
@@ -183,6 +210,67 @@ export default async function HomePage() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-brand-navy-light py-20">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <SectionHeading
+            eyebrow="Qual é o ideal pra você?"
+            title="Híbrido ou On-Grid — nós instalamos os dois"
+            description="Cada sistema tem suas vantagens. Veja a diferença e escolha com a gente o que faz mais sentido pro seu consumo e orçamento."
+            center
+          />
+          <div className="mx-auto mt-10 grid max-w-4xl gap-6 sm:grid-cols-2">
+            {SYSTEM_COMPARISON.map((system) => (
+              <div
+                key={system.name}
+                className={`rounded-2xl border p-8 ${
+                  system.highlight
+                    ? "border-brand-orange/30 bg-white shadow-md"
+                    : "border-black/5 bg-white"
+                }`}
+              >
+                {system.highlight && (
+                  <span className="mb-2 inline-block rounded-full bg-brand-orange px-3 py-1 text-xs font-semibold text-white">
+                    Com bateria
+                  </span>
+                )}
+                <h3 className="text-lg font-bold text-brand-navy">{system.name}</h3>
+                <p className="mt-1 text-sm text-brand-navy/50">{system.tagline}</p>
+
+                <ul className="mt-5 space-y-2">
+                  {system.pros.map((pro) => (
+                    <li key={pro} className="flex items-start gap-2 text-sm text-brand-navy/80">
+                      <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-orange" />
+                      {pro}
+                    </li>
+                  ))}
+                </ul>
+
+                <ul className="mt-4 space-y-2 border-t border-black/5 pt-4">
+                  {system.cons.map((con) => (
+                    <li key={con} className="flex items-start gap-2 text-sm text-brand-navy/50">
+                      <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-navy/20" />
+                      {con}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+          <p className="mx-auto mt-8 max-w-2xl text-center text-sm text-brand-navy/60">
+            Não sabe qual dos dois combina com você? A gente te ajuda a decidir
+            sem compromisso.
+          </p>
+          <div className="mt-4 flex justify-center">
+            <Link
+              href="/contato"
+              className="rounded-full bg-brand-orange px-7 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-orange-dark"
+            >
+              Solicitar orçamento gratuito
+            </Link>
           </div>
         </div>
       </section>
