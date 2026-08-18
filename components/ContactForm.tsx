@@ -6,12 +6,15 @@ import { buildWhatsappUrl } from "@/lib/whatsapp";
 import { useWhatsappNumber } from "@/components/WhatsAppNumberProvider";
 import { RESPONSE_TIME } from "@/lib/company";
 
+type SystemType = "ONGRID" | "HIBRIDO" | "INDEFINIDO";
+
 type FormState = {
   name: string;
   phone: string;
   email: string;
   city: string;
   billAmount: string;
+  systemType: SystemType;
   message: string;
 };
 
@@ -21,7 +24,32 @@ const INITIAL_STATE: FormState = {
   email: "",
   city: "",
   billAmount: "",
+  systemType: "INDEFINIDO",
   message: "",
+};
+
+const SYSTEM_OPTIONS: { value: SystemType; label: string; hint: string }[] = [
+  {
+    value: "HIBRIDO",
+    label: "Híbrido, com bateria",
+    hint: "Quero continuar com luz durante as quedas de energia",
+  },
+  {
+    value: "ONGRID",
+    label: "Convencional (on-grid)",
+    hint: "Quero reduzir a conta de luz, sem bateria",
+  },
+  {
+    value: "INDEFINIDO",
+    label: "Ainda não sei",
+    hint: "Quero que vocês me orientem sobre o melhor pro meu caso",
+  },
+];
+
+const SYSTEM_LABELS: Record<SystemType, string> = {
+  HIBRIDO: "Híbrido (com bateria)",
+  ONGRID: "Convencional (on-grid)",
+  INDEFINIDO: "Ainda não sei / quero orientação",
 };
 
 function buildWhatsappMessage(data: FormState) {
@@ -31,6 +59,7 @@ function buildWhatsappMessage(data: FormState) {
     `Telefone: ${data.phone}`,
     data.city ? `Cidade: ${data.city}` : null,
     data.billAmount ? `Valor médio da conta de luz: ${data.billAmount}` : null,
+    `Tipo de sistema: ${SYSTEM_LABELS[data.systemType]}`,
     data.message ? `Mensagem: ${data.message}` : null,
   ];
   return lines.filter(Boolean).join("\n");
@@ -183,6 +212,44 @@ export default function ContactForm() {
           className="mt-1.5 w-full rounded-xl border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-brand-orange"
         />
       </div>
+
+      <fieldset>
+        <legend className="text-sm font-medium text-brand-navy">
+          Que tipo de sistema você quer orçar?
+        </legend>
+        <div className="mt-2.5 grid gap-2.5">
+          {SYSTEM_OPTIONS.map((option) => {
+            const selected = form.systemType === option.value;
+            return (
+              <label
+                key={option.value}
+                className={`flex cursor-pointer items-start gap-3 rounded-xl border p-3.5 transition-colors ${
+                  selected
+                    ? "border-brand-orange bg-brand-orange-light"
+                    : "border-black/10 hover:border-brand-orange/40"
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="systemType"
+                  value={option.value}
+                  checked={selected}
+                  onChange={() => update("systemType", option.value)}
+                  className="mt-0.5 h-4 w-4 shrink-0 accent-brand-orange"
+                />
+                <span>
+                  <span className="block text-sm font-semibold text-brand-navy">
+                    {option.label}
+                  </span>
+                  <span className="mt-0.5 block text-xs leading-relaxed text-brand-navy/55">
+                    {option.hint}
+                  </span>
+                </span>
+              </label>
+            );
+          })}
+        </div>
+      </fieldset>
 
       <div>
         <label htmlFor="message" className="text-sm font-medium text-brand-navy">

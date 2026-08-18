@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { SYSTEM_TYPE_LABELS } from "@/lib/email";
 
 export default async function AdminLeadsPage() {
   const leads = await prisma.lead.findMany({ orderBy: { createdAt: "desc" } });
@@ -17,7 +18,20 @@ export default async function AdminLeadsPage() {
           {leads.map((lead) => (
             <div key={lead.id} className="rounded-2xl bg-white p-6 shadow-sm">
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <p className="font-semibold text-brand-navy">{lead.name}</p>
+                <div className="flex flex-wrap items-center gap-2">
+                  <p className="font-semibold text-brand-navy">{lead.name}</p>
+                  {lead.systemType && (
+                    <span
+                      className={`rounded-full px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide ${
+                        lead.systemType === "HIBRIDO"
+                          ? "bg-brand-orange text-white"
+                          : "bg-brand-navy-light text-brand-navy/60"
+                      }`}
+                    >
+                      {SYSTEM_TYPE_LABELS[lead.systemType] ?? lead.systemType}
+                    </span>
+                  )}
+                </div>
                 <span className="text-xs text-brand-navy/40">
                   {lead.createdAt.toLocaleString("pt-BR")}
                 </span>

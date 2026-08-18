@@ -63,6 +63,8 @@ model Lead {
   email      String?
   city       String?
   billAmount String?
+  /** ONGRID | HIBRIDO | INDEFINIDO — o que a pessoa marcou no formulário. */
+  systemType String?
   message    String?
   createdAt  DateTime @default(now())
 }

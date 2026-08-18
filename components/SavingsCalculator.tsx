@@ -114,6 +114,25 @@ export default function SavingsCalculator({ monthlyRate }: { monthlyRate: number
               </div>
             </div>
 
+            {/* O site inteiro fala de híbrido, mas o modelo precifica on-grid.
+                Sem este aviso a pessoa compara a estimativa com uma proposta
+                de híbrido e acha que o preço subiu sem explicação. */}
+            <div className="mt-6 flex gap-3 rounded-xl border border-brand-orange/25 bg-brand-orange-light p-4">
+              <svg viewBox="0 0 20 20" className="mt-0.5 h-5 w-5 shrink-0 text-brand-orange" fill="currentColor" aria-hidden="true">
+                <path d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm0 4a1 1 0 0 1 1 1v4a1 1 0 1 1-2 0V7a1 1 0 0 1 1-1zm0 8.5a1.1 1.1 0 1 1 0-2.2 1.1 1.1 0 0 1 0 2.2z" />
+              </svg>
+              <p className="text-sm leading-relaxed text-brand-navy/75">
+                Esta estimativa é de um sistema{" "}
+                <strong className="font-semibold text-brand-navy">on-grid</strong> —
+                o convencional, ligado à rede. Um sistema{" "}
+                <strong className="font-semibold text-brand-navy">híbrido, com bateria</strong>,
+                é o que mantém sua casa com luz durante as quedas de energia, e o
+                cálculo dele depende de quais equipamentos você quer manter
+                funcionando e por quanto tempo. Por isso ele é dimensionado caso a
+                caso, no orçamento.
+              </p>
+            </div>
+
             {result.estimate.oversized && (
               <p className="mt-6 rounded-xl bg-brand-navy-light p-4 text-sm leading-relaxed text-brand-navy/70">
                 Sua conta é menor que o consumo do nosso menor sistema, então ele
@@ -189,7 +208,7 @@ export default function SavingsCalculator({ monthlyRate }: { monthlyRate: number
                 Quer o número exato para o seu telhado?
               </p>
               <Link
-                href={`/contato?conta=${encodeURIComponent(bill)}&cidade=${encodeURIComponent(city)}`}
+                href={`/contato?conta=${encodeURIComponent(bill)}&cidade=${encodeURIComponent(city)}#formulario`}
                 className="shadow-glow-orange rounded-full bg-brand-orange px-7 py-3.5 text-center text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-brand-orange-dark"
               >
                 Quero meu estudo gratuito

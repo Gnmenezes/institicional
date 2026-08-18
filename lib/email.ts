@@ -6,7 +6,14 @@ type LeadEmailInput = {
   email?: string | null;
   city?: string | null;
   billAmount?: string | null;
+  systemType?: string | null;
   message?: string | null;
+};
+
+export const SYSTEM_TYPE_LABELS: Record<string, string> = {
+  HIBRIDO: "Híbrido (com bateria)",
+  ONGRID: "Convencional (on-grid)",
+  INDEFINIDO: "Ainda não sei / quer orientação",
 };
 
 export async function sendLeadNotification(lead: LeadEmailInput) {
@@ -28,13 +35,23 @@ export async function sendLeadNotification(lead: LeadEmailInput) {
     lead.email ? `E-mail: ${lead.email}` : null,
     lead.city ? `Cidade: ${lead.city}` : null,
     lead.billAmount ? `Valor médio da conta de luz: ${lead.billAmount}` : null,
+    lead.systemType
+      ? `Tipo de sistema: ${SYSTEM_TYPE_LABELS[lead.systemType] ?? lead.systemType}`
+      : null,
     lead.message ? `Mensagem: ${lead.message}` : null,
   ].filter(Boolean);
+
+  // Híbrido precisa de dimensionamento caso a caso, então vale destacar
+  // no assunto pra esse lead não entrar na fila como um orçamento comum.
+  const subject =
+    lead.systemType === "HIBRIDO"
+      ? `Novo pedido de orçamento (HÍBRIDO) — ${lead.name}`
+      : `Novo pedido de orçamento — ${lead.name}`;
 
   await resend.emails.send({
     from: "Site Sumart <onboarding@resend.dev>",
     to,
-    subject: `Novo pedido de orçamento — ${lead.name}`,
+    subject,
     text: lines.join("\n"),
   });
 }
