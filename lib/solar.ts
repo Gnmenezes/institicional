@@ -211,13 +211,23 @@ export type FinancingOption = {
   difference: number;
 };
 
+/**
+ * Opções de financiamento.
+ *
+ * `ratesByTerm` traz a taxa de cada prazo, porque ela não é a mesma em todos:
+ * IOF, tarifas e carência se diluem menos nos prazos curtos, o que deixa a
+ * taxa efetiva mais alta em 36x do que em 60x. Prazo sem taxa própria usa
+ * `defaultRate`.
+ */
 export function financingOptions(
   investment: number,
   monthlySavings: number,
-  monthlyRate: number
+  ratesByTerm: Record<number, number>,
+  defaultRate: number
 ): FinancingOption[] {
   return FINANCING_TERMS.map((months) => {
-    const installment = monthlyPayment(investment, months, monthlyRate);
+    const rate = ratesByTerm[months] ?? defaultRate;
+    const installment = monthlyPayment(investment, months, rate);
     return {
       months,
       installment,

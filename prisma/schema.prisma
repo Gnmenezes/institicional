@@ -88,6 +88,17 @@ model SiteSettings {
   updatedAt      DateTime @updatedAt
 }
 
+/// Parcela real observada para cada prazo, do mesmo financiamento.
+/// A taxa efetiva não é igual em todos os prazos: IOF, tarifas e carência
+/// se diluem menos nos prazos curtos, então cada prazo tem a sua.
+model FinancingSample {
+  id          String   @id @default(cuid())
+  term        Int      @unique
+  installment Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
 /// Cidades oferecidas no seletor da calculadora, com a irradiação local.
 /// Listar uma cidade aqui equivale a anunciar atendimento nela.
 model City {

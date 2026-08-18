@@ -375,7 +375,8 @@ export default async function HomePage() {
           <Reveal delay={120}>
             <div className="mt-9">
               <SavingsCalculator
-                monthlyRate={financingRate.monthlyRate}
+                ratesByTerm={financingRate.ratesByTerm}
+                defaultRate={financingRate.defaultRate}
                 cities={calculatorCities}
               />
             </div>

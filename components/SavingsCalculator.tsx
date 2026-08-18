@@ -17,10 +17,12 @@ const MIN_BILL = 80;
 const OTHER_CITY = "Outra cidade da região";
 
 export default function SavingsCalculator({
-  monthlyRate,
+  ratesByTerm,
+  defaultRate,
   cities,
 }: {
-  monthlyRate: number;
+  ratesByTerm: Record<number, number>;
+  defaultRate: number;
   cities: CityOption[];
 }) {
   const [bill, setBill] = useState("");
@@ -32,9 +34,14 @@ export default function SavingsCalculator({
     if (!Number.isFinite(billValue) || billValue < MIN_BILL) return null;
     const hsp = cities.find((c) => c.name === city)?.hsp;
     const estimate = estimateSystem(billValue, hsp);
-    const options = financingOptions(estimate.investment, estimate.monthlySavings, monthlyRate);
+    const options = financingOptions(
+      estimate.investment,
+      estimate.monthlySavings,
+      ratesByTerm,
+      defaultRate
+    );
     return { estimate, options };
-  }, [billValue, city, monthlyRate, cities]);
+  }, [billValue, city, ratesByTerm, defaultRate, cities]);
 
   const bestCovered = result?.options.filter((o) => o.coveredBySavings).at(0);
 

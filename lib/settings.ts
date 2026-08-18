@@ -17,10 +17,12 @@ export function sanitizeWhatsappNumber(input: string) {
 }
 
 export type FinancingRate = {
-  /** Taxa mensal usada na calculadora, já com a margem de segurança. */
-  monthlyRate: number;
-  /** Taxa apurada na amostra, antes da margem. */
-  baseRate: number | null;
+  /** Taxa por prazo, já com a margem. Prazo sem amostra cai no padrão. */
+  ratesByTerm: Record<number, number>;
+  /** Usada em prazos sem amostra própria. */
+  defaultRate: number;
+  /** Taxas apuradas antes da margem, para exibição no painel. */
+  baseRatesByTerm: Record<number, number>;
   marginPp: number;
   updatedAt: Date | null;
   /** Falso enquanto ninguém cadastrou uma amostra real de financiamento. */
@@ -37,31 +39,45 @@ export type FinancingRate = {
  * margem, para o site nunca prometer parcela melhor do que a proposta entrega.
  */
 export async function getFinancingRate(): Promise<FinancingRate> {
-  const settings = await getSiteSettings();
+  const [settings, samples] = await Promise.all([
+    getSiteSettings(),
+    prisma.financingSample.findMany({ orderBy: { term: "asc" } }),
+  ]);
+
   const marginPp = settings.financingMarginPp ?? 0.25;
+  const amount = settings.financingAmount;
 
-  const baseRate =
-    settings.financingAmount && settings.financingInstallment && settings.financingTerm
-      ? solveMonthlyRate(
-          settings.financingAmount,
-          settings.financingInstallment,
-          settings.financingTerm
-        )
-      : null;
+  const baseRatesByTerm: Record<number, number> = {};
+  if (amount) {
+    for (const sample of samples) {
+      const rate = solveMonthlyRate(amount, sample.installment, sample.term);
+      if (rate !== null) baseRatesByTerm[sample.term] = rate;
+    }
+  }
 
-  if (baseRate === null) {
+  const found = Object.values(baseRatesByTerm);
+  if (found.length === 0) {
     return {
-      monthlyRate: FALLBACK_MONTHLY_RATE,
-      baseRate: null,
+      ratesByTerm: {},
+      defaultRate: FALLBACK_MONTHLY_RATE,
+      baseRatesByTerm: {},
       marginPp,
       updatedAt: settings.financingUpdatedAt ?? null,
       fromRealSample: false,
     };
   }
 
+  const ratesByTerm: Record<number, number> = {};
+  for (const [term, rate] of Object.entries(baseRatesByTerm)) {
+    ratesByTerm[Number(term)] = rate + marginPp / 100;
+  }
+
   return {
-    monthlyRate: baseRate + marginPp / 100,
-    baseRate,
+    ratesByTerm,
+    // Prazo sem amostra usa a maior taxa conhecida: erra para cima, nunca
+    // mostrando uma parcela melhor do que a proposta vai entregar.
+    defaultRate: Math.max(...found) + marginPp / 100,
+    baseRatesByTerm,
     marginPp,
     updatedAt: settings.financingUpdatedAt ?? null,
     fromRealSample: true,

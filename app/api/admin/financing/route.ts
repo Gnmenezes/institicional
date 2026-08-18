@@ -5,9 +5,15 @@ import { solveMonthlyRate } from "@/lib/solar";
 
 const financingSchema = z.object({
   amount: z.number().positive().max(10_000_000),
-  installment: z.number().positive().max(1_000_000),
-  term: z.number().int().min(2).max(240),
   marginPp: z.number().min(0).max(5),
+  installments: z
+    .array(
+      z.object({
+        term: z.number().int().min(2).max(240),
+        installment: z.number().positive().max(1_000_000),
+      })
+    )
+    .min(1),
 });
 
 export async function PATCH(request: Request) {
@@ -18,43 +24,57 @@ export async function PATCH(request: Request) {
     return NextResponse.json({ error: "Dados inválidos." }, { status: 400 });
   }
 
-  const { amount, installment, term, marginPp } = parsed.data;
+  const { amount, marginPp, installments } = parsed.data;
 
-  // Só aceita uma amostra que descreva um financiamento possível — senão a
+  // Só aceita amostras que descrevam um financiamento possível — senão a
   // calculadora do site passaria a exibir uma taxa sem sentido.
-  const baseRate = solveMonthlyRate(amount, installment, term);
-  if (baseRate === null) {
+  const invalid = installments.filter(
+    (i) => solveMonthlyRate(amount, i.installment, i.term) === null
+  );
+  if (invalid.length > 0) {
     return NextResponse.json(
       {
-        error:
-          "Esses valores não formam um financiamento válido. Confira se a parcela e o prazo correspondem ao valor financiado.",
+        error: `Os valores de ${invalid
+          .map((i) => `${i.term}x`)
+          .join(", ")} não formam um financiamento válido. Confira se a parcela corresponde ao valor financiado.`,
       },
       { status: 400 }
     );
   }
 
-  await prisma.siteSettings.upsert({
-    where: { id: "singleton" },
-    update: {
-      financingAmount: amount,
-      financingInstallment: installment,
-      financingTerm: term,
-      financingMarginPp: marginPp,
-      financingUpdatedAt: new Date(),
-    },
-    create: {
-      id: "singleton",
-      whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "",
-      financingAmount: amount,
-      financingInstallment: installment,
-      financingTerm: term,
-      financingMarginPp: marginPp,
-      financingUpdatedAt: new Date(),
-    },
-  });
+  await prisma.$transaction([
+    prisma.siteSettings.upsert({
+      where: { id: "singleton" },
+      update: {
+        financingAmount: amount,
+        financingMarginPp: marginPp,
+        financingUpdatedAt: new Date(),
+      },
+      create: {
+        id: "singleton",
+        whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "",
+        financingAmount: amount,
+        financingMarginPp: marginPp,
+        financingUpdatedAt: new Date(),
+      },
+    }),
+    // Substitui as amostras: prazo que saiu do formulário deixa de valer.
+    prisma.financingSample.deleteMany({
+      where: { term: { notIn: installments.map((i) => i.term) } },
+    }),
+    ...installments.map((i) =>
+      prisma.financingSample.upsert({
+        where: { term: i.term },
+        update: { installment: i.installment },
+        create: { term: i.term, installment: i.installment },
+      })
+    ),
+  ]);
 
   return NextResponse.json({
-    baseRate,
-    monthlyRate: baseRate + marginPp / 100,
+    rates: installments.map((i) => ({
+      term: i.term,
+      baseRate: solveMonthlyRate(amount, i.installment, i.term),
+    })),
   });
 }
