@@ -107,6 +107,11 @@ export default function SavingsCalculator({
                   <span className="text-lg">kWp</span>
                 </span>
                 <span className="mt-0.5 block text-xs text-brand-navy/50">
+                  {result.estimate.panels} placas ·{" "}
+                  {result.estimate.inverters}{" "}
+                  {result.estimate.inverters === 1 ? "microinversor" : "microinversores"}
+                </span>
+                <span className="mt-0.5 block text-xs text-brand-navy/50">
                   gera cerca de {Math.round(result.estimate.generationKwh)} kWh/mês
                 </span>
               </div>
@@ -228,11 +233,12 @@ export default function SavingsCalculator({
       </div>
 
       <p className="mx-auto mt-5 max-w-2xl text-center text-xs leading-relaxed text-brand-navy/45">
-        Estimativa baseada em projetos reais da Sumart na região. Os valores finais
-        dependem do seu telhado, do seu histórico de consumo e dos equipamentos
-        escolhidos — tudo isso é levantado na visita técnica, que é gratuita. As
-        parcelas são simulação: a taxa real é definida pelo banco, mediante análise
-        de crédito.
+        Estimativa baseada em projetos reais da Sumart na região. Como cada
+        microinversor comporta 4 placas, os sistemas são montados de 4 em 4 — por
+        isso o tamanho sugerido sobe em degraus. Os valores finais dependem do seu
+        telhado, do seu histórico de consumo e dos equipamentos escolhidos — tudo
+        isso é levantado na visita técnica, que é gratuita. As parcelas são
+        simulação: a taxa real é definida pelo banco, mediante análise de crédito.
       </p>
     </div>
   );

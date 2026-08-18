@@ -39,8 +39,19 @@ export function generationFromHsp(hsp: number) {
   return REFERENCE_GENERATION * (hsp / REFERENCE_HSP);
 }
 
-/** Menor sistema que a Sumart instala, e o preço dele. */
-export const MIN_KWP = 2.34;
+// Cada microinversor aceita 4 placas, então o sistema cresce de 4 em 4 e o
+// preço dá um salto a cada bloco — é assim que a Sumart orça. Um sistema de
+// 6 placas não existe na prática: seriam 8, com dois microinversores.
+export const PANELS_PER_INVERTER = 4;
+
+/** Potência da placa usada hoje nos orçamentos. */
+export const PANEL_WP = 585;
+
+/** Potência de um bloco de 4 placas com um microinversor. */
+export const BLOCK_KWP = (PANELS_PER_INVERTER * PANEL_WP) / 1000;
+
+/** Menor sistema que a Sumart instala: um bloco. */
+export const MIN_KWP = BLOCK_KWP;
 export const MIN_PRICE = 8500;
 
 // Preço: custo fixo + custo por kWp, e não lei de potência. Os orçamentos
@@ -129,6 +140,10 @@ export function solveMonthlyRate(principal: number, installment: number, months:
 
 export type SystemEstimate = {
   kwp: number;
+  /** Placas do sistema — sempre múltiplo de 4. */
+  panels: number;
+  /** Microinversores, um a cada 4 placas. */
+  inverters: number;
   generationKwh: number;
   investment: number;
   monthlySavings: number;
@@ -147,19 +162,23 @@ export function estimateSystem(monthlyBill: number, hsp?: number | null): System
   const consumptionKwh = monthlyBill / TARIFF;
   const rawKwp = consumptionKwh / generationPerKwp;
 
-  const oversized = rawKwp < MIN_KWP;
-  const kwp = Math.max(rawKwp, MIN_KWP);
+  // Arredonda para cima até fechar blocos inteiros de 4 placas: é assim que
+  // o sistema existe no mundo real, e é assim que a Sumart orça.
+  const blocks = Math.max(1, Math.ceil(rawKwp / BLOCK_KWP));
+  const kwp = blocks * BLOCK_KWP;
 
   const investment = estimatePrice(kwp);
   const monthlySavings = monthlyBill * SAVINGS_SHARE;
 
   return {
     kwp,
+    panels: blocks * PANELS_PER_INVERTER,
+    inverters: blocks,
     generationKwh: kwp * generationPerKwp,
     investment,
     monthlySavings,
     paybackYears: investment / (monthlySavings * 12),
-    oversized,
+    oversized: rawKwp < MIN_KWP,
   };
 }
 

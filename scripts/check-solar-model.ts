@@ -9,7 +9,10 @@
  * que ter que justificar um aumento para o cliente.
  */
 import {
+  BLOCK_KWP,
   MIN_KWP,
+  PANELS_PER_INVERTER,
+  PANEL_WP,
   REFERENCE_HSP,
   estimatePrice,
   estimateSystem,
@@ -88,15 +91,33 @@ if (generationFromHsp(0) !== 115.2 || generationFromHsp(Number.NaN) !== 115.2)
   fail("HSP inválido deveria cair no padrão de Juiz de Fora");
 console.log("OK");
 
-console.log("\n== Dimensionamento a partir da conta reproduz os orçamentos ==");
+console.log("\n== Dimensionamento sai em blocos de 4 placas ==");
+for (const bill of [150, 260, 400, 600, 900, 1500, 2400]) {
+  const e = estimateSystem(bill, REFERENCE_HSP);
+  if (e.panels % PANELS_PER_INVERTER !== 0)
+    fail(`conta ${bill}: ${e.panels} placas não fecha blocos de ${PANELS_PER_INVERTER}`);
+  if (e.inverters !== e.panels / PANELS_PER_INVERTER)
+    fail(`conta ${bill}: ${e.inverters} microinversores para ${e.panels} placas`);
+  if (Math.abs(e.kwp - (e.panels * PANEL_WP) / 1000) > 1e-9)
+    fail(`conta ${bill}: kWp não corresponde a ${e.panels} placas`);
+  // O sistema tem que cobrir o consumo, nunca ficar abaixo dele.
+  if (e.generationKwh * 1.15 < bill - 1e-6)
+    fail(`conta ${bill}: gera ${e.generationKwh.toFixed(0)} kWh, abaixo do consumo`);
+}
+console.log("OK     sempre múltiplo de 4 placas, e nunca subdimensionado");
+
+console.log("\n== Dimensionamento bate com os orçamentos reais ==");
 for (const q of QUOTES) {
   if (GENERATION_EXCEPTIONS.has(q.label)) continue;
   const bill = q.generation * 1.15; // conta que esse sistema zera
   const estimate = estimateSystem(bill, REFERENCE_HSP);
-  const errPct = Math.abs((estimate.kwp - q.kwp) / q.kwp) * 100;
-  if (errPct > 2) fail(`${q.label}: kWp ${estimate.kwp.toFixed(2)} vs ${q.kwp} (${errPct.toFixed(2)}%)`);
+  // A tolerância é um bloco: os orçamentos antigos usaram placas de 585,
+  // 600 e 725 Wp, então a potência do mesmo número de placas varia.
+  const diff = Math.abs(estimate.kwp - q.kwp);
+  if (diff > BLOCK_KWP)
+    fail(`${q.label}: kWp ${estimate.kwp.toFixed(2)} vs ${q.kwp} (${diff.toFixed(2)} de diferença)`);
 }
-console.log("OK     todos dentro de 2%");
+console.log("OK     todos dentro de um bloco");
 
 console.log("\n== Solver de taxa e parser de números ==");
 for (const [pv, n, rate] of [[13384.38, 60, 0.019], [42939.14, 48, 0.025]] as const) {
