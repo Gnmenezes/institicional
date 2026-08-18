@@ -174,7 +174,9 @@ export default async function HomePage() {
           </div>
 
           {heroPhotos.length > 0 && (
-            <div className="relative justify-self-center md:justify-self-end">
+            // A largura precisa morar neste wrapper: o carrossel usa w-full e,
+            // sem isso, o item do grid encolhe pra zero e as fotos somem.
+            <div className="relative w-full max-w-sm justify-self-center md:justify-self-end">
               <div className="pointer-events-none absolute -inset-6 rounded-[2rem] bg-brand-orange/10 blur-2xl" />
               <HeroCarousel
                 className="relative shadow-2xl"
