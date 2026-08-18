@@ -88,10 +88,10 @@ export default async function HomePage() {
   return (
     <>
       <section className="relative overflow-hidden bg-brand-navy-light">
-        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-20 sm:px-6 md:grid-cols-2 md:items-center md:py-28">
+        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-10 sm:px-6 md:grid-cols-2 md:items-center md:py-14">
           <div>
             <span className="inline-block rounded-full bg-white px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-brand-orange shadow-sm">
-              Sistemas híbridos com bateria · Juiz de Fora e região
+              Sistemas híbridos com baterias
             </span>
             <h1 className="mt-5 text-4xl font-extrabold leading-tight text-brand-navy sm:text-5xl">
               Nunca Mais Fique no Escuro e Economize na Conta!
