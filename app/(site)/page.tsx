@@ -126,7 +126,7 @@ export default async function HomePage() {
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <SectionHeading
             eyebrow="Qual é o ideal pra você?"
-            title="Híbrido ou On-Grid — nós instalamos os dois"
+            title="Híbrido ou On-Grid"
             description="Cada sistema tem suas vantagens. Veja a diferença e escolha com a gente o que faz mais sentido pro seu consumo e orçamento."
             center
           />
