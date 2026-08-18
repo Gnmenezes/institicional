@@ -12,8 +12,15 @@ export default function TestimonialCard({
   rating,
 }: TestimonialCardProps) {
   return (
-    <figure className="flex h-full flex-col rounded-2xl border border-black/5 bg-white p-6 shadow-sm">
-      <div className="flex gap-0.5 text-brand-orange">
+    <figure className="card-lift shadow-brand relative flex h-full flex-col overflow-hidden rounded-2xl bg-white p-7">
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-2 -top-6 select-none font-serif text-[7rem] leading-none text-brand-orange/10"
+      >
+        &rdquo;
+      </span>
+
+      <div className="relative flex gap-0.5 text-brand-orange">
         {Array.from({ length: 5 }).map((_, i) => (
           <svg
             key={i}
@@ -28,13 +35,17 @@ export default function TestimonialCard({
           </svg>
         ))}
       </div>
-      <blockquote className="mt-4 flex-1 text-sm leading-relaxed text-brand-navy/80">
+
+      <blockquote className="relative mt-4 flex-1 text-sm leading-relaxed text-brand-navy/80">
         “{text}”
       </blockquote>
-      <figcaption className="mt-4 text-sm font-semibold text-brand-navy">
+
+      <figcaption className="relative mt-5 border-t border-black/5 pt-4 text-sm font-bold text-brand-navy">
         {authorName}
         {authorLocation ? (
-          <span className="block font-normal text-brand-navy/50">{authorLocation}</span>
+          <span className="mt-0.5 block text-xs font-normal text-brand-navy/50">
+            {authorLocation}
+          </span>
         ) : null}
       </figcaption>
     </figure>

@@ -9,7 +9,13 @@ export type HeroPhoto = {
   caption: string;
 };
 
-export default function HeroCarousel({ photos }: { photos: HeroPhoto[] }) {
+export default function HeroCarousel({
+  photos,
+  className = "",
+}: {
+  photos: HeroPhoto[];
+  className?: string;
+}) {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -23,35 +29,40 @@ export default function HeroCarousel({ photos }: { photos: HeroPhoto[] }) {
   if (photos.length === 0) return null;
 
   return (
-    <div className="relative aspect-[3/4] w-full max-w-sm justify-self-center overflow-hidden rounded-2xl shadow-lg md:justify-self-end">
+    <div
+      className={`group relative aspect-[3/4] w-full max-w-sm overflow-hidden rounded-3xl ring-1 ring-white/15 ${className}`}
+    >
       {photos.map((photo, i) => (
         <Image
           key={photo.src}
           src={photo.src}
           alt={photo.alt}
           fill
-          className={`object-cover transition-opacity duration-700 ${
+          className={`object-cover transition-opacity duration-1000 ${
             i === index ? "opacity-100" : "opacity-0"
           }`}
-          sizes="(max-width: 768px) 90vw, 400px"
+          sizes="(max-width: 768px) 90vw, 420px"
           priority={i === 0}
         />
       ))}
 
-      <span className="absolute bottom-4 left-4 rounded-full bg-white/95 px-4 py-1.5 text-xs font-semibold text-brand-navy shadow-sm">
+      {/* Véu escuro na base, pra legenda ficar legível sobre qualquer foto */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/65 to-transparent" />
+
+      <span className="absolute bottom-5 left-5 rounded-full bg-white/95 px-4 py-1.5 text-xs font-semibold text-brand-navy shadow-sm backdrop-blur">
         {photos[index].caption}
       </span>
 
       {photos.length > 1 && (
-        <div className="absolute bottom-4 right-4 flex gap-1.5">
+        <div className="absolute bottom-6 right-5 flex gap-2">
           {photos.map((photo, i) => (
             <button
               key={photo.src}
               type="button"
               onClick={() => setIndex(i)}
               aria-label={`Ver foto ${i + 1}`}
-              className={`h-2 w-2 rounded-full transition-colors ${
-                i === index ? "bg-brand-orange" : "bg-white/70"
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                i === index ? "w-6 bg-brand-orange" : "w-1.5 bg-white/70 hover:bg-white"
               }`}
             />
           ))}

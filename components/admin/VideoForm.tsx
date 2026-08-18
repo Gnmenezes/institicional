@@ -76,7 +76,8 @@ export default function VideoForm({
           className="mt-1.5 w-full rounded-xl border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-brand-orange"
         />
         <p className="mt-2 text-xs text-brand-navy/50">
-          Suba o vídeo no YouTube (pode ser "Não listado") e cole o link aqui.
+          Suba o vídeo no YouTube (pode ser &ldquo;Não listado&rdquo;) e cole o
+          link aqui.
         </p>
       </div>
 

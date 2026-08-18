@@ -17,7 +17,7 @@ export default function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-black/5 bg-white/95 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-black/5 bg-white/85 shadow-[0_1px_20px_-10px_rgba(31,32,89,0.35)] backdrop-blur-xl">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
         <Link href="/" className="flex items-center gap-2" onClick={() => setOpen(false)}>
           <Image
@@ -38,14 +38,15 @@ export default function Header() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-7 md:flex">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-brand-navy/80 transition-colors hover:text-brand-orange"
+              className="group relative py-1 text-sm font-medium text-brand-navy/75 transition-colors hover:text-brand-navy"
             >
               {link.label}
+              <span className="absolute inset-x-0 -bottom-0.5 h-0.5 origin-left scale-x-0 rounded-full bg-brand-orange transition-transform duration-300 group-hover:scale-x-100" />
             </Link>
           ))}
         </nav>
@@ -56,7 +57,7 @@ export default function Header() {
           </WhatsAppButton>
           <Link
             href="/contato"
-            className="rounded-full bg-brand-orange px-5 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-orange-dark"
+            className="shadow-glow-orange rounded-full bg-brand-orange px-5 py-2.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-brand-orange-dark"
           >
             Solicitar orçamento
           </Link>

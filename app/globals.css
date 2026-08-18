@@ -26,8 +26,74 @@
   --color-brand-navy-light: var(--color-brand-navy-light);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Texto com degradê laranja — usado em destaques de títulos */
+.text-gradient-orange {
+  background-image: linear-gradient(100deg, #ffa15c 0%, #ff6a1a 55%, #ff8a3d 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Malha sutil de linhas, usada como textura de fundo em seções escuras */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.6) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.6) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+/* Sombra em camadas com tom da marca, dá profundidade sem "sujar" o branco */
+.shadow-brand {
+  box-shadow:
+    0 1px 2px rgba(31, 32, 89, 0.04),
+    0 8px 24px -12px rgba(31, 32, 89, 0.18);
+}
+
+.shadow-brand-lg {
+  box-shadow:
+    0 1px 2px rgba(31, 32, 89, 0.05),
+    0 18px 40px -18px rgba(31, 32, 89, 0.28);
+}
+
+.shadow-glow-orange {
+  box-shadow:
+    0 10px 30px -10px rgba(255, 106, 26, 0.55),
+    0 2px 6px rgba(255, 106, 26, 0.2);
+}
+
+/* Cartão que reage ao passar o mouse */
+.card-lift {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.card-lift:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 1px 2px rgba(31, 32, 89, 0.05),
+    0 24px 48px -20px rgba(31, 32, 89, 0.3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .card-lift:hover {
+    transform: none;
+  }
 }
