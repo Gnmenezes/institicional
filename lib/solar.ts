@@ -14,7 +14,17 @@ export const TARIFF = 1.15;
  */
 export const SAVINGS_SHARE = 0.86;
 
-/** Geração média por cidade, em kWh por kWp instalado por mês. */
+/**
+ * Geração média por cidade, em kWh por kWp instalado por mês.
+ *
+ * Só entram aqui cidades que devem aparecer no seletor da calculadora —
+ * listar uma cidade é anunciar que a Sumart atende lá.
+ *
+ * Medido, mas fora da lista por enquanto: Rio de Janeiro, 120,9 kWh/kWp/mês
+ * (obra de 113,10 kWp em execução em ago/2026). A área de atendimento
+ * divulgada no site é Juiz de Fora, Guiricema e região de Ubá, então o Rio
+ * só entra aqui se a Sumart quiser atender a região.
+ */
 export const GENERATION_BY_CITY: Record<string, number> = {
   "Juiz de Fora": 115.2,
   Guiricema: 123.5,
