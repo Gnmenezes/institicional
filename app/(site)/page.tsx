@@ -122,7 +122,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="bg-brand-navy-light py-20">
+      <section className="py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <SectionHeading
             eyebrow="Qual é o ideal pra você?"
@@ -199,26 +199,28 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-        <SectionHeading
-          eyebrow="Serviços"
-          title="Soluções em energia solar para cada necessidade"
-          description="Sistemas híbridos com bateria ou convencionais — atendemos projetos residenciais, comerciais, industriais e rurais, do dimensionamento à manutenção."
-        />
-        <div className="mt-10 grid gap-6 sm:grid-cols-3">
-          {SERVICES.map((service) => (
-            <div key={service.title} className="rounded-2xl border border-black/5 p-6">
-              <h3 className="font-semibold text-brand-navy">{service.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-brand-navy/60">
-                {service.description}
-              </p>
-            </div>
-          ))}
-        </div>
-        <div className="mt-8">
-          <Link href="/servicos" className="text-sm font-semibold text-brand-orange hover:underline">
-            Ver todos os serviços →
-          </Link>
+      <section className="bg-brand-navy-light py-20">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <SectionHeading
+            eyebrow="Serviços"
+            title="Soluções em energia solar para cada necessidade"
+            description="Sistemas híbridos com bateria ou convencionais — atendemos projetos residenciais, comerciais, industriais e rurais, do dimensionamento à manutenção."
+          />
+          <div className="mt-10 grid gap-6 sm:grid-cols-3">
+            {SERVICES.map((service) => (
+              <div key={service.title} className="rounded-2xl border border-black/5 bg-white p-6">
+                <h3 className="font-semibold text-brand-navy">{service.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-brand-navy/60">
+                  {service.description}
+                </p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8">
+            <Link href="/servicos" className="text-sm font-semibold text-brand-orange hover:underline">
+              Ver todos os serviços →
+            </Link>
+          </div>
         </div>
       </section>
 
