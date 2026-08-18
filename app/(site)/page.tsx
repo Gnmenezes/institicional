@@ -13,29 +13,15 @@ import {
   getVideos,
 } from "@/lib/data";
 
-const HOW_IT_WORKS = [
-  {
-    step: "1. Gera",
-    text: "Os painéis solares captam energia do sol durante o dia.",
-    Icon: SunPanelIcon,
-  },
-  {
-    step: "2. Armazena",
-    text: "O excedente gerado fica guardado na bateria do sistema.",
-    Icon: BatteryIcon,
-  },
-  {
-    step: "3. Usa",
-    text: "Você consome essa energia quando precisar — inclusive se a rede cair.",
-    Icon: HomeUsageIcon,
-  },
-];
-
 const SYSTEM_COMPARISON = [
   {
     name: "On-Grid (convencional)",
     tagline: "Conectado direto à rede, com microinversores",
     highlight: false,
+    steps: [
+      { label: "Gera", Icon: SunPanelIcon },
+      { label: "Usa", Icon: HomeUsageIcon },
+    ],
     pros: [
       "Investimento inicial menor",
       "Reduz bastante a conta de luz",
@@ -48,6 +34,11 @@ const SYSTEM_COMPARISON = [
     name: "Híbrido (com bateria)",
     tagline: "Gera, armazena em bateria e continua funcionando sem rede",
     highlight: true,
+    steps: [
+      { label: "Gera", Icon: SunPanelIcon },
+      { label: "Armazena", Icon: BatteryIcon },
+      { label: "Usa", Icon: HomeUsageIcon },
+    ],
     pros: [
       "Continua com energia durante quedas na rede",
       "Armazena o excedente gerado para usar depois",
@@ -131,20 +122,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-        <div className="grid gap-6 sm:grid-cols-3">
-          {HOW_IT_WORKS.map((item) => (
-            <div key={item.step} className="flex items-start gap-3 rounded-2xl border border-black/5 p-6">
-              <item.Icon className="h-10 w-10 shrink-0" />
-              <div>
-                <p className="text-sm font-semibold text-brand-navy">{item.step}</p>
-                <p className="mt-0.5 text-sm text-brand-navy/60">{item.text}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
       <section className="bg-brand-navy-light py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <SectionHeading
@@ -171,7 +148,23 @@ export default async function HomePage() {
                 <h3 className="text-lg font-bold text-brand-navy">{system.name}</h3>
                 <p className="mt-1 text-sm text-brand-navy/50">{system.tagline}</p>
 
-                <ul className="mt-5 space-y-2">
+                <div className="mt-5 flex items-center gap-2">
+                  {system.steps.map((step, index) => (
+                    <div key={step.label} className="flex items-center gap-2">
+                      <div className="flex flex-col items-center gap-1">
+                        <step.Icon className="h-9 w-9" />
+                        <span className="text-[11px] font-medium text-brand-navy/60">
+                          {step.label}
+                        </span>
+                      </div>
+                      {index < system.steps.length - 1 && (
+                        <span className="mb-4 text-brand-navy/20">→</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                <ul className="mt-5 space-y-2 border-t border-black/5 pt-5">
                   {system.pros.map((pro) => (
                     <li key={pro} className="flex items-start gap-2 text-sm text-brand-navy/80">
                       <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-orange" />
