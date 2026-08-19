@@ -128,7 +128,7 @@ export default function SavingsCalculator({
           <div className="mt-8 border-t border-black/5 pt-8">
             <div className="grid gap-6 sm:grid-cols-3">
               <div>
-                <span className="text-xs font-semibold uppercase tracking-widest text-brand-navy/40">
+                <span className="block min-h-[2rem] text-xs font-semibold uppercase tracking-widest text-brand-navy/40">
                   Economia por mês
                 </span>
                 <span className="mt-1 block text-3xl font-extrabold text-brand-orange">
@@ -136,7 +136,7 @@ export default function SavingsCalculator({
                 </span>
               </div>
               <div>
-                <span className="text-xs font-semibold uppercase tracking-widest text-brand-navy/40">
+                <span className="block min-h-[2rem] text-xs font-semibold uppercase tracking-widest text-brand-navy/40">
                   Sistema indicado
                 </span>
                 <span className="mt-1 block text-3xl font-extrabold text-brand-navy">
@@ -153,8 +153,11 @@ export default function SavingsCalculator({
                 </span>
               </div>
               <div>
-                <span className="text-xs font-semibold uppercase tracking-widest text-brand-navy/40">
+                {/* O tipo de sistema vai no rótulo, e não só no aviso abaixo:
+                    é o número que a pessoa leva na cabeça. */}
+                <span className="block min-h-[2rem] text-xs font-semibold uppercase tracking-widest text-brand-navy/40">
                   Investimento estimado
+                  <span className="block text-brand-orange/70">para sistema on-grid</span>
                 </span>
                 <span className="mt-1 block text-3xl font-extrabold text-brand-navy">
                   {formatBRL(result.estimate.investment)}
@@ -173,14 +176,24 @@ export default function SavingsCalculator({
                 <path d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm0 4a1 1 0 0 1 1 1v4a1 1 0 1 1-2 0V7a1 1 0 0 1 1-1zm0 8.5a1.1 1.1 0 1 1 0-2.2 1.1 1.1 0 0 1 0 2.2z" />
               </svg>
               <p className="text-sm leading-relaxed text-brand-navy/75">
-                Esta estimativa é de um sistema{" "}
+                Os valores acima são de um sistema{" "}
                 <strong className="font-semibold text-brand-navy">on-grid</strong> —
-                o convencional, ligado à rede. Um sistema{" "}
-                <strong className="font-semibold text-brand-navy">híbrido, com bateria</strong>,
-                é o que mantém sua casa com luz durante as quedas de energia, e o
-                cálculo dele depende de quais equipamentos você quer manter
-                funcionando e por quanto tempo. Por isso ele é dimensionado caso a
-                caso, no orçamento.
+                o convencional, ligado à rede, que reduz a conta mas desliga junto
+                com a rede numa queda de energia.
+                <br />
+                <br />
+                Para um sistema{" "}
+                <strong className="font-semibold text-brand-navy">
+                  híbrido, com bateria
+                </strong>{" "}
+                — o que mantém sua casa com luz durante as quedas —{" "}
+                <strong className="font-semibold text-brand-navy">
+                  é necessário solicitar o orçamento
+                </strong>
+                , porque o cálculo depende de quais equipamentos você quer manter
+                funcionando e por quanto tempo. Marque a opção &ldquo;híbrido&rdquo;
+                no formulário abaixo e a gente faz esse estudo pro seu caso, sem
+                custo.
               </p>
             </div>
 
