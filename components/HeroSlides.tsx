@@ -25,10 +25,11 @@ export default function HeroSlides({ slides }: { slides: HeroSlide[] }) {
 
   useEffect(() => {
     if (slides.length < 2 || paused) return;
-    // Quem pediu menos animação não deve receber troca automática.
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) return;
 
+    // Quem pede menos movimento continua vendo os dois slides: o que o CSS
+    // suprime é a animação de entrada, não a troca. Bloquear a troca faria
+    // essa pessoa nunca chegar ao segundo slide.
+    //
     // Depende de `index` de propósito: assim a contagem reinicia depois de
     // cada troca, inclusive quando a pessoa escolhe um slide pelos pontos.
     const timer = window.setTimeout(() => {
