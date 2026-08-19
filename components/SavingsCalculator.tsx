@@ -6,6 +6,8 @@ import {
   type CityOption,
   MINIMUM_BILL,
   MIN_BILLED_KWH,
+  PROFILE_MESSAGES,
+  profileForBill,
   estimateSystem,
   financingOptions,
   formatBRL,
@@ -46,6 +48,9 @@ export default function SavingsCalculator({
   }, [billValue, city, ratesByTerm, defaultRate, cities]);
 
   const bestCovered = result?.options.filter((o) => o.coveredBySavings).at(0);
+
+  // Quem gasta R$ 250 e quem gasta R$ 3.000 estão em conversas diferentes.
+  const profile = result ? PROFILE_MESSAGES[profileForBill(billValue)] : null;
 
   // Vai junto com o lead: assim a Sumart sabe o que a pessoa viu no site.
   const simulationSummary = result
@@ -183,10 +188,19 @@ export default function SavingsCalculator({
                   híbrido, com bateria
                 </strong>
                 , mantém a casa ligada — mas o cálculo depende do que você quer manter
-                funcionando e por quanto tempo. Marque &ldquo;híbrido&rdquo; abaixo e
-                fazemos o estudo sem custo.
+                funcionando e por quanto tempo. Marque &ldquo;híbrido&rdquo; abaixo e a
+                gente faz esse estudo pro seu caso.
               </p>
             </div>
+
+            {profile && (
+              <div className="mt-6 border-l-2 border-brand-orange/40 pl-4">
+                <h3 className="text-sm font-bold text-brand-navy">{profile.title}</h3>
+                <p className="mt-1 text-sm leading-relaxed text-brand-navy/65">
+                  {profile.text}
+                </p>
+              </div>
+            )}
 
             {result.estimate.oversized && (
               <p className="mt-6 rounded-xl bg-brand-navy-light p-4 text-sm leading-relaxed text-brand-navy/70">
@@ -279,8 +293,7 @@ export default function SavingsCalculator({
                 <strong className="font-semibold text-brand-navy">sistema on-grid</strong>{" "}
                 — um valor médio, tirado de projetos que já instalamos —, o próximo
                 passo é o número exato do seu caso. Preencha os dados abaixo e a gente
-                monta seu orçamento personalizado, seja on-grid ou híbrido, sem custo
-                e sem compromisso.
+                monta seu orçamento personalizado, seja on-grid ou híbrido.
               </p>
               <div className="mt-6">
                 <Suspense fallback={<div className="h-96" />}>
@@ -302,7 +315,7 @@ export default function SavingsCalculator({
         microinversor comporta 4 placas, os sistemas são montados de 4 em 4 — por
         isso o tamanho sugerido sobe em degraus. Os valores finais dependem do seu
         telhado, do seu histórico de consumo e dos equipamentos escolhidos — tudo
-        isso é levantado na visita técnica, que é gratuita. As parcelas são
+        isso é levantado na visita técnica. As parcelas são
         simulação: a taxa real é definida pelo banco, mediante análise de crédito.
       </p>
     </div>

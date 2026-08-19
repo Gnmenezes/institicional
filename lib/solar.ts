@@ -29,6 +29,9 @@ export const PUBLIC_LIGHTING_FEE = 31;
  */
 export const MINIMUM_BILL = MIN_BILLED_KWH * TARIFF + PUBLIC_LIGHTING_FEE;
 
+/** Vida útil considerada do sistema. Acima disso o retorno não se realiza. */
+export const USEFUL_LIFE_YEARS = 25;
+
 /**
  * Economia mensal de fato.
  *
@@ -38,9 +41,6 @@ export const MINIMUM_BILL = MIN_BILLED_KWH * TARIFF + PUBLIC_LIGHTING_FEE;
  * reproduz as propostas reais (nelas os 86% mandam, porque as contas são
  * grandes o bastante).
  */
-/** Vida útil considerada do sistema. Acima disso o retorno não se realiza. */
-export const USEFUL_LIFE_YEARS = 25;
-
 export function monthlySavingsFor(monthlyBill: number) {
   return Math.max(0, Math.min(monthlyBill * SAVINGS_SHARE, monthlyBill - MINIMUM_BILL));
 }
@@ -319,3 +319,38 @@ export function formatPayback(years: number) {
   if (months === 0) return wholeYears === 1 ? "1 ano" : `${wholeYears} anos`;
   return `${wholeYears} ${wholeYears === 1 ? "ano" : "anos"} e ${months} ${months === 1 ? "mês" : "meses"}`;
 }
+
+/**
+ * Perfil de consumo, para o site conduzir cada pessoa de um jeito.
+ *
+ * A conta de luz é a única coisa que a pessoa nos conta antes de virar lead,
+ * e ela diz muito: quem gasta R$ 250 e quem gasta R$ 3.000 estão em conversas
+ * diferentes, e receber o mesmo discurso faz o site soar genérico.
+ */
+export type BillProfile = "PEQUENO" | "RESIDENCIAL" | "ALTO" | "COMERCIAL";
+
+export function profileForBill(monthlyBill: number): BillProfile {
+  if (monthlyBill < 300) return "PEQUENO";
+  if (monthlyBill < 1000) return "RESIDENCIAL";
+  if (monthlyBill < 2500) return "ALTO";
+  return "COMERCIAL";
+}
+
+export const PROFILE_MESSAGES: Record<BillProfile, { title: string; text: string }> = {
+  PEQUENO: {
+    title: "Sua conta está entre as menores que atendemos",
+    text: "O retorno aqui é mais lento, porque sobra pouco para economizar. Se o consumo vai crescer — obra, carro elétrico, ar-condicionado —, vale dimensionar já pensando nisso.",
+  },
+  RESIDENCIAL: {
+    title: "É a faixa mais comum entre as casas que atendemos",
+    text: "Nessa faixa o sistema costuma se pagar rápido, e depois disso a economia continua sobrando todo mês.",
+  },
+  ALTO: {
+    title: "Sua conta está acima da média residencial",
+    text: "E isso joga a seu favor: quanto maior a conta, mais rápido o sistema se paga e maior a diferença que sobra todo mês.",
+  },
+  COMERCIAL: {
+    title: "Nessa faixa já falamos de projeto comercial",
+    text: "Além da economia, entra previsibilidade de custo no orçamento da empresa. O retorno costuma ser o mais rápido de todos, e o projeto merece uma conversa mais técnica.",
+  },
+};

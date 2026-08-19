@@ -323,7 +323,7 @@ export default function ContactForm({
         disabled={status === "loading"}
         className="w-full rounded-full bg-brand-orange px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-orange-dark disabled:opacity-60"
       >
-        {status === "loading" ? "Enviando..." : "Quero meu estudo gratuito"}
+        {status === "loading" ? "Enviando..." : "Quero meu orçamento personalizado"}
       </button>
 
       <p className="text-center text-xs leading-relaxed text-brand-navy/50">
