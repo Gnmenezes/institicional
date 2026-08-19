@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import ScrollCta from "@/components/ScrollCta";
 
 export type HeroSlide = {
   eyebrow: string;
@@ -101,14 +102,14 @@ export default function HeroSlides({ slides }: { slides: HeroSlide[] }) {
           href="/contato"
           className="shadow-glow-orange rounded-full bg-brand-orange px-8 py-4 text-center text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-brand-orange-dark"
         >
-          Solicitar orçamento gratuito
+          Solicitar orçamento
         </Link>
-        <Link
-          href="#calculadora"
+        <ScrollCta
+          targetId="calculadora"
           className="rounded-full border border-white/20 bg-white/5 px-8 py-4 text-center text-sm font-semibold text-white backdrop-blur transition-colors hover:border-white/40 hover:bg-white/10"
         >
           Calcular minha economia
-        </Link>
+        </ScrollCta>
       </div>
 
       {slides.length > 1 && (

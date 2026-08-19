@@ -6,6 +6,7 @@ import TestimonialCard from "@/components/TestimonialCard";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import HeroCarousel from "@/components/HeroCarousel";
 import HeroSlides, { type HeroSlide } from "@/components/HeroSlides";
+import ScrollCta from "@/components/ScrollCta";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
 import Reveal from "@/components/Reveal";
 import {
@@ -478,12 +479,14 @@ export default async function HomePage() {
                 Não sabe qual dos dois combina com você? Comece vendo quanto
                 economizaria — depois a gente decide junto.
               </p>
-              <Link
-                href="#calculadora"
+              <ScrollCta
+                targetId="calculadora"
+                floatWhenPassed
+                floatingLabel="Calcular minha economia"
                 className="shadow-glow-orange mt-5 inline-block rounded-full bg-brand-orange px-8 py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-brand-orange-dark"
               >
                 Calcular minha economia
-              </Link>
+              </ScrollCta>
             </div>
           </Reveal>
         </div>
@@ -523,12 +526,12 @@ export default async function HomePage() {
           <Reveal delay={480}>
             <p className="mt-7 text-center text-sm text-brand-navy/60">
               Quer ver a parcela do seu caso?{" "}
-              <Link
-                href="#calculadora"
+              <ScrollCta
+                targetId="calculadora"
                 className="font-bold text-brand-orange hover:underline"
               >
                 Simular meu financiamento →
-              </Link>
+              </ScrollCta>
             </p>
           </Reveal>
         </div>
