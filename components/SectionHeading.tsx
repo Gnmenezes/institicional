@@ -4,15 +4,20 @@ export default function SectionHeading({
   description,
   center = false,
   invert = false,
+  wide = false,
 }: {
   eyebrow?: string;
   title: string;
   description?: string;
   center?: boolean;
   invert?: boolean;
+  /** Solta a largura para títulos que ficariam melhor em uma linha só. */
+  wide?: boolean;
 }) {
   return (
-    <div className={center ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
+    <div
+      className={`${wide ? "max-w-5xl" : "max-w-2xl"} ${center ? "mx-auto text-center" : ""}`}
+    >
       {eyebrow ? (
         <span
           className={`inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] ${

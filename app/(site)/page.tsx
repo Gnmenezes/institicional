@@ -340,9 +340,10 @@ export default async function HomePage() {
           <Reveal>
             <SectionHeading
               eyebrow="Simule agora"
-              title="Quanto você economizaria por mês?"
-              description="Coloque o valor da sua conta de luz e veja uma estimativa do sistema, da economia e de quanto tempo o investimento leva pra se pagar."
+              title="Quer saber quanto você economizaria por mês?"
+              description="É só o valor da sua conta de luz. Em segundos você vê quanto sobraria no seu bolso todo mês, o sistema que atende seu consumo e em quanto tempo ele se paga."
               center
+              wide
             />
           </Reveal>
           <Reveal delay={120}>
