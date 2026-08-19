@@ -10,6 +10,8 @@ const leadSchema = z.object({
   city: z.string().trim().max(200).optional().or(z.literal("")),
   billAmount: z.string().trim().max(100).optional().or(z.literal("")),
   systemType: z.enum(["ONGRID", "HIBRIDO", "INDEFINIDO"]).optional(),
+  roofType: z.string().trim().max(120).optional().or(z.literal("")),
+  simulation: z.string().trim().max(500).optional().or(z.literal("")),
   message: z.string().trim().max(2000).optional().or(z.literal("")),
 });
 
@@ -21,7 +23,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Dados inválidos." }, { status: 400 });
   }
 
-  const { name, phone, email, city, billAmount, systemType, message } = parsed.data;
+  const { name, phone, email, city, billAmount, systemType, roofType, simulation, message } =
+    parsed.data;
 
   const lead = await prisma.lead.create({
     data: {
@@ -31,6 +34,8 @@ export async function POST(request: Request) {
       city: city || null,
       billAmount: billAmount || null,
       systemType: systemType || null,
+      roofType: roofType || null,
+      simulation: simulation || null,
       message: message || null,
     },
   });

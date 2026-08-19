@@ -14,6 +14,7 @@ type FormState = {
   email: string;
   city: string;
   billAmount: string;
+  roofType: string;
   systemType: SystemType;
   message: string;
 };
@@ -24,9 +25,20 @@ const INITIAL_STATE: FormState = {
   email: "",
   city: "",
   billAmount: "",
+  roofType: "",
   systemType: "INDEFINIDO",
   message: "",
 };
+
+/** Muda a estrutura de fixação e a mão de obra da instalação. */
+export const ROOF_TYPES = [
+  "Telha cerâmica (colonial ou romana)",
+  "Telha de fibrocimento",
+  "Telha metálica",
+  "Laje",
+  "No solo",
+  "Ainda não sei",
+];
 
 const SYSTEM_OPTIONS: { value: SystemType; label: string; hint: string }[] = [
   {
@@ -52,27 +64,42 @@ const SYSTEM_LABELS: Record<SystemType, string> = {
   INDEFINIDO: "Ainda não sei / quero orientação",
 };
 
-function buildWhatsappMessage(data: FormState) {
+function buildWhatsappMessage(data: FormState, simulation?: string) {
   const lines = [
     "Olá! Vim pelo site e gostaria de solicitar um orçamento de energia solar.",
     `Nome: ${data.name}`,
     `Telefone: ${data.phone}`,
     data.city ? `Cidade: ${data.city}` : null,
     data.billAmount ? `Valor médio da conta de luz: ${data.billAmount}` : null,
+    data.roofType ? `Telhado: ${data.roofType}` : null,
     `Tipo de sistema: ${SYSTEM_LABELS[data.systemType]}`,
+    simulation ? `Simulou no site: ${simulation}` : null,
     data.message ? `Mensagem: ${data.message}` : null,
   ];
   return lines.filter(Boolean).join("\n");
 }
 
-export default function ContactForm() {
+export default function ContactForm({
+  defaultBillAmount,
+  defaultCity,
+  simulation,
+  compact = false,
+}: {
+  defaultBillAmount?: string;
+  defaultCity?: string;
+  /** Resumo do que a pessoa simulou, quando o formulário vem da calculadora. */
+  simulation?: string;
+  /** Layout mais enxuto, para uso embutido na calculadora. */
+  compact?: boolean;
+} = {}) {
   const whatsappNumber = useWhatsappNumber();
   const searchParams = useSearchParams();
-  // A calculadora manda conta e cidade na URL, pra pessoa não digitar de novo.
+  // Conta e cidade podem vir da calculadora — por props quando o formulário
+  // está embutido nela, ou pela URL quando a pessoa chegou pelo botão.
   const [form, setForm] = useState<FormState>(() => ({
     ...INITIAL_STATE,
-    billAmount: searchParams.get("conta") ?? "",
-    city: searchParams.get("cidade") ?? "",
+    billAmount: defaultBillAmount ?? searchParams.get("conta") ?? "",
+    city: defaultCity ?? searchParams.get("cidade") ?? "",
   }));
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [whatsappUrl, setWhatsappUrl] = useState("");
@@ -89,13 +116,13 @@ export default function ContactForm() {
       const response = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, simulation }),
       });
 
       if (!response.ok) throw new Error("Falha ao enviar");
 
       // Guarda a URL antes de limpar o form: a tela de sucesso depende dela.
-      const url = buildWhatsappUrl(whatsappNumber, buildWhatsappMessage(form));
+      const url = buildWhatsappUrl(whatsappNumber, buildWhatsappMessage(form, simulation));
       setWhatsappUrl(url);
       setStatus("success");
       // Tentativa automática: funciona no desktop, mas no celular o navegador
@@ -143,7 +170,7 @@ export default function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} className={compact ? "space-y-4" : "space-y-5"}>
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="name" className="text-sm font-medium text-brand-navy">
@@ -200,17 +227,37 @@ export default function ContactForm() {
         </div>
       </div>
 
-      <div>
-        <label htmlFor="billAmount" className="text-sm font-medium text-brand-navy">
-          Valor médio da conta de luz
-        </label>
-        <input
-          id="billAmount"
-          value={form.billAmount}
-          onChange={(e) => update("billAmount", e.target.value)}
-          placeholder="Ex: R$ 350"
-          className="mt-1.5 w-full rounded-xl border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-brand-orange"
-        />
+      <div className="grid gap-5 sm:grid-cols-2">
+        <div>
+          <label htmlFor="billAmount" className="text-sm font-medium text-brand-navy">
+            Valor médio da conta de luz
+          </label>
+          <input
+            id="billAmount"
+            value={form.billAmount}
+            onChange={(e) => update("billAmount", e.target.value)}
+            placeholder="Ex: R$ 350"
+            className="mt-1.5 w-full rounded-xl border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-brand-orange"
+          />
+        </div>
+        <div>
+          <label htmlFor="roofType" className="text-sm font-medium text-brand-navy">
+            Tipo de telhado
+          </label>
+          <select
+            id="roofType"
+            value={form.roofType}
+            onChange={(e) => update("roofType", e.target.value)}
+            className="mt-1.5 w-full rounded-xl border border-black/10 bg-white px-4 py-2.5 text-sm outline-none focus:border-brand-orange"
+          >
+            <option value="">Selecione</option>
+            {ROOF_TYPES.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <fieldset>
@@ -257,7 +304,7 @@ export default function ContactForm() {
         </label>
         <textarea
           id="message"
-          rows={4}
+          rows={compact ? 3 : 4}
           value={form.message}
           onChange={(e) => update("message", e.target.value)}
           className="mt-1.5 w-full rounded-xl border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-brand-orange"

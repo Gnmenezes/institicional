@@ -65,6 +65,10 @@ model Lead {
   billAmount String?
   /** ONGRID | HIBRIDO | INDEFINIDO — o que a pessoa marcou no formulário. */
   systemType String?
+  /** Tipo de telhado, que muda estrutura e mão de obra da instalação. */
+  roofType   String?
+  /** Resumo do que a pessoa simulou na calculadora, quando veio de lá. */
+  simulation String?
   message    String?
   createdAt  DateTime @default(now())
 }

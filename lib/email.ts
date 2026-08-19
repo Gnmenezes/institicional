@@ -7,6 +7,8 @@ type LeadEmailInput = {
   city?: string | null;
   billAmount?: string | null;
   systemType?: string | null;
+  roofType?: string | null;
+  simulation?: string | null;
   message?: string | null;
 };
 
@@ -35,9 +37,11 @@ export async function sendLeadNotification(lead: LeadEmailInput) {
     lead.email ? `E-mail: ${lead.email}` : null,
     lead.city ? `Cidade: ${lead.city}` : null,
     lead.billAmount ? `Valor médio da conta de luz: ${lead.billAmount}` : null,
+    lead.roofType ? `Telhado: ${lead.roofType}` : null,
     lead.systemType
       ? `Tipo de sistema: ${SYSTEM_TYPE_LABELS[lead.systemType] ?? lead.systemType}`
       : null,
+    lead.simulation ? `Simulou no site: ${lead.simulation}` : null,
     lead.message ? `Mensagem: ${lead.message}` : null,
   ].filter(Boolean);
 

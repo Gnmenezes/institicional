@@ -41,7 +41,14 @@ export default async function AdminLeadsPage() {
                 {lead.email && <span>✉️ {lead.email}</span>}
                 {lead.city && <span>📍 {lead.city}</span>}
                 {lead.billAmount && <span>💡 Conta média: {lead.billAmount}</span>}
+                {lead.roofType && <span>🏠 {lead.roofType}</span>}
               </div>
+              {lead.simulation && (
+                <p className="mt-3 rounded-xl border border-brand-orange/25 bg-brand-orange-light p-3 text-xs leading-relaxed text-brand-navy/70">
+                  <span className="font-semibold text-brand-navy">Simulou no site:</span>{" "}
+                  {lead.simulation}
+                </p>
+              )}
               {lead.message && (
                 <p className="mt-3 rounded-xl bg-brand-navy-light p-3 text-sm text-brand-navy/70">
                   {lead.message}

@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import Link from "next/link";
+import { Suspense, useMemo, useState } from "react";
+import ContactForm from "@/components/ContactForm";
 import {
   type CityOption,
   MINIMUM_BILL,
@@ -46,6 +46,15 @@ export default function SavingsCalculator({
   }, [billValue, city, ratesByTerm, defaultRate, cities]);
 
   const bestCovered = result?.options.filter((o) => o.coveredBySavings).at(0);
+
+  // Vai junto com o lead: assim a Sumart sabe o que a pessoa viu no site.
+  const simulationSummary = result
+    ? `conta de ${formatBRL(billValue)} em ${city} · sistema de ${result.estimate.kwp
+        .toFixed(2)
+        .replace(".", ",")} kWp (${result.estimate.panels} placas) · economia estimada de ${formatBRL(
+        result.estimate.monthlySavings
+      )}/mês · investimento estimado de ${formatBRL(result.estimate.investment)}`
+    : undefined;
 
   return (
     <div className="mx-auto max-w-4xl">
@@ -245,16 +254,25 @@ export default function SavingsCalculator({
               </p>
             </div>
 
-            <div className="mt-8 flex flex-col gap-3 border-t border-black/5 pt-7 sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-sm text-brand-navy/60">
+            <div className="mt-9 border-t border-black/5 pt-8">
+              <h3 className="text-lg font-extrabold text-brand-navy sm:text-xl">
                 Quer o número exato para o seu telhado?
+              </h3>
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-brand-navy/60">
+                Esta é uma estimativa. Preencha abaixo e a gente faz a visita
+                técnica e o estudo de economia sem custo, com os números reais do
+                seu consumo e da sua cobertura.
               </p>
-              <Link
-                href={`/contato?conta=${encodeURIComponent(bill)}&cidade=${encodeURIComponent(city)}#formulario`}
-                className="shadow-glow-orange rounded-full bg-brand-orange px-7 py-3.5 text-center text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-brand-orange-dark"
-              >
-                Quero meu estudo gratuito
-              </Link>
+              <div className="mt-6">
+                <Suspense fallback={<div className="h-96" />}>
+                  <ContactForm
+                    compact
+                    defaultBillAmount={bill}
+                    defaultCity={city === OTHER_CITY ? "" : city}
+                    simulation={simulationSummary}
+                  />
+                </Suspense>
+              </div>
             </div>
           </div>
         )}
