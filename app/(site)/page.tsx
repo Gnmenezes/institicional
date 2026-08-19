@@ -79,16 +79,16 @@ const PAIN_MOMENTS = [
 
 const INVESTMENT_POINTS = [
   {
-    title: "Economia todo mês",
-    text: "Sua conta de luz cai já a partir da primeira fatura depois da instalação.",
+    title: "Economia desde a primeira conta",
+    text: "Nos dois sistemas, sua conta de luz já cai na primeira fatura depois da instalação.",
   },
   {
-    title: "O sistema se paga",
-    text: "Com o tempo, a economia acumulada cobre o valor investido no projeto.",
+    title: "O on-grid se paga antes",
+    text: "É o de menor investimento, então a economia acumulada cobre o valor aplicado mais rápido.",
   },
   {
-    title: "Rende por décadas",
-    text: "Depois de se pagar, o sistema segue gerando economia e autonomia.",
+    title: "O híbrido não deixa no escuro",
+    text: "Custa um pouco mais por causa da bateria — e em troca sua casa continua funcionando quando a rede cai.",
   },
 ];
 
@@ -258,8 +258,8 @@ export default async function HomePage() {
           <Reveal>
             <SectionHeading
               eyebrow="A dor é real"
-              title="Os momentos que você não pode perder"
-              description="É nesses momentos que a falta de energia dói mais."
+              title="Os momentos que o sistema híbrido não deixa você perder"
+              description="É nessas horas que a falta de energia dói mais — e é exatamente nelas que a bateria mantém sua casa funcionando."
               center
             />
           </Reveal>
@@ -295,7 +295,7 @@ export default async function HomePage() {
             <SectionHeading
               eyebrow="Não é gasto, é investimento"
               title="Seu sistema se paga — e depois continua rendendo"
-              description="Além de acabar com a preocupação de ficar no escuro, o sistema reduz sua conta de luz todos os meses. Com o tempo, o valor investido se paga sozinho."
+              description="Os dois sistemas reduzem sua conta todos os meses e se pagam com o tempo. O que muda é o caminho: o on-grid chega lá mais rápido, porque custa menos; o híbrido pede um pouco mais e entrega junto a tranquilidade de nunca ficar no escuro."
               center
             />
           </Reveal>
