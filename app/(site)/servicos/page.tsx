@@ -5,6 +5,12 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import HybridSystemIllustration from "@/components/illustrations/HybridSystemIllustration";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
 import { getVideos } from "@/lib/data";
+import {
+  INSTALLED_KWP_FLOOR,
+  PROJECTS_FLOOR,
+  RESPONSE_TIME,
+  getYearsInBusiness,
+} from "@/lib/company";
 
 export const metadata: Metadata = {
   title: "Serviços",
@@ -12,128 +18,120 @@ export const metadata: Metadata = {
     "Sistemas híbridos de energia solar com armazenamento em bateria, instalação residencial, comercial, industrial e rural, além de manutenção e monitoramento.",
 };
 
-const SERVICES = [
+/**
+ * Perfis de cliente — e não tipos de sistema.
+ *
+ * A versão anterior misturava os dois eixos: "sistemas híbridos" aparecia como
+ * alternativa a "instalação residencial", mas uma casa pode ter híbrido. Aqui a
+ * pessoa se localiza pelo que ela é, e a escolha entre híbrido e on-grid
+ * aparece uma vez só, antes da lista.
+ */
+const AUDIENCES = [
   {
-    title: "Sistemas híbridos com bateria",
-    highlight: true,
+    title: "Para a sua casa",
     description:
-      "A solução mais completa: gera energia solar, armazena o excedente em bateria e usa quando você precisar — inclusive durante quedas na rede elétrica. Ideal para quem quer economia e mais autonomia.",
-    items: [
-      "Armazenamento em bateria para uso a qualquer hora",
-      "Energia disponível mesmo em quedas de energia",
-      "Dimensionamento do banco de baterias conforme sua necessidade",
-      "Instalação por equipe especializada em sistemas híbridos",
-    ],
-  },
-  {
-    title: "Instalação residencial",
-    description:
-      "Projeto e instalação de sistemas fotovoltaicos para casas e apartamentos, híbridos com bateria ou convencionais com microinversores, dimensionados para o seu consumo médio de energia.",
+      "Casas e apartamentos, com bateria ou sem. A conta cai já na primeira fatura depois da instalação.",
     items: [
       "Visita técnica e análise do telhado",
-      "Dimensionamento do sistema conforme consumo",
-      "Instalação híbrida (com bateria) ou convencional (microinversores)",
-      "Homologação junto à distribuidora de energia",
+      "Dimensionamento pelo seu histórico de consumo",
+      "Homologação junto à distribuidora",
     ],
   },
   {
-    title: "Comercial e industrial",
+    title: "Para a sua empresa",
     description:
-      "Sistemas de maior porte para empresas, indústrias e comércios que buscam reduzir custos de energia, ganhar previsibilidade no orçamento e, com bateria, evitar perdas em quedas de energia.",
+      "Comércio, indústria e prestadores de serviço. Além da economia, entra previsibilidade de custo no orçamento.",
     items: [
       "Estudo de viabilidade e retorno do investimento",
-      "Projetos de médio e grande porte, com ou sem bateria",
-      "Instalação em telhados, estruturas metálicas ou solo",
-      "Acompanhamento da geração de energia",
+      "Projetos de médio e grande porte",
+      "Telhado, estrutura metálica ou solo",
     ],
   },
   {
-    title: "Rural",
+    title: "Para a sua propriedade rural",
     description:
-      "Soluções para propriedades rurais, incluindo geração de energia para a sede, sistemas híbridos com bateria e bombeamento solar.",
+      "Sede, irrigação e abastecimento — inclusive onde o fornecimento da rede é instável.",
     items: [
-      "Geração de energia para propriedades remotas",
-      "Sistemas híbridos para regiões com fornecimento instável",
-      "Bombeamento solar para irrigação e abastecimento",
-      "Sistemas adaptados à realidade do campo",
-    ],
-  },
-  {
-    title: "Manutenção e monitoramento",
-    description:
-      "Acompanhamento pós-instalação para garantir que o seu sistema — híbrido ou convencional — continue gerando e armazenando energia com o desempenho esperado.",
-    items: [
-      "Revisão periódica de painéis, inversores e baterias",
-      "Monitoramento de geração e armazenamento de energia",
-      "Suporte técnico em caso de falhas",
-      "Troca ou upgrade de microinversores e baterias",
+      "Geração para propriedades remotas",
+      "Bombeamento solar para irrigação",
+      "Híbrido para regiões com queda frequente",
     ],
   },
 ];
 
 export default async function ServicosPage() {
   const videos = await getVideos();
+  const stats = [
+    { value: `+${PROJECTS_FLOOR}`, label: "obras entregues" },
+    { value: `+${INSTALLED_KWP_FLOOR.toLocaleString("pt-BR")}`, label: "kWp instalados" },
+    { value: `${getYearsInBusiness()} anos`, label: "de mercado" },
+    { value: RESPONSE_TIME, label: "para responder" },
+  ];
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
       <SectionHeading
         eyebrow="Serviços"
-        title="Sistemas híbridos e soluções sob medida"
-        description="Do armazenamento em bateria ao suporte pós-venda, cuidamos de todas as etapas do seu sistema de energia solar."
+        title="O que a gente faz pelo seu telhado"
+        description="Do primeiro cálculo à homologação na distribuidora — e continuamos por perto depois que o sistema está gerando."
+        wide
       />
 
-      <div className="mt-12 space-y-6">
-        {SERVICES.map((service) => (
-          <div
-            key={service.title}
-            className={`grid gap-6 rounded-2xl border p-8 md:grid-cols-[1fr_1.4fr] ${
-              service.highlight
-                ? "border-brand-orange/30 bg-brand-orange-light"
-                : "border-black/5"
-            }`}
-          >
-            <div>
-              {service.highlight && (
-                <>
-                  <span className="mb-2 inline-block rounded-full bg-brand-orange px-3 py-1 text-xs font-semibold text-white">
-                    Em destaque
-                  </span>
-                  <HybridSystemIllustration className="my-3 h-28 w-auto" />
-                </>
-              )}
-              <h2 className="text-xl font-bold text-brand-navy">{service.title}</h2>
-              <p className="mt-3 text-sm leading-relaxed text-brand-navy/60">
-                {service.description}
-              </p>
-            </div>
-            <ul className="grid gap-2 self-center sm:grid-cols-2">
-              {service.items.map((item) => (
-                <li key={item} className="flex items-start gap-2 text-sm text-brand-navy/80">
-                  <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-orange" />
-                  {item}
-                </li>
-              ))}
-            </ul>
+      {/* Quem chega aqui pelo Google não passou pela home: os números da
+          empresa precisam existir nesta página também. */}
+      <div className="mt-9 grid grid-cols-2 gap-6 border-y border-black/5 py-7 md:grid-cols-4">
+        {stats.map((stat) => (
+          <div key={stat.label} className="text-center">
+            <span className="block text-2xl font-extrabold text-brand-navy sm:text-3xl">
+              {stat.value}
+            </span>
+            <span className="mt-0.5 block text-xs text-brand-navy/55">{stat.label}</span>
           </div>
         ))}
       </div>
 
-      <div id="elevador" className="mt-16 scroll-mt-24 rounded-2xl border border-brand-orange/30 bg-brand-orange-light p-8 sm:p-10">
-        <span className="inline-block rounded-full bg-brand-orange px-3 py-1 text-xs font-semibold text-white">
-          Nosso diferencial
-        </span>
-        <h2 className="mt-3 text-2xl font-bold text-brand-navy">
-          Instalação com elevador de placas
-        </h2>
-        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-brand-navy/70">
-          Usamos um elevador próprio para subir os painéis solares até o telhado —
-          mais segurança para a equipe, menos risco de dano aos equipamentos durante
-          o transporte, e uma instalação mais ágil. É um jeito de trabalhar que poucas
-          instaladoras da região oferecem.
-        </p>
+      {/* ---------- A ESCOLHA ---------- */}
+      <div className="mt-14 grid items-center gap-8 rounded-3xl border border-brand-orange/30 bg-brand-orange-light p-8 sm:p-10 md:grid-cols-[1.3fr_1fr]">
+        <div>
+          <span className="inline-block rounded-full bg-brand-orange px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-white">
+            Nossa especialidade
+          </span>
+          <h2 className="mt-4 text-2xl font-extrabold text-brand-navy sm:text-3xl">
+            Com bateria ou sem: os dois somos nós
+          </h2>
+          <p className="mt-3 text-sm leading-relaxed text-brand-navy/75 sm:text-base">
+            O <strong className="font-semibold text-brand-navy">on-grid</strong> é o
+            caminho de menor investimento e o que se paga mais rápido. O{" "}
+            <strong className="font-semibold text-brand-navy">híbrido</strong> guarda
+            energia em bateria e mantém sua casa funcionando quando a rede cai — é a
+            nossa especialidade, e o que poucas instaladoras da região dominam.
+          </p>
+          <p className="mt-3 text-sm leading-relaxed text-brand-navy/60">
+            Qual faz mais sentido depende do seu consumo e de quanto a falta de luz
+            te atrapalha. A gente decide isso junto, na visita técnica.
+          </p>
+          <Link
+            href="/#calculadora"
+            className="mt-6 inline-flex items-center gap-1.5 text-sm font-bold text-brand-orange hover:gap-2.5"
+          >
+            Ver quanto eu economizaria
+            <span className="transition-all">→</span>
+          </Link>
+        </div>
+        <HybridSystemIllustration className="mx-auto h-36 w-auto md:h-44" />
+      </div>
+
+      {/* ---------- DIFERENCIAL ---------- */}
+      <div id="elevador" className="mt-14 scroll-mt-24">
+        <SectionHeading
+          eyebrow="Nosso diferencial"
+          title="Instalação com elevador de placas"
+          description="Um elevador próprio sobe os painéis até o telhado. Menos risco de quebrar suas telhas, menos risco de dano ao equipamento e obra mais rápida — um jeito de trabalhar que poucas instaladoras da região oferecem."
+          wide
+        />
 
         {videos.length > 0 ? (
-          <div className="mt-8 grid gap-6 sm:grid-cols-2">
+          <div className={`mt-8 grid gap-6 ${videos.length > 1 ? "sm:grid-cols-2" : "mx-auto max-w-xs"}`}>
             {videos.map((video) => (
               <div key={video.id}>
                 <YouTubeEmbed youtubeId={video.youtubeId} title={video.title} />
@@ -142,25 +140,79 @@ export default async function ServicosPage() {
             ))}
           </div>
         ) : (
-          <p className="mt-8 text-sm text-brand-navy/50">
+          <p className="mt-6 text-sm text-brand-navy/50">
             Vídeos do elevador em ação chegando em breve.
           </p>
         )}
       </div>
 
-      <div className="mt-16 flex flex-col items-center gap-4 rounded-2xl bg-brand-navy-light p-10 text-center">
-        <h2 className="text-2xl font-bold text-brand-navy">
-          Não sabe se o sistema híbrido é pra você?
+      {/* ---------- PARA QUEM ---------- */}
+      <div className="mt-14">
+        <SectionHeading
+          eyebrow="Para quem instalamos"
+          title="Cada telhado tem um projeto diferente"
+          wide
+        />
+        <div className="mt-8 grid gap-5 md:grid-cols-3">
+          {AUDIENCES.map((audience) => (
+            <div
+              key={audience.title}
+              className="shadow-brand flex h-full flex-col rounded-2xl bg-white p-7"
+            >
+              <h3 className="text-lg font-bold text-brand-navy">{audience.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-brand-navy/60">
+                {audience.description}
+              </p>
+              <ul className="mt-5 space-y-2 border-t border-black/5 pt-5">
+                {audience.items.map((item) => (
+                  <li
+                    key={item}
+                    className="flex items-start gap-2 text-sm text-brand-navy/75"
+                  >
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-orange" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ---------- DEPOIS DA OBRA ---------- */}
+      <div className="mt-14 rounded-2xl bg-brand-navy-light p-8 sm:p-10">
+        <h2 className="text-xl font-extrabold text-brand-navy sm:text-2xl">
+          A gente não some depois que a obra acaba
         </h2>
-        <p className="max-w-xl text-sm text-brand-navy/60">
-          Fale com a gente e receba uma recomendação personalizada, sem compromisso.
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-brand-navy/70">
+          Seguimos disponíveis para revisão de painéis, inversores e baterias,
+          acompanhamento da geração, suporte quando algo falha e upgrade de
+          equipamento quando seu consumo cresce.
+        </p>
+      </div>
+
+      {/* ---------- FECHAMENTO ---------- */}
+      <div className="mt-14 flex flex-col items-center gap-4 rounded-2xl border border-black/5 p-10 text-center">
+        <h2 className="text-2xl font-extrabold text-brand-orange sm:text-3xl">
+          Vamos ver os números do seu caso?
+        </h2>
+        <p className="max-w-xl text-sm leading-relaxed text-brand-navy/65">
+          A visita técnica e o estudo de economia são sem custo e sem compromisso —
+          seja para on-grid ou híbrido. Se preferir começar sozinho, a calculadora dá
+          uma estimativa em segundos.
         </p>
         <div className="mt-2 flex flex-col gap-3 sm:flex-row">
           <Link
             href="/contato"
-            className="rounded-full bg-brand-orange px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-orange-dark"
+            className="shadow-glow-orange rounded-full bg-brand-orange px-7 py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-brand-orange-dark"
           >
-            Solicitar orçamento gratuito
+            Solicitar meu orçamento
+          </Link>
+          <Link
+            href="/#calculadora"
+            className="rounded-full border border-brand-navy/15 bg-white px-7 py-3.5 text-sm font-semibold text-brand-navy transition-colors hover:border-brand-orange hover:text-brand-orange"
+          >
+            Calcular minha economia
           </Link>
           <WhatsAppButton className="rounded-full border border-brand-navy/15 bg-white px-7 py-3.5 text-sm font-semibold text-brand-navy transition-colors hover:border-brand-orange hover:text-brand-orange">
             Falar no WhatsApp
