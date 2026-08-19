@@ -29,21 +29,23 @@ export default function HeroSlides({ slides }: { slides: HeroSlide[] }) {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced) return;
 
-    const timer = window.setInterval(() => {
+    // Depende de `index` de propósito: assim a contagem reinicia depois de
+    // cada troca, inclusive quando a pessoa escolhe um slide pelos pontos.
+    const timer = window.setTimeout(() => {
       setIndex((current) => (current + 1) % slides.length);
     }, INTERVAL_MS);
-    return () => window.clearInterval(timer);
-  }, [slides.length, paused]);
+    return () => window.clearTimeout(timer);
+  }, [slides.length, paused, index]);
 
 
 
   return (
     <div
       ref={containerRef}
-      // Parar enquanto a pessoa lê ou usa o teclado evita o texto sumir
-      // no meio da leitura.
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
+      // Sem pausa por hover: o hero ocupa quase a tela inteira, então o
+      // cursor quase sempre está sobre ele e o carrossel nunca passava.
+      // A pausa por foco fica, porque aí alguém está mesmo navegando pelo
+      // teclado e perderia o contexto se o conteúdo trocasse embaixo.
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={(event) => {
         if (!containerRef.current?.contains(event.relatedTarget as Node)) setPaused(false);
