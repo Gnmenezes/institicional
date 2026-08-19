@@ -44,10 +44,54 @@ export default function ScrollCta({
     if (!target) return;
     event.preventDefault();
 
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    target.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
-    // Mantém o endereço compartilhável sem provocar um segundo salto.
+    // Animação própria em vez de scrollIntoView({behavior:"smooth"}): o CSS
+    // define scroll-behavior: smooth no html, e com isso cada window.scrollTo
+    // vira uma nova rolagem suave que briga com a anterior. Aqui cada quadro
+    // salta de propósito ("instant") e a suavidade vem da curva.
+    const header = 80; // compensa o cabeçalho fixo
+    const destino = Math.max(
+      0,
+      Math.round(target.getBoundingClientRect().top + window.scrollY - header)
+    );
+    const inicio = window.scrollY;
+    const distancia = destino - inicio;
+    if (Math.abs(distancia) < 4) return;
+
     history.replaceState(null, "", `#${targetId}`);
+
+    // Quem pede menos movimento recebe uma rolagem curta, e não um salto:
+    // sem nenhuma animação a pessoa perde a noção de onde a página foi parar.
+    const reduzido = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const duracao = reduzido
+      ? 260
+      : Math.min(1400, Math.max(550, Math.abs(distancia) * 0.22));
+
+    let cancelado = false;
+    const cancelar = () => {
+      cancelado = true;
+    };
+    // Se a pessoa rolar no meio do caminho, a animação sai do caminho dela.
+    window.addEventListener("wheel", cancelar, { passive: true, once: true });
+    window.addEventListener("touchstart", cancelar, { passive: true, once: true });
+
+    const partida = performance.now();
+    const suavizar = (t: number) =>
+      t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+    function quadro(agora: number) {
+      if (cancelado) return;
+      const t = Math.min(1, (agora - partida) / duracao);
+      window.scrollTo({
+        top: inicio + distancia * suavizar(t),
+        behavior: "instant" as ScrollBehavior,
+      });
+      if (t < 1) requestAnimationFrame(quadro);
+      else {
+        window.removeEventListener("wheel", cancelar);
+        window.removeEventListener("touchstart", cancelar);
+      }
+    }
+    requestAnimationFrame(quadro);
   }
 
   useEffect(() => {
