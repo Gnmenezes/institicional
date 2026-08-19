@@ -268,13 +268,18 @@ export default function SavingsCalculator({
             </div>
 
             <div className="mt-9 border-t border-black/5 pt-8">
-              <h3 className="text-lg font-extrabold text-brand-navy sm:text-xl">
-                Quer o número exato para o seu telhado?
+              <span className="text-xs font-bold uppercase tracking-[0.18em] text-brand-orange/70">
+                Próximo passo
+              </span>
+              <h3 className="mt-2 text-2xl font-extrabold leading-tight text-brand-orange sm:text-3xl">
+                Solicite agora seu orçamento gratuito
               </h3>
-              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-brand-navy/60">
-                Esta é uma estimativa. Preencha abaixo e a gente faz a visita
-                técnica e o estudo de economia sem custo, com os números reais do
-                seu consumo e da sua cobertura.
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-brand-navy/70 sm:text-base">
+                Agora que você já tem uma ideia dos valores, falta o passo que
+                transforma isso em realidade: os números do{" "}
+                <strong className="font-semibold text-brand-navy">seu</strong> telhado
+                e do seu consumo. Preencha abaixo — a visita técnica e o estudo de
+                economia são gratuitos e sem compromisso.
               </p>
               <div className="mt-6">
                 <Suspense fallback={<div className="h-96" />}>
