@@ -204,10 +204,9 @@ export default function SavingsCalculator({
 
             {result.estimate.oversized && (
               <p className="mt-6 rounded-xl bg-brand-navy-light p-4 text-sm leading-relaxed text-brand-navy/70">
-                Sua conta é menor que o consumo do nosso menor sistema, então ele
-                geraria mais energia do que você usa hoje. Ainda compensa se você
-                pretende aumentar o consumo — carro elétrico, ar-condicionado,
-                uma obra. Vale conversar antes de decidir.
+                O menor sistema que instalamos já gera mais do que você consome
+                hoje — o tamanho acima é esse mínimo, e sobra geração para quando
+                o consumo crescer.
               </p>
             )}
 

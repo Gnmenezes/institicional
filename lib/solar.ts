@@ -329,8 +329,16 @@ export function formatPayback(years: number) {
  */
 export type BillProfile = "PEQUENO" | "RESIDENCIAL" | "ALTO" | "COMERCIAL";
 
+/**
+ * Acima desta conta o consumo já justifica mais que o sistema mínimo.
+ * Sai das mesmas constantes do dimensionamento para os dois nunca
+ * discordarem — antes o perfil dizia "faixa que mais instalamos" enquanto o
+ * resultado avisava que o mínimo já geraria demais.
+ */
+export const SMALL_BILL_CEILING = MIN_KWP * DEFAULT_GENERATION * TARIFF;
+
 export function profileForBill(monthlyBill: number): BillProfile {
-  if (monthlyBill < 300) return "PEQUENO";
+  if (monthlyBill < SMALL_BILL_CEILING) return "PEQUENO";
   if (monthlyBill < 1000) return "RESIDENCIAL";
   if (monthlyBill < 2500) return "ALTO";
   return "COMERCIAL";
@@ -338,12 +346,12 @@ export function profileForBill(monthlyBill: number): BillProfile {
 
 export const PROFILE_MESSAGES: Record<BillProfile, { title: string; text: string }> = {
   PEQUENO: {
-    title: "Sua conta está entre as menores que atendemos",
-    text: "O retorno aqui é mais lento, porque sobra pouco para economizar. Se o consumo vai crescer — obra, carro elétrico, ar-condicionado —, vale dimensionar já pensando nisso.",
+    title: "No seu caso, o híbrido tende a valer mais que a economia",
+    text: "Com uma conta baixa, o retorno só pela economia demora mais. Mas o híbrido funciona como um gerador que não faz barulho, não consome combustível e não precisa ser ligado na mão quando a luz cai — e que, diferente de um gerador, ainda derruba sua conta todo mês.",
   },
   RESIDENCIAL: {
-    title: "É a faixa mais comum entre as casas que atendemos",
-    text: "Nessa faixa o sistema costuma se pagar rápido, e depois disso a economia continua sobrando todo mês.",
+    title: "É a faixa que mais instalamos",
+    text: "Aqui a conta de luz costuma cair quase por completo: sobra praticamente só o mínimo que a distribuidora cobra de qualquer jeito.",
   },
   ALTO: {
     title: "Sua conta está acima da média residencial",
