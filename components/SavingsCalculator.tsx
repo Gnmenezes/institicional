@@ -275,11 +275,12 @@ export default function SavingsCalculator({
                 Solicite agora seu orçamento personalizado
               </h3>
               <p className="mt-3 max-w-2xl text-sm leading-relaxed text-brand-navy/70 sm:text-base">
-                Agora que você já tem uma ideia dos valores, falta o passo que
-                transforma isso em realidade: os números do{" "}
-                <strong className="font-semibold text-brand-navy">seu</strong> telhado
-                e do seu consumo. Preencha abaixo — a visita técnica e o estudo de
-                economia são gratuitos e sem compromisso.
+                Agora que você já tem uma ideia de quanto custa um{" "}
+                <strong className="font-semibold text-brand-navy">sistema on-grid</strong>{" "}
+                — um valor médio, tirado de projetos que já instalamos —, o próximo
+                passo é o número exato do seu caso. Preencha os dados abaixo e a gente
+                monta seu orçamento personalizado, seja on-grid ou híbrido, sem custo
+                e sem compromisso.
               </p>
               <div className="mt-6">
                 <Suspense fallback={<div className="h-96" />}>
