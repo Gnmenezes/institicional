@@ -5,6 +5,7 @@ import ProjectCard from "@/components/ProjectCard";
 import TestimonialCard from "@/components/TestimonialCard";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import HeroCarousel from "@/components/HeroCarousel";
+import HeroSlides, { type HeroSlide } from "@/components/HeroSlides";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
 import Reveal from "@/components/Reveal";
 import { SunPanelIcon, BatteryIcon, HomeUsageIcon } from "@/components/illustrations/SolarIcons";
@@ -25,6 +26,29 @@ import { getFinancingRate } from "@/lib/settings";
 import SavingsCalculator from "@/components/SavingsCalculator";
 
 const HERO_TRUST = ["Equipe capacitada", "Projeto sob medida", "Suporte pós-instalação"];
+
+const HERO_SLIDES: HeroSlide[] = [
+  {
+    eyebrow: "Sistemas híbridos com baterias",
+    title: "A luz caiu bem na hora do jogo?",
+    titleHighlight: "Ou no meio da ceia de Natal?",
+    paragraphs: [
+      "Todo mundo já passou por isso: a energia falta justo no jogo decisivo, na virada de Ano Novo ou no jantar em família — e a festa acaba no escuro.",
+      "Com um sistema híbrido de energia solar, isso não acontece mais. Sua casa continua com luz nos momentos que mais importam, mesmo com a rede caída.",
+    ],
+  },
+  {
+    eyebrow: "On-grid com microinversores",
+    title: "E se a economia da conta de luz",
+    // A promessa fica em "ajuda a pagar": a economia só cobre a parcela
+    // inteira acima de uma certa conta, e a calculadora mostra caso a caso.
+    titleHighlight: "ajudasse a pagar o sistema?",
+    paragraphs: [
+      "O sistema on-grid é a opção de menor investimento: gera energia durante o dia e abate direto na sua conta, já a partir da primeira fatura depois da instalação.",
+      "Como a conta cai todo mês, essa economia ajuda a cobrir a parcela do financiamento — e em muitos casos cobre ela inteira. Simule a sua e veja o número do seu caso.",
+    ],
+  },
+];
 
 const PAIN_MOMENTS = [
   {
@@ -180,45 +204,9 @@ export default async function HomePage() {
 
         <div className="relative mx-auto grid max-w-6xl gap-12 px-4 py-10 sm:px-6 md:grid-cols-[1.05fr_0.95fr] md:items-center md:py-14">
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-white/90 backdrop-blur">
-              <span className="h-1.5 w-1.5 rounded-full bg-brand-orange" />
-              Sistemas híbridos com baterias
-            </span>
+            <HeroSlides slides={HERO_SLIDES} />
 
-            <h1 className="mt-6 text-[2.6rem] font-extrabold leading-[1.08] tracking-tight text-white sm:text-6xl">
-              A luz caiu bem na hora do jogo?{" "}
-              <span className="text-gradient-orange">Ou no meio da ceia de Natal?</span>
-            </h1>
-
-            <div className="mt-6 max-w-xl space-y-4 text-lg leading-relaxed text-white/70">
-              <p>
-                Todo mundo já passou por isso: a energia falta justo no jogo
-                decisivo, na virada de Ano Novo ou no jantar em família — e a
-                festa acaba no escuro.
-              </p>
-              <p>
-                Com um sistema híbrido de energia solar, isso não acontece
-                mais. Sua casa continua com luz nos momentos que mais importam,
-                mesmo com a rede caída.
-              </p>
-            </div>
-
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <Link
-                href="/contato"
-                className="shadow-glow-orange rounded-full bg-brand-orange px-8 py-4 text-center text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-brand-orange-dark"
-              >
-                Solicitar orçamento gratuito
-              </Link>
-              <Link
-                href="#calculadora"
-                className="rounded-full border border-white/20 bg-white/5 px-8 py-4 text-center text-sm font-semibold text-white backdrop-blur transition-colors hover:border-white/40 hover:bg-white/10"
-              >
-                Calcular minha economia
-              </Link>
-            </div>
-
-            <ul className="mt-9 flex flex-wrap gap-x-6 gap-y-3 border-t border-white/10 pt-6">
+            <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-3 border-t border-white/10 pt-6">
               {HERO_TRUST.map((item) => (
                 <li key={item} className="flex items-center gap-2 text-sm text-white/60">
                   <svg viewBox="0 0 20 20" className="h-4 w-4 text-brand-orange" fill="currentColor" aria-hidden="true">
