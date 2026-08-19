@@ -4,6 +4,8 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import {
   type CityOption,
+  MINIMUM_BILL,
+  MIN_BILLED_KWH,
   estimateSystem,
   financingOptions,
   formatBRL,
@@ -94,7 +96,26 @@ export default function SavingsCalculator({
           </p>
         )}
 
-        {result && (
+        {result?.estimate.atMinimumBill && (
+          <div className="mt-8 border-t border-black/5 pt-8">
+            <h3 className="text-base font-bold text-brand-navy">
+              Com essa conta, o sistema não se paga
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-brand-navy/70">
+              Mesmo gerando toda a energia que você usa, a distribuidora continua
+              cobrando o custo de disponibilidade ({MIN_BILLED_KWH} kWh) mais a
+              iluminação pública — cerca de {formatBRL(MINIMUM_BILL)} por mês. Sobra
+              pouco para economizar, e o investimento levaria mais tempo para se
+              pagar do que a vida útil do sistema.
+            </p>
+            <p className="mt-3 text-sm leading-relaxed text-brand-navy/70">
+              Se o seu consumo vai crescer — obra, carro elétrico, ar-condicionado
+              — vale conversar. A gente dimensiona pensando no consumo futuro.
+            </p>
+          </div>
+        )}
+
+        {result && !result.estimate.atMinimumBill && (
           <div className="mt-8 border-t border-black/5 pt-8">
             <div className="grid gap-6 sm:grid-cols-3">
               <div>

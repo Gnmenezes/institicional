@@ -10,7 +10,9 @@
  */
 import {
   BLOCK_KWP,
+  MINIMUM_BILL,
   MIN_KWP,
+  monthlySavingsFor,
   PANELS_PER_INVERTER,
   PANEL_WP,
   REFERENCE_HSP,
@@ -90,6 +92,28 @@ if (generationFromHsp(5.2) <= generationFromHsp(4.6)) fail("HSP maior deveria ge
 if (generationFromHsp(0) !== 115.2 || generationFromHsp(Number.NaN) !== 115.2)
   fail("HSP inválido deveria cair no padrão de Juiz de Fora");
 console.log("OK");
+
+console.log("\n== Economia respeita a conta mínima ==");
+for (const q of [
+  { bill: 634.35, savings: 545.84, label: "Ailson" },
+  { bill: 2306.72, savings: 1984.89, label: "padaria" },
+]) {
+  const got = monthlySavingsFor(q.bill);
+  const errPct = Math.abs((got - q.savings) / q.savings) * 100;
+  if (errPct > 0.5)
+    fail(`${q.label}: economia ${got.toFixed(2)} vs ${q.savings} (${errPct.toFixed(2)}%)`);
+}
+// Nunca pode sobrar uma fatura menor que o mínimo faturável.
+for (const bill of [90, 100, 120, 150, 200, 300, 500, 700, 1500]) {
+  const residual = bill - monthlySavingsFor(bill);
+  if (residual < MINIMUM_BILL - 1e-6)
+    fail(`conta ${bill}: sobraria fatura de ${residual.toFixed(2)}, abaixo do mínimo`);
+}
+// Conta no mínimo ou abaixo não gera economia nenhuma.
+for (const bill of [40, 70, MINIMUM_BILL]) {
+  if (monthlySavingsFor(bill) !== 0) fail(`conta ${bill} não deveria gerar economia`);
+}
+console.log("OK     residual nunca abaixo do mínimo, e propostas reproduzidas");
 
 console.log("\n== Dimensionamento sai em blocos de 4 placas ==");
 for (const bill of [150, 260, 400, 600, 900, 1500, 2400]) {

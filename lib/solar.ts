@@ -14,6 +14,37 @@ export const TARIFF = 1.15;
  */
 export const SAVINGS_SHARE = 0.86;
 
+/**
+ * Consumo mínimo faturado (custo de disponibilidade) de uma ligação bifásica.
+ * A distribuidora cobra isso mesmo que o sistema gere tudo o que a casa usa.
+ */
+export const MIN_BILLED_KWH = 50;
+
+/** Contribuição de iluminação pública. Varia por município. */
+export const PUBLIC_LIGHTING_FEE = 31;
+
+/**
+ * Conta que sobra por menor que seja a fatura — nenhum sistema elimina.
+ * Confere com a proposta real do Ailson, cuja conta final ficou em R$ 88,50.
+ */
+export const MINIMUM_BILL = MIN_BILLED_KWH * TARIFF + PUBLIC_LIGHTING_FEE;
+
+/**
+ * Economia mensal de fato.
+ *
+ * Os 86% sozinhos quebram em conta pequena: numa conta de R$ 100 dariam R$ 86
+ * de economia, deixando uma fatura de R$ 14 — abaixo do mínimo que a
+ * distribuidora cobra. Por isso vale a menor das duas regras, o que também
+ * reproduz as propostas reais (nelas os 86% mandam, porque as contas são
+ * grandes o bastante).
+ */
+/** Vida útil considerada do sistema. Acima disso o retorno não se realiza. */
+export const USEFUL_LIFE_YEARS = 25;
+
+export function monthlySavingsFor(monthlyBill: number) {
+  return Math.max(0, Math.min(monthlyBill * SAVINGS_SHARE, monthlyBill - MINIMUM_BILL));
+}
+
 // A geração de cada cidade sai do HSP local (tabela City no banco), mas
 // ancorada na realidade: em Juiz de Fora os orçamentos reais dão 115,2
 // kWh/kWp/mês, e é esse o ponto fixo. As demais cidades escalam pela razão
@@ -170,6 +201,8 @@ export type SystemEstimate = {
   paybackYears: number;
   /** Verdadeiro quando o consumo é menor que o do sistema mínimo. */
   oversized: boolean;
+  /** Verdadeiro quando a conta já está no mínimo faturável. */
+  atMinimumBill: boolean;
 };
 
 /**
@@ -188,7 +221,7 @@ export function estimateSystem(monthlyBill: number, hsp?: number | null): System
   const kwp = blocks * BLOCK_KWP;
 
   const investment = estimatePrice(kwp);
-  const monthlySavings = monthlyBill * SAVINGS_SHARE;
+  const monthlySavings = monthlySavingsFor(monthlyBill);
 
   return {
     kwp,
@@ -197,8 +230,13 @@ export function estimateSystem(monthlyBill: number, hsp?: number | null): System
     generationKwh: kwp * generationPerKwp,
     investment,
     monthlySavings,
-    paybackYears: investment / (monthlySavings * 12),
+    paybackYears: monthlySavings > 0 ? investment / (monthlySavings * 12) : Infinity,
     oversized: rawKwp < MIN_KWP,
+    // Perto do mínimo faturável sobra tão pouco para economizar que o retorno
+    // passa da vida útil do sistema. Mostrar "se paga em 61 anos" é verdade,
+    // mas não ajuda ninguém a decidir — melhor explicar o porquê.
+    atMinimumBill:
+      monthlySavings <= 0 || investment / (monthlySavings * 12) > USEFUL_LIFE_YEARS,
   };
 }
 
