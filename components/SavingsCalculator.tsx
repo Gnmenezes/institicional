@@ -134,9 +134,6 @@ export default function SavingsCalculator({
                 <span className="mt-1 block text-3xl font-extrabold text-brand-orange">
                   {formatBRL(result.estimate.monthlySavings * 12)}
                 </span>
-                <span className="mt-0.5 block text-xs text-brand-navy/50">
-                  {formatBRL(result.estimate.monthlySavings)} por mês
-                </span>
               </div>
               <div>
                 <span className="block min-h-[2rem] text-xs font-semibold uppercase tracking-widest text-brand-navy/40">
@@ -213,6 +210,15 @@ export default function SavingsCalculator({
               <h3 className="text-sm font-bold text-brand-navy">
                 E se eu financiar?
               </h3>
+              {/* O mensal mora aqui, e não junto do destaque anual: é com a
+                  parcela que ele precisa ser comparado. */}
+              <p className="mt-1.5 text-sm text-brand-navy/60">
+                Sua economia é de{" "}
+                <strong className="font-semibold text-brand-navy">
+                  {formatBRL(result.estimate.monthlySavings)} por mês
+                </strong>
+                . Comparando com a parcela de cada prazo:
+              </p>
               <div className="mt-3 overflow-x-auto">
                 <table className="w-full min-w-[26rem] border-collapse text-sm">
                   <thead>
@@ -237,12 +243,11 @@ export default function SavingsCalculator({
                               a economia cobre, sobram{" "}
                               <strong className="text-brand-orange">
                                 {formatBRL(option.difference)}
-                              </strong>{" "}
-                              por mês
+                              </strong>
                             </span>
                           ) : (
                             <span className="text-brand-navy/45">
-                              faltam {formatBRL(Math.abs(option.difference))} por mês
+                              faltam {formatBRL(Math.abs(option.difference))}
                             </span>
                           )}
                         </td>
