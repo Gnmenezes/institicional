@@ -341,7 +341,7 @@ export default async function HomePage() {
             <SectionHeading
               eyebrow="Simule agora"
               title="Quer saber quanto você economizaria?"
-              description="É só o valor da sua conta de luz. Em segundos você vê quanto sobraria no seu bolso todo mês, o sistema que atende seu consumo e em quanto tempo ele se paga."
+              description="É só o valor da sua conta de luz. Em segundos você vê quanto sobraria no seu bolso todo ano, o sistema que atende seu consumo e em quanto tempo ele se paga."
               center
               wide
             />

@@ -129,10 +129,13 @@ export default function SavingsCalculator({
             <div className="grid gap-6 sm:grid-cols-3">
               <div>
                 <span className="block min-h-[2rem] text-xs font-semibold uppercase tracking-widest text-brand-navy/40">
-                  Economia por mês
+                  Economia por ano
                 </span>
                 <span className="mt-1 block text-3xl font-extrabold text-brand-orange">
-                  {formatBRL(result.estimate.monthlySavings)}
+                  {formatBRL(result.estimate.monthlySavings * 12)}
+                </span>
+                <span className="mt-0.5 block text-xs text-brand-navy/50">
+                  {formatBRL(result.estimate.monthlySavings)} por mês
                 </span>
               </div>
               <div>
@@ -234,7 +237,8 @@ export default function SavingsCalculator({
                               a economia cobre, sobram{" "}
                               <strong className="text-brand-orange">
                                 {formatBRL(option.difference)}
-                              </strong>
+                              </strong>{" "}
+                              por mês
                             </span>
                           ) : (
                             <span className="text-brand-navy/45">
