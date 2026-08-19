@@ -340,7 +340,7 @@ export default async function HomePage() {
           <Reveal>
             <SectionHeading
               eyebrow="Simule agora"
-              title="Quer saber quanto você economizaria por mês?"
+              title="Quer saber quanto você economizaria?"
               description="É só o valor da sua conta de luz. Em segundos você vê quanto sobraria no seu bolso todo mês, o sistema que atende seu consumo e em quanto tempo ele se paga."
               center
               wide
