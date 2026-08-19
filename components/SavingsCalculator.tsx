@@ -176,24 +176,15 @@ export default function SavingsCalculator({
                 <path d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm0 4a1 1 0 0 1 1 1v4a1 1 0 1 1-2 0V7a1 1 0 0 1 1-1zm0 8.5a1.1 1.1 0 1 1 0-2.2 1.1 1.1 0 0 1 0 2.2z" />
               </svg>
               <p className="text-sm leading-relaxed text-brand-navy/75">
-                Os valores acima são de um sistema{" "}
-                <strong className="font-semibold text-brand-navy">on-grid</strong> —
-                o convencional, ligado à rede, que reduz a conta mas desliga junto
-                com a rede numa queda de energia.
-                <br />
-                <br />
-                Para um sistema{" "}
+                Estes valores são de um sistema{" "}
+                <strong className="font-semibold text-brand-navy">on-grid</strong>, que
+                desliga junto com a rede numa queda de energia. O{" "}
                 <strong className="font-semibold text-brand-navy">
                   híbrido, com bateria
-                </strong>{" "}
-                — o que mantém sua casa com luz durante as quedas —{" "}
-                <strong className="font-semibold text-brand-navy">
-                  é necessário solicitar o orçamento
                 </strong>
-                , porque o cálculo depende de quais equipamentos você quer manter
-                funcionando e por quanto tempo. Marque a opção &ldquo;híbrido&rdquo;
-                no formulário abaixo e a gente faz esse estudo pro seu caso, sem
-                custo.
+                , mantém a casa ligada — mas o cálculo depende do que você quer manter
+                funcionando e por quanto tempo. Marque &ldquo;híbrido&rdquo; abaixo e
+                fazemos o estudo sem custo.
               </p>
             </div>
 
@@ -281,7 +272,7 @@ export default function SavingsCalculator({
                 Próximo passo
               </span>
               <h3 className="mt-2 text-2xl font-extrabold leading-tight text-brand-orange sm:text-3xl">
-                Solicite agora seu orçamento gratuito
+                Solicite agora seu orçamento personalizado
               </h3>
               <p className="mt-3 max-w-2xl text-sm leading-relaxed text-brand-navy/70 sm:text-base">
                 Agora que você já tem uma ideia dos valores, falta o passo que
