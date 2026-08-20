@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
+import { revalidatePublicPages } from "@/lib/revalidate";
 import { extractYoutubeId } from "@/lib/youtube";
 
 const videoSchema = z.object({
@@ -36,5 +37,6 @@ export async function POST(request: Request) {
     data: { title: parsed.data.title, order: parsed.data.order, youtubeId },
   });
 
+  revalidatePublicPages();
   return NextResponse.json({ video }, { status: 201 });
 }

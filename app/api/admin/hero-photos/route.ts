@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
+import { revalidatePublicPages } from "@/lib/revalidate";
 
 const heroPhotoSchema = z.object({
   url: z.string().url(),
@@ -24,5 +25,6 @@ export async function POST(request: Request) {
   }
 
   const photo = await prisma.heroPhoto.create({ data: parsed.data });
+  revalidatePublicPages();
   return NextResponse.json({ photo }, { status: 201 });
 }

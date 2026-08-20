@@ -3,9 +3,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import WhatsAppButton from "@/components/WhatsAppButton";
-import { getProjectBySlug, CATEGORY_LABELS } from "@/lib/data";
+import { getProjectBySlug, getProjectSlugs, CATEGORY_LABELS } from "@/lib/data";
 
 type Params = { slug: string };
+
+// Sem isto o Next não sabe quais obras existem e renderiza cada página no
+// servidor a cada visita, sem cache. Com a lista, elas entram no cache junto
+// com o resto do site. Obra cadastrada depois do deploy continua funcionando:
+// renderiza na primeira visita e passa a ser servida do cache.
+export async function generateStaticParams() {
+  const projects = await getProjectSlugs();
+  return projects.map((project) => ({ slug: project.slug }));
+}
 
 export async function generateMetadata({
   params,

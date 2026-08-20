@@ -16,6 +16,11 @@ export function getAllProjects() {
   });
 }
 
+/** Slugs de todas as obras, para prerenderizar as páginas de detalhe. */
+export function getProjectSlugs() {
+  return prisma.project.findMany({ select: { slug: true } });
+}
+
 export function getProjectBySlug(slug: string) {
   return prisma.project.findUnique({
     where: { slug },

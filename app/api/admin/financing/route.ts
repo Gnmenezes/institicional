@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
+import { revalidatePublicPages } from "@/lib/revalidate";
 import { solveMonthlyRate } from "@/lib/solar";
 
 const financingSchema = z.object({
@@ -71,6 +72,7 @@ export async function PATCH(request: Request) {
     ),
   ]);
 
+  revalidatePublicPages();
   return NextResponse.json({
     rates: installments.map((i) => ({
       term: i.term,

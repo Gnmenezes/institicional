@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
+import { revalidatePublicPages } from "@/lib/revalidate";
 
 const testimonialSchema = z.object({
   authorName: z.string().trim().min(1).max(200),
@@ -37,5 +38,6 @@ export async function POST(request: Request) {
     },
   });
 
+  revalidatePublicPages();
   return NextResponse.json({ testimonial }, { status: 201 });
 }

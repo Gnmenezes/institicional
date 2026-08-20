@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
+import { revalidatePublicPages } from "@/lib/revalidate";
 import { slugify } from "@/lib/slug";
 
 const projectSchema = z.object({
@@ -56,5 +57,6 @@ export async function POST(request: Request) {
     include: { photos: true },
   });
 
+  revalidatePublicPages();
   return NextResponse.json({ project }, { status: 201 });
 }

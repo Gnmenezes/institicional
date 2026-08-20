@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
+import { revalidatePublicPages } from "@/lib/revalidate";
 
 const heroPhotoUpdateSchema = z.object({
   caption: z.string().trim().min(1).max(200),
@@ -22,6 +23,7 @@ export async function PATCH(
   }
 
   const photo = await prisma.heroPhoto.update({ where: { id }, data: parsed.data });
+  revalidatePublicPages();
   return NextResponse.json({ photo });
 }
 
@@ -31,5 +33,6 @@ export async function DELETE(
 ) {
   const { id } = await params;
   await prisma.heroPhoto.delete({ where: { id } });
+  revalidatePublicPages();
   return NextResponse.json({ ok: true });
 }

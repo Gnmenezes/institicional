@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
+import { revalidatePublicPages } from "@/lib/revalidate";
 
 const projectUpdateSchema = z.object({
   title: z.string().trim().min(1).max(200),
@@ -42,6 +43,7 @@ export async function PATCH(
     });
   });
 
+  revalidatePublicPages();
   return NextResponse.json({ project });
 }
 
@@ -51,5 +53,6 @@ export async function DELETE(
 ) {
   const { id } = await params;
   await prisma.project.delete({ where: { id } });
+  revalidatePublicPages();
   return NextResponse.json({ ok: true });
 }

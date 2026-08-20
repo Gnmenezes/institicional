@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
+import { revalidatePublicPages } from "@/lib/revalidate";
 
 const citySchema = z.object({
   active: z.boolean(),
@@ -26,5 +27,6 @@ export async function PATCH(
     return NextResponse.json({ error: "Cidade não encontrada." }, { status: 404 });
   }
 
+  revalidatePublicPages();
   return NextResponse.json({ city });
 }
