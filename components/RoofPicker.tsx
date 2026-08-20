@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import Image from "next/image";
 
 /**
@@ -134,13 +134,71 @@ export function RoofTrigger({
 export function RoofOptions({
   value,
   onChange,
+  triggerId = "roofType",
 }: {
   value: string;
   onChange: (value: string) => void;
+  /** De onde os cards parecem sair. */
+  triggerId?: string;
 }) {
+  const gradeRef = useRef<HTMLDivElement>(null);
+
+  // Cada card parte de cima do campo que foi clicado e vai até seu lugar.
+  // A distância é medida aqui, e não fixada no CSS, porque depende de onde o
+  // campo está em relação a cada card — o que muda com a largura da tela.
+  useLayoutEffect(() => {
+    const grade = gradeRef.current;
+    if (!grade) return;
+
+    const mostrar = () => {
+      grade.style.visibility = "visible";
+    };
+
+    const campo = document.getElementById(triggerId);
+    if (!campo || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      mostrar();
+      return;
+    }
+
+    // Medir no quadro seguinte, e não agora: neste ponto a grade ainda não
+    // recebeu o layout — os cards reportam 27px de largura, todos empilhados
+    // na mesma posição. A grade fica invisível até lá para não piscar no
+    // lugar final antes de a animação começar.
+    const id = requestAnimationFrame(() => {
+      const origem = campo.getBoundingClientRect();
+      const ox = origem.left + origem.width / 2;
+      const oy = origem.top + origem.height / 2;
+
+      const cards = Array.from(grade.children) as HTMLElement[];
+      const limpar = (card: HTMLElement) => () => {
+        // Sai do caminho: com o preenchimento da animação preservado, o
+        // transform final venceria o hover dos cards.
+        card.classList.remove("animate-roof-pop");
+        card.style.removeProperty("--dx");
+        card.style.removeProperty("--dy");
+        card.style.removeProperty("animation-delay");
+      };
+
+      cards.forEach((card, i) => {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty("--dx", `${Math.round(ox - (r.left + r.width / 2))}px`);
+        card.style.setProperty("--dy", `${Math.round(oy - (r.top + r.height / 2))}px`);
+        card.style.animationDelay = `${i * 55}ms`;
+        card.classList.add("animate-roof-pop");
+        card.addEventListener("animationend", limpar(card), { once: true });
+      });
+
+      mostrar();
+    });
+
+    return () => cancelAnimationFrame(id);
+  }, [triggerId]);
+
   return (
     <div
+      ref={gradeRef}
       id="roof-options"
+      style={{ visibility: "hidden" }}
       data-roof-picker
       role="listbox"
       aria-label="Tipo de telhado"

@@ -202,3 +202,29 @@ body {
     animation: none;
   }
 }
+
+/* As opções de telhado saem do campo clicado e estacionam no lugar.
+   O deslocamento inicial (--dx/--dy) é medido em JS, porque depende de onde
+   o campo está em relação a cada card — e isso muda com a largura da tela. */
+@keyframes roof-pop {
+  from {
+    transform: translate(var(--dx, 0), var(--dy, 0)) scale(0.3);
+    opacity: 0;
+  }
+  to {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-roof-pop {
+  /* "both" segura o estado inicial durante o atraso, senão o card piscaria
+     no lugar final antes da vez dele. */
+  animation: roof-pop 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-roof-pop {
+    animation: none;
+  }
+}
