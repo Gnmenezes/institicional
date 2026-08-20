@@ -8,6 +8,16 @@ export const metadata: Metadata = {
   title: "Contato e orçamento",
   description:
     "Solicite um orçamento gratuito de sistema híbrido com bateria ou energia solar convencional com a Sumart em Juiz de Fora, Guiricema e região de Ubá (MG).",
+  alternates: { canonical: "/contato" },
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    images: ["/opengraph-image"],
+    url: "/contato",
+    title: "Contato | Sumart Energia Solar",
+    description:
+      "Solicite um orçamento gratuito de sistema híbrido com bateria ou energia solar convencional com a Sumart em Juiz de Fora, Guiricema e região de Ubá (MG).",
+  },
 };
 
 const QUOTE_INCLUDES = [

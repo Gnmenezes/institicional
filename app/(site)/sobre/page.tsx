@@ -13,6 +13,16 @@ export const metadata: Metadata = {
   title: "Sobre a Sumart",
   description:
     "Conheça a Sumart Energia Solar: especialista em sistemas híbridos com armazenamento em bateria em Juiz de Fora, Guiricema e região de Ubá (MG).",
+  alternates: { canonical: "/sobre" },
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    images: ["/opengraph-image"],
+    url: "/sobre",
+    title: "Sobre | Sumart Energia Solar",
+    description:
+      "Conheça a Sumart Energia Solar: especialista em sistemas híbridos com armazenamento em bateria em Juiz de Fora, Guiricema e região de Ubá (MG).",
+  },
 };
 
 const DIFERENCIAIS = [

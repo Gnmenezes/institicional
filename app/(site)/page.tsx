@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import SectionHeading from "@/components/SectionHeading";
@@ -30,6 +31,15 @@ import {
 } from "@/lib/company";
 import { getFinancingRate } from "@/lib/settings";
 import SavingsCalculator from "@/components/SavingsCalculator";
+import JsonLd from "@/components/JsonLd";
+import { FAQ, breadcrumbJsonLd, faqJsonLd } from "@/lib/seo";
+
+export const metadata: Metadata = {
+  title: "Energia Solar em Juiz de Fora e Região",
+  description:
+    "Sistema de energia solar com bateria que mantém sua casa ligada na queda de energia, ou on-grid com microinversores, o de menor investimento. Simule sua economia e peça orçamento sem custo em Juiz de Fora, Guiricema e região de Ubá.",
+  alternates: { canonical: "/" },
+};
 
 const HERO_TRUST = [
   "Equipe capacitada",
@@ -746,6 +756,37 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ---------- PERGUNTAS FREQUENTES ---------- */}
+      <section className="py-12 sm:py-16">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6">
+          <Reveal>
+            <SectionHeading
+              eyebrow="Perguntas frequentes"
+              title="O que as pessoas perguntam antes de fechar"
+              center
+              wide
+            />
+          </Reveal>
+          <div className="mt-9 divide-y divide-black/5 rounded-2xl bg-white px-6 shadow-brand sm:px-8">
+            {FAQ.map((item, i) => (
+              <Reveal key={item.question} delay={i * 60}>
+                <details className="group py-5">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-left text-base font-bold text-brand-navy">
+                    {item.question}
+                    <span className="shrink-0 text-brand-orange transition-transform group-open:rotate-45">
+                      +
+                    </span>
+                  </summary>
+                  <p className="mt-3 text-sm leading-relaxed text-brand-navy/65">
+                    {item.answer}
+                  </p>
+                </details>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ---------- CTA FINAL ---------- */}
       <section className="relative overflow-hidden bg-brand-navy-dark py-12 text-center text-white sm:py-16">
         <div className="pointer-events-none absolute inset-0">
@@ -774,6 +815,10 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+      <JsonLd data={faqJsonLd()} />
+      <JsonLd
+        data={breadcrumbJsonLd([{ name: "Início", path: "/" }])}
+      />
     </>
   );
 }

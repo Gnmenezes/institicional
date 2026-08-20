@@ -8,6 +8,16 @@ export const metadata: Metadata = {
   title: "Portfólio de obras",
   description:
     "Confira projetos de energia solar já instalados pela Sumart em Juiz de Fora, Guiricema e região de Ubá (MG).",
+  alternates: { canonical: "/portfolio" },
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    images: ["/opengraph-image"],
+    url: "/portfolio",
+    title: "Portfólio | Sumart Energia Solar",
+    description:
+      "Confira projetos de energia solar já instalados pela Sumart em Juiz de Fora, Guiricema e região de Ubá (MG).",
+  },
 };
 
 const CATEGORIES = ["RESIDENCIAL", "COMERCIAL", "INDUSTRIAL", "RURAL"];

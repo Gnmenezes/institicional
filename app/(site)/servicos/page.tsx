@@ -18,6 +18,16 @@ export const metadata: Metadata = {
   title: "Serviços",
   description:
     "Sistemas híbridos de energia solar com armazenamento em bateria, instalação residencial, comercial, industrial e rural, além de manutenção e monitoramento.",
+  alternates: { canonical: "/servicos" },
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    images: ["/opengraph-image"],
+    url: "/servicos",
+    title: "Serviços | Sumart Energia Solar",
+    description:
+      "Sistemas híbridos de energia solar com armazenamento em bateria, instalação residencial, comercial, industrial e rural, além de manutenção e monitoramento.",
+  },
 };
 
 /**
