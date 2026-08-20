@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
 import { track } from "@vercel/analytics";
+import RoofPicker from "@/components/RoofPicker";
 import { buildWhatsappUrl } from "@/lib/whatsapp";
 import { useWhatsappNumber } from "@/components/WhatsAppNumberProvider";
 import { RESPONSE_TIME } from "@/lib/company";
@@ -30,16 +31,6 @@ const INITIAL_STATE: FormState = {
   systemType: "INDEFINIDO",
   message: "",
 };
-
-/** Muda a estrutura de fixação e a mão de obra da instalação. */
-export const ROOF_TYPES = [
-  "Telha cerâmica (colonial ou romana)",
-  "Telha de fibrocimento",
-  "Telha metálica",
-  "Laje",
-  "No solo",
-  "Ainda não sei",
-];
 
 const SYSTEM_OPTIONS: { value: SystemType; label: string; hint: string }[] = [
   {
@@ -103,6 +94,8 @@ export default function ContactForm({
     city: defaultCity ?? searchParams.get("cidade") ?? "",
   }));
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  // O telhado deixou de ser um <select required>, então a checagem vem daqui.
+  const [faltaTelhado, setFaltaTelhado] = useState(false);
   const [whatsappUrl, setWhatsappUrl] = useState("");
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
@@ -111,6 +104,13 @@ export default function ContactForm({
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (!form.roofType) {
+      setFaltaTelhado(true);
+      document.getElementById("roofType")?.scrollIntoView({ block: "center" });
+      return;
+    }
+
     setStatus("loading");
 
     try {
@@ -251,20 +251,14 @@ export default function ContactForm({
           <label htmlFor="roofType" className="text-sm font-medium text-brand-navy">
             Tipo de telhado *
           </label>
-          <select
-            id="roofType"
-            required
+          <RoofPicker
             value={form.roofType}
-            onChange={(e) => update("roofType", e.target.value)}
-            className="mt-1.5 w-full rounded-xl border border-black/10 bg-white px-4 py-2.5 text-sm outline-none focus:border-brand-orange"
-          >
-            <option value="">Selecione</option>
-            {ROOF_TYPES.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
+            onChange={(v) => {
+              update("roofType", v);
+              setFaltaTelhado(false);
+            }}
+            error={faltaTelhado}
+          />
         </div>
       </div>
 
