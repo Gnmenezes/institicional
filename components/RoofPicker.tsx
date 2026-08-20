@@ -1,14 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import {
-  CeramicRoof,
-  FiberCementRoof,
-  GroundMount,
-  MetalRoof,
-  SlabRoof,
-  UnknownRoof,
-} from "@/components/illustrations/RoofTypes";
+import Image from "next/image";
 
 /**
  * Seletor de telhado que abre imagens em vez de uma lista de nomes.
@@ -22,20 +15,47 @@ import {
 export type RoofOption = {
   value: string;
   short: string;
-  Illustration: (props: { className?: string }) => React.ReactElement;
+  image: string;
+  alt: string;
 };
 
 export const ROOF_OPTIONS: RoofOption[] = [
   {
     value: "Telha cerâmica (colonial ou romana)",
     short: "Cerâmica",
-    Illustration: CeramicRoof,
+    image: "/telhados/ceramica.jpg",
+    alt: "Telhado de telhas cerâmicas curvas",
   },
-  { value: "Telha de fibrocimento", short: "Fibrocimento", Illustration: FiberCementRoof },
-  { value: "Telha metálica", short: "Metálica", Illustration: MetalRoof },
-  { value: "Laje", short: "Laje", Illustration: SlabRoof },
-  { value: "No solo", short: "No solo", Illustration: GroundMount },
-  { value: "Ainda não sei", short: "Não sei", Illustration: UnknownRoof },
+  {
+    value: "Telha de fibrocimento",
+    short: "Fibrocimento",
+    image: "/telhados/fibrocimento.jpg",
+    alt: "Telhado de telhas onduladas de fibrocimento",
+  },
+  {
+    value: "Telha metálica",
+    short: "Metálica",
+    image: "/telhados/metalica.jpg",
+    alt: "Telhado de telhas metálicas trapezoidais",
+  },
+  {
+    value: "Laje",
+    short: "Laje",
+    image: "/telhados/laje.jpg",
+    alt: "Laje plana de concreto",
+  },
+  {
+    value: "No solo",
+    short: "No solo",
+    image: "/telhados/solo.jpg",
+    alt: "Placas solares montadas em estrutura no solo",
+  },
+  {
+    value: "Ainda não sei",
+    short: "Não sei",
+    image: "/telhados/nao-sei.jpg",
+    alt: "Ponto de interrogação",
+  },
 ];
 
 export default function RoofPicker({
@@ -121,7 +141,15 @@ export default function RoofPicker({
                     : "border-black/10 hover:border-brand-orange/50"
                 }`}
               >
-                <option.Illustration className="h-auto w-full" />
+                <span className="relative block aspect-square w-full overflow-hidden rounded-lg">
+                  <Image
+                    src={option.image}
+                    alt={option.alt}
+                    fill
+                    sizes="140px"
+                    className="object-cover"
+                  />
+                </span>
                 <span className="text-xs font-semibold text-brand-navy">{option.short}</span>
               </button>
             );
