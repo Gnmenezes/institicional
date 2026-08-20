@@ -7,6 +7,7 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import HeroCarousel from "@/components/HeroCarousel";
 import HeroSlides, { type HeroSlide } from "@/components/HeroSlides";
 import ScrollCta from "@/components/ScrollCta";
+import CountUp from "@/components/CountUp";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
 import Reveal from "@/components/Reveal";
 import {
@@ -207,13 +208,10 @@ const SERVICES = [
 export default async function HomePage() {
   const yearsInBusiness = getYearsInBusiness();
   const CREDIBILITY_STATS = [
-    { value: `+${PROJECTS_FLOOR}`, label: "obras entregues na região" },
-    {
-      value: `+${INSTALLED_KWP_FLOOR.toLocaleString("pt-BR")}`,
-      label: "kWp de potência instalada",
-    },
-    { value: `${yearsInBusiness} anos`, label: "de mercado, desde 2021" },
-    { value: RESPONSE_TIME, label: "é o nosso prazo de resposta" },
+    { count: PROJECTS_FLOOR, prefix: "+", label: "obras entregues na região" },
+    { count: INSTALLED_KWP_FLOOR, prefix: "+", label: "kWp de potência instalada" },
+    { count: yearsInBusiness, suffix: " anos", label: "de mercado, desde 2021" },
+    { text: RESPONSE_TIME, label: "é o nosso prazo de resposta" },
   ];
 
   const [
@@ -291,7 +289,11 @@ export default async function HomePage() {
           {CREDIBILITY_STATS.map((stat) => (
             <div key={stat.label} className="text-center">
               <span className="block text-3xl font-extrabold tracking-tight text-brand-navy sm:text-4xl">
-                {stat.value}
+                {stat.count !== undefined ? (
+                  <CountUp value={stat.count} prefix={stat.prefix} suffix={stat.suffix} />
+                ) : (
+                  stat.text
+                )}
               </span>
               <span className="mt-1 block text-xs leading-snug text-brand-navy/55 sm:text-sm">
                 {stat.label}

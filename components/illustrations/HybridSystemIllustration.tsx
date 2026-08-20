@@ -8,19 +8,21 @@ export default function HybridSystemIllustration({
       {/* sun */}
       <circle cx="60" cy="55" r="26" fill="#fff1e8" />
       <circle cx="60" cy="55" r="17" fill="#ff6a1a" />
-      {[0, 45, 90, 135, 180, 225, 270, 315].map((angle) => (
-        <line
-          key={angle}
-          x1="60"
-          y1="55"
-          x2="60"
-          y2="21"
-          stroke="#ff6a1a"
-          strokeWidth="3"
-          strokeLinecap="round"
-          transform={`rotate(${angle} 60 55)`}
-        />
-      ))}
+      <g className="animate-sun-rays" style={{ transformOrigin: "60px 55px" }}>
+        {[0, 45, 90, 135, 180, 225, 270, 315].map((angle) => (
+          <line
+            key={angle}
+            x1="60"
+            y1="55"
+            x2="60"
+            y2="21"
+            stroke="#ff6a1a"
+            strokeWidth="3"
+            strokeLinecap="round"
+            transform={`rotate(${angle} 60 55)`}
+          />
+        ))}
+      </g>
 
       {/* ground */}
       <line x1="20" y1="290" x2="460" y2="290" stroke="#353693" strokeOpacity="0.15" strokeWidth="2" />
@@ -39,12 +41,25 @@ export default function HybridSystemIllustration({
         <line x1="-10" y1="-18" x2="-10" y2="27" stroke="#ff6a1a" strokeWidth="1" strokeOpacity="0.6" />
         <line x1="20" y1="-18" x2="20" y2="27" stroke="#ff6a1a" strokeWidth="1" strokeOpacity="0.6" />
         <line x1="-40" y1="4.5" x2="50" y2="4.5" stroke="#ff6a1a" strokeWidth="1" strokeOpacity="0.6" />
+        <rect
+          className="animate-panel-shine"
+          x="-40"
+          y="-18"
+          width="90"
+          height="45"
+          rx="2"
+          fill="#ffa15c"
+        />
       </g>
 
       {/* battery pack */}
       <rect x="60" y="190" width="50" height="80" rx="8" fill="white" stroke="#353693" strokeWidth="4" />
       <rect x="64" y="196" width="42" height="14" rx="4" fill="#353693" />
-      <path d="M92 205 78 231h9l-5 24 24-30h-9l5-20Z" fill="#ff6a1a" />
+      <path
+        className="animate-battery-bolt"
+        d="M92 205 78 231h9l-5 24 24-30h-9l5-20Z"
+        fill="#ff6a1a"
+      />
     </svg>
   );
 }

@@ -120,3 +120,58 @@ body {
     animation: none;
   }
 }
+
+/* Vida na ilustração do sistema híbrido: os raios giram devagar e o raio da
+   bateria pulsa como se estivesse carregando. Movimento lento de propósito —
+   é ambiente, não chamariz. */
+@keyframes sun-rays-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-sun-rays {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sun-rays-spin 45s linear infinite;
+}
+
+@keyframes battery-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.animate-battery-bolt {
+  animation: battery-pulse 2.6s ease-in-out infinite;
+}
+
+/* Brilho que atravessa os painéis uma vez a cada ciclo longo. */
+@keyframes panel-shine {
+  0%,
+  72% {
+    opacity: 0;
+  }
+  80% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.animate-panel-shine {
+  animation: panel-shine 7s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-sun-rays,
+  .animate-battery-bolt,
+  .animate-panel-shine {
+    animation: none;
+  }
+}
