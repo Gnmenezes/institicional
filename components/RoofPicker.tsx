@@ -120,7 +120,7 @@ export default function RoofPicker({
         <div
           role="listbox"
           aria-label="Tipo de telhado"
-          className="mt-2 grid grid-cols-2 gap-2.5 rounded-xl border border-black/10 bg-white p-3"
+          className="mt-2 grid gap-2.5 rounded-xl border border-black/10 bg-white p-3 [grid-template-columns:repeat(auto-fit,minmax(80px,1fr))]"
         >
           {ROOF_OPTIONS.map((option) => {
             const escolhido = option.value === value;

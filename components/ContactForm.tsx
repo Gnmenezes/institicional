@@ -247,19 +247,20 @@ export default function ContactForm({
             className="mt-1.5 w-full rounded-xl border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-brand-orange"
           />
         </div>
-        <div>
-          <label htmlFor="roofType" className="text-sm font-medium text-brand-navy">
-            Tipo de telhado *
-          </label>
-          <RoofPicker
-            value={form.roofType}
-            onChange={(v) => {
-              update("roofType", v);
-              setFaltaTelhado(false);
-            }}
-            error={faltaTelhado}
-          />
-        </div>
+      </div>
+
+      <div>
+        <label htmlFor="roofType" className="text-sm font-medium text-brand-navy">
+          Tipo de telhado *
+        </label>
+        <RoofPicker
+          value={form.roofType}
+          onChange={(v) => {
+            update("roofType", v);
+            setFaltaTelhado(false);
+          }}
+          error={faltaTelhado}
+        />
       </div>
 
       <fieldset>
