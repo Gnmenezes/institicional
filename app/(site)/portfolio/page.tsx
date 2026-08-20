@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import SectionHeading from "@/components/SectionHeading";
 import ProjectCard from "@/components/ProjectCard";
+import Reveal from "@/components/Reveal";
 import { getAllProjects, CATEGORY_LABELS } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -22,6 +23,9 @@ export const metadata: Metadata = {
 
 const CATEGORIES = ["RESIDENCIAL", "COMERCIAL", "INDUSTRIAL", "RURAL"];
 
+// Esta é a única página pública que continua renderizando a cada visita: ler
+// `searchParams` (o filtro por categoria) tira a página do cache. As outras
+// ficam em cache por 15 dias — ver o revalidate em app/(site)/layout.tsx.
 export default async function PortfolioPage({
   searchParams,
 }: {
@@ -36,58 +40,65 @@ export default async function PortfolioPage({
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
-      <SectionHeading
-        eyebrow="Portfólio"
-        title="Obras já instaladas pela Sumart"
-        description="Projetos residenciais, comerciais e rurais realizados na nossa região de atuação."
-      />
+      <Reveal>
+        <SectionHeading
+          eyebrow="Portfólio"
+          title="Obras já instaladas pela Sumart"
+          description="Projetos residenciais, comerciais e rurais realizados na nossa região de atuação."
+        />
+      </Reveal>
 
-      <div className="mt-8 flex flex-wrap gap-2">
-        <Link
-          href="/portfolio"
-          className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
-            !categoria
-              ? "bg-brand-orange text-white"
-              : "bg-brand-navy-light text-brand-navy hover:bg-brand-navy/10"
-          }`}
-        >
-          Todos
-        </Link>
-        {CATEGORIES.map((cat) => (
+      <Reveal delay={120}>
+        <div className="mt-8 flex flex-wrap gap-2">
           <Link
-            key={cat}
-            href={`/portfolio?categoria=${cat}`}
+            href="/portfolio"
             className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
-              categoria === cat
+              !categoria
                 ? "bg-brand-orange text-white"
                 : "bg-brand-navy-light text-brand-navy hover:bg-brand-navy/10"
             }`}
           >
-            {CATEGORY_LABELS[cat]}
+            Todos
           </Link>
-        ))}
-      </div>
+          {CATEGORIES.map((cat) => (
+            <Link
+              key={cat}
+              href={`/portfolio?categoria=${cat}`}
+              className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+                categoria === cat
+                  ? "bg-brand-orange text-white"
+                  : "bg-brand-navy-light text-brand-navy hover:bg-brand-navy/10"
+              }`}
+            >
+              {CATEGORY_LABELS[cat]}
+            </Link>
+          ))}
+        </div>
+      </Reveal>
 
       {filtered.length > 0 ? (
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((project) => (
-            <ProjectCard
-              key={project.id}
-              slug={project.slug}
-              title={project.title}
-              city={project.city}
-              state={project.state}
-              category={project.category}
-              powerKwp={project.powerKwp}
-              photoUrl={project.photos[0]?.url}
-            />
+          {filtered.map((project, i) => (
+            <Reveal key={project.id} delay={i * 100}>
+              <ProjectCard
+                slug={project.slug}
+                title={project.title}
+                city={project.city}
+                state={project.state}
+                category={project.category}
+                powerKwp={project.powerKwp}
+                photoUrl={project.photos[0]?.url}
+              />
+            </Reveal>
           ))}
         </div>
       ) : (
-        <div className="mt-16 rounded-2xl border border-dashed border-brand-navy/20 p-12 text-center text-brand-navy/50">
-          Ainda não há obras cadastradas nesta categoria. Novos projetos são
-          adicionados regularmente pelo painel administrativo.
-        </div>
+        <Reveal>
+          <div className="mt-16 rounded-2xl border border-dashed border-brand-navy/20 p-12 text-center text-brand-navy/50">
+            Ainda não há obras cadastradas nesta categoria. Novos projetos são
+            adicionados regularmente pelo painel administrativo.
+          </div>
+        </Reveal>
       )}
     </div>
   );

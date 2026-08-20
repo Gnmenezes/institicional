@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import SectionHeading from "@/components/SectionHeading";
+import Reveal from "@/components/Reveal";
 import {
   CNPJ,
   INSTALLED_KWP_FLOOR,
@@ -51,64 +52,74 @@ const DIFERENCIAIS = [
 export default function SobrePage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 sm:py-16">
-      <SectionHeading
-        eyebrow="Sobre a Sumart"
-        title="Especialistas em sistemas híbridos com bateria"
-      />
+      <Reveal>
+        <SectionHeading
+          eyebrow="Sobre a Sumart"
+          title="Especialistas em sistemas híbridos com bateria"
+        />
+      </Reveal>
 
-      <div className="mt-8 space-y-5 text-base leading-relaxed text-brand-navy/70">
-        <p>
-          A Sumart Energia Solar é especializada em sistemas híbridos de energia
-          solar com armazenamento em bateria — a forma mais completa de reduzir a
-          conta de luz e manter energia disponível mesmo durante quedas na rede.
-          Também seguimos instalando sistemas convencionais com microinversores,
-          para residências, empresas, indústrias e propriedades rurais.
-        </p>
-        <p>
-          Acompanhamos todo o processo: da visita técnica e dimensionamento do
-          sistema — incluindo o banco de baterias, quando faz parte do projeto —
-          até a instalação e a homologação junto à distribuidora de energia.
-          Depois da instalação, seguimos disponíveis para manutenção e suporte.
-        </p>
-        <p>
-          Estamos no mercado desde agosto de 2021 — são {getYearsInBusiness()}{" "}
-          anos, mais de {PROJECTS_FLOOR} obras entregues e mais de{" "}
-          {INSTALLED_KWP_FLOOR.toLocaleString("pt-BR")} kWp de potência
-          instalada em Juiz de Fora, Guiricema e na região do polo moveleiro de
-          Ubá, em Minas Gerais.
-        </p>
+      <Reveal delay={120}>
+        <div className="mt-8 space-y-5 text-base leading-relaxed text-brand-navy/70">
+          <p>
+            A Sumart Energia Solar é especializada em sistemas híbridos de energia
+            solar com armazenamento em bateria — a forma mais completa de reduzir a
+            conta de luz e manter energia disponível mesmo durante quedas na rede.
+            Também seguimos instalando sistemas convencionais com microinversores,
+            para residências, empresas, indústrias e propriedades rurais.
+          </p>
+          <p>
+            Acompanhamos todo o processo: da visita técnica e dimensionamento do
+            sistema — incluindo o banco de baterias, quando faz parte do projeto —
+            até a instalação e a homologação junto à distribuidora de energia.
+            Depois da instalação, seguimos disponíveis para manutenção e suporte.
+          </p>
+          <p>
+            Estamos no mercado desde agosto de 2021 — são {getYearsInBusiness()}{" "}
+            anos, mais de {PROJECTS_FLOOR} obras entregues e mais de{" "}
+            {INSTALLED_KWP_FLOOR.toLocaleString("pt-BR")} kWp de potência
+            instalada em Juiz de Fora, Guiricema e na região do polo moveleiro de
+            Ubá, em Minas Gerais.
+          </p>
 
-        <p className="text-sm text-brand-navy/50">
-          {LEGAL_NAME} — CNPJ {CNPJ}
-        </p>
-      </div>
+          <p className="text-sm text-brand-navy/50">
+            {LEGAL_NAME} — CNPJ {CNPJ}
+          </p>
+        </div>
+      </Reveal>
 
       <div className="mt-14">
-        <h2 className="text-2xl font-bold text-brand-navy">Nossos diferenciais</h2>
+        <Reveal>
+          <h2 className="text-2xl font-bold text-brand-navy">Nossos diferenciais</h2>
+        </Reveal>
         <div className="mt-6 grid gap-6 sm:grid-cols-2">
-          {DIFERENCIAIS.map((item) => (
-            <div key={item.title} className="rounded-2xl border border-black/5 p-6">
-              <h3 className="font-semibold text-brand-navy">{item.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-brand-navy/60">
-                {item.description}
-              </p>
-            </div>
+          {DIFERENCIAIS.map((item, i) => (
+            <Reveal key={item.title} delay={i * 100}>
+              <div className="h-full rounded-2xl border border-black/5 p-6">
+                <h3 className="font-semibold text-brand-navy">{item.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-brand-navy/60">
+                  {item.description}
+                </p>
+              </div>
+            </Reveal>
           ))}
         </div>
       </div>
 
-      <div className="mt-14 rounded-2xl bg-brand-navy-light p-8 text-center">
-        <h2 className="text-xl font-bold text-brand-navy">Quer conhecer nosso trabalho?</h2>
-        <p className="mt-2 text-sm text-brand-navy/60">
-          Veja alguns dos projetos que já instalamos.
-        </p>
-        <Link
-          href="/portfolio"
-          className="mt-5 inline-block rounded-full bg-brand-orange px-7 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-orange-dark"
-        >
-          Ver portfólio de obras
-        </Link>
-      </div>
+      <Reveal delay={180}>
+        <div className="mt-14 rounded-2xl bg-brand-navy-light p-8 text-center">
+          <h2 className="text-xl font-bold text-brand-navy">Quer conhecer nosso trabalho?</h2>
+          <p className="mt-2 text-sm text-brand-navy/60">
+            Veja alguns dos projetos que já instalamos.
+          </p>
+          <Link
+            href="/portfolio"
+            className="mt-5 inline-block rounded-full bg-brand-orange px-7 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-orange-dark"
+          >
+            Ver portfólio de obras
+          </Link>
+        </div>
+      </Reveal>
     </div>
   );
 }
