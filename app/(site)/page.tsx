@@ -8,7 +8,6 @@ import HeroCarousel from "@/components/HeroCarousel";
 import HeroSlides, { type HeroSlide } from "@/components/HeroSlides";
 import ScrollCta from "@/components/ScrollCta";
 import CountUp from "@/components/CountUp";
-import SystemsAnimation from "@/components/SystemsAnimation";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
 import Reveal from "@/components/Reveal";
 import {
@@ -394,15 +393,7 @@ export default async function HomePage() {
             />
           </Reveal>
 
-          {/* A animacao vem antes dos cards: e mais facil entender a diferenca
-              vendo do que lendo, e os cards viram o resumo do que se viu. */}
-          <Reveal delay={100}>
-            <div className="mx-auto mt-9 max-w-5xl">
-              <SystemsAnimation />
-            </div>
-          </Reveal>
-
-          <div className="mx-auto mt-12 grid max-w-4xl items-start gap-6 sm:grid-cols-2">
+          <div className="mx-auto mt-9 grid max-w-4xl items-start gap-6 sm:grid-cols-2">
             {SYSTEM_COMPARISON.map((system, i) => (
               <Reveal key={system.name} delay={i * 120}>
                 <div
