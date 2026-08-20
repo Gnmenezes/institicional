@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
 import JsonLd from "@/components/JsonLd";
 import {
   KEYWORDS,
@@ -68,6 +69,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <JsonLd data={localBusinessJsonLd()} />
         <JsonLd data={webSiteJsonLd()} />
         {children}
+        {/* Medição sem cookies: não exige aviso de consentimento. */}
+        <Analytics />
       </body>
     </html>
   );

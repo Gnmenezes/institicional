@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
+import { track } from "@vercel/analytics";
 import { buildWhatsappUrl } from "@/lib/whatsapp";
 import { useWhatsappNumber } from "@/components/WhatsAppNumberProvider";
 import { RESPONSE_TIME } from "@/lib/company";
@@ -125,6 +126,12 @@ export default function ContactForm({
       const url = buildWhatsappUrl(whatsappNumber, buildWhatsappMessage(form, simulation));
       setWhatsappUrl(url);
       setStatus("success");
+      // Só conta depois de o lead ter sido gravado de fato.
+      track("enviou_orcamento", {
+        tipo_sistema: form.systemType,
+        telhado: form.roofType || "nao-informado",
+        veio_da_calculadora: Boolean(simulation),
+      });
       // Tentativa automática: funciona no desktop, mas no celular o navegador
       // costuma bloquear window.open disparado depois do await (sem gesto do
       // usuário). Por isso a tela de sucesso traz o botão como caminho real.

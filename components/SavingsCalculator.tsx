@@ -1,6 +1,7 @@
 "use client";
 
-import { Suspense, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { track } from "@vercel/analytics";
 import ContactForm from "@/components/ContactForm";
 import {
   type CityOption,
@@ -19,6 +20,14 @@ import {
 const MIN_BILL = 80;
 
 const OTHER_CITY = "Outra cidade da região";
+
+/** Agrupa a economia anual em faixas, para medir sem registrar valor individual. */
+function perfilLabel(economiaAnual: number) {
+  if (economiaAnual < 3000) return "ate-3k";
+  if (economiaAnual < 8000) return "3k-8k";
+  if (economiaAnual < 20000) return "8k-20k";
+  return "acima-20k";
+}
 
 export default function SavingsCalculator({
   ratesByTerm,
@@ -48,6 +57,20 @@ export default function SavingsCalculator({
   }, [billValue, city, ratesByTerm, defaultRate, cities]);
 
   const bestCovered = result?.options.filter((o) => o.coveredBySavings).at(0);
+
+  // Uma simulação por visita, e não uma por tecla digitada: o que interessa
+  // medir é quantas pessoas chegam a ver um resultado.
+  const jaContou = useRef(false);
+  useEffect(() => {
+    if (!result || jaContou.current) return;
+    jaContou.current = true;
+    track("simulou_calculadora", {
+      // Faixa em vez do valor exato: serve para saber com quem o site fala,
+      // sem guardar o dado financeiro de ninguém.
+      faixa: perfilLabel(result.estimate.monthlySavings * 12),
+      cidade: city,
+    });
+  }, [result, city]);
 
   // Quem gasta R$ 250 e quem gasta R$ 3.000 estão em conversas diferentes.
   const profile = result ? PROFILE_MESSAGES[profileForBill(billValue)] : null;
