@@ -3,6 +3,7 @@
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { track } from "@vercel/analytics";
 import ContactForm from "@/components/ContactForm";
+import ScrollCta from "@/components/ScrollCta";
 import {
   type CityOption,
   MINIMUM_BILL,
@@ -196,6 +197,21 @@ export default function SavingsCalculator({
               </div>
             </div>
 
+            <div className="mt-7 flex flex-col items-center gap-2 rounded-2xl bg-brand-navy-light px-5 py-6 text-center">
+              <p className="text-sm font-semibold text-brand-navy">
+                Gostou do número? O do seu telhado pode ser ainda melhor.
+              </p>
+              <ScrollCta
+                targetId="orcamento"
+                className="animate-cta-pulse mt-1 inline-block rounded-full bg-brand-orange px-8 py-3.5 text-sm font-bold text-white transition-colors hover:bg-brand-orange-dark"
+              >
+                Quero meu orçamento personalizado
+              </ScrollCta>
+              <span className="text-xs text-brand-navy/50">
+                Leva 1 minuto · sem custo e sem compromisso
+              </span>
+            </div>
+
             {/* O site inteiro fala de híbrido, mas o modelo precifica on-grid.
                 Sem este aviso a pessoa compara a estimativa com uma proposta
                 de híbrido e acha que o preço subiu sem explicação. */}
@@ -303,7 +319,7 @@ export default function SavingsCalculator({
               </p>
             </div>
 
-            <div className="mt-9 border-t border-black/5 pt-8">
+            <div id="orcamento" className="mt-9 scroll-mt-24 border-t border-black/5 pt-8">
               <span className="text-xs font-bold uppercase tracking-[0.18em] text-brand-orange/70">
                 Próximo passo
               </span>

@@ -175,3 +175,30 @@ body {
     animation: none;
   }
 }
+
+/* Chamada de atenção do botão que leva ao formulário.
+   Pulso lento de brilho e escala — nunca piscar: piscar tem cara de golpe
+   e o WCAG 2.3.1 restringe conteúdo intermitente por risco de convulsão. */
+@keyframes cta-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 10px 24px -10px rgba(255, 106, 26, 0.55);
+  }
+  50% {
+    transform: scale(1.025);
+    box-shadow: 0 16px 34px -10px rgba(255, 106, 26, 0.85);
+  }
+}
+
+.animate-cta-pulse {
+  /* Três repetições, não infinito: chama atenção quando o resultado aparece
+     e depois para. Botão que se mexe para sempre vira alvo móvel e cansa. */
+  animation: cta-pulse 2.4s ease-in-out 3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-cta-pulse {
+    animation: none;
+  }
+}
