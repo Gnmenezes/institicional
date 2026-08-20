@@ -3,7 +3,11 @@
 import { useState, type FormEvent } from "react";
 import { useSearchParams } from "next/navigation";
 import { track } from "@vercel/analytics";
-import RoofPicker from "@/components/RoofPicker";
+import {
+  RoofOptions,
+  RoofTrigger,
+  useRoofPickerDismiss,
+} from "@/components/RoofPicker";
 import { buildWhatsappUrl } from "@/lib/whatsapp";
 import { useWhatsappNumber } from "@/components/WhatsAppNumberProvider";
 import { RESPONSE_TIME } from "@/lib/company";
@@ -96,7 +100,10 @@ export default function ContactForm({
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   // O telhado deixou de ser um <select required>, então a checagem vem daqui.
   const [faltaTelhado, setFaltaTelhado] = useState(false);
+  const [telhadoAberto, setTelhadoAberto] = useState(false);
   const [whatsappUrl, setWhatsappUrl] = useState("");
+
+  useRoofPickerDismiss(telhadoAberto, () => setTelhadoAberto(false));
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -107,6 +114,7 @@ export default function ContactForm({
 
     if (!form.roofType) {
       setFaltaTelhado(true);
+      setTelhadoAberto(true);
       document.getElementById("roofType")?.scrollIntoView({ block: "center" });
       return;
     }
@@ -247,21 +255,35 @@ export default function ContactForm({
             className="mt-1.5 w-full rounded-xl border border-black/10 px-4 py-2.5 text-sm outline-none focus:border-brand-orange"
           />
         </div>
+        <div>
+          <label htmlFor="roofType" className="text-sm font-medium text-brand-navy">
+            Tipo de telhado *
+          </label>
+          <RoofTrigger
+            value={form.roofType}
+            open={telhadoAberto}
+            onToggle={() => setTelhadoAberto((v) => !v)}
+            error={faltaTelhado}
+          />
+        </div>
       </div>
 
-      <div>
-        <label htmlFor="roofType" className="text-sm font-medium text-brand-navy">
-          Tipo de telhado *
-        </label>
-        <RoofPicker
+      {telhadoAberto && (
+        <RoofOptions
           value={form.roofType}
           onChange={(v) => {
             update("roofType", v);
             setFaltaTelhado(false);
+            setTelhadoAberto(false);
           }}
-          error={faltaTelhado}
         />
-      </div>
+      )}
+
+      {faltaTelhado && (
+        <p className="-mt-2 text-xs font-medium text-red-600">
+          Escolha o tipo de telhado para a gente dimensionar a estrutura.
+        </p>
+      )}
 
       <fieldset>
         <legend className="text-sm font-medium text-brand-navy">
