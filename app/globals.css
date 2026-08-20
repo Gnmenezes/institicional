@@ -175,3 +175,20 @@ body {
     animation: none;
   }
 }
+
+/* Corrente percorrendo os cabos na animação dos sistemas. */
+@keyframes flow-dash {
+  to {
+    stroke-dashoffset: -32;
+  }
+}
+
+.animate-flow {
+  animation: flow-dash 0.9s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-flow {
+    animation: none;
+  }
+}
