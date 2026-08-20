@@ -311,6 +311,9 @@ export default function SavingsCalculator({
               <h3 className="mt-3">
                 <ScrollCta
                   targetId="orcamento"
+                  /* Folga pequena de propósito: o botão encosta logo abaixo do
+                     cabeçalho e sobra mais formulário à vista. */
+                  offset={12}
                   className="animate-cta-pulse shadow-glow-orange block w-full rounded-2xl bg-brand-orange px-6 py-5 text-center text-xl font-extrabold leading-tight text-white transition-colors hover:bg-brand-orange-dark sm:px-8 sm:py-6 sm:text-3xl"
                 >
                   Solicite agora seu orçamento personalizado

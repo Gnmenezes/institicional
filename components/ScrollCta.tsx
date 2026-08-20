@@ -19,6 +19,7 @@ export default function ScrollCta({
   className,
   floatWhenPassed = false,
   floatingLabel,
+  offset = 80,
 }: {
   targetId: string;
   children: React.ReactNode;
@@ -26,6 +27,8 @@ export default function ScrollCta({
   floatWhenPassed?: boolean;
   /** Texto do botão flutuante, quando faz sentido ser mais curto. */
   floatingLabel?: React.ReactNode;
+  /** Folga acima do destino, em pixels. O padrão livra o cabeçalho fixo. */
+  offset?: number;
 }) {
   const anchorRef = useRef<HTMLAnchorElement>(null);
   const [passed, setPassed] = useState(false);
@@ -48,10 +51,9 @@ export default function ScrollCta({
     // define scroll-behavior: smooth no html, e com isso cada window.scrollTo
     // vira uma nova rolagem suave que briga com a anterior. Aqui cada quadro
     // salta de propósito ("instant") e a suavidade vem da curva.
-    const header = 80; // compensa o cabeçalho fixo
     const destino = Math.max(
       0,
-      Math.round(target.getBoundingClientRect().top + window.scrollY - header)
+      Math.round(target.getBoundingClientRect().top + window.scrollY - offset)
     );
     const inicio = window.scrollY;
     const distancia = destino - inicio;
