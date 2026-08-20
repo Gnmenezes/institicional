@@ -129,7 +129,7 @@ export default function ContactForm({
       // Só conta depois de o lead ter sido gravado de fato.
       track("enviou_orcamento", {
         tipo_sistema: form.systemType,
-        telhado: form.roofType || "nao-informado",
+        telhado: form.roofType,
         veio_da_calculadora: Boolean(simulation),
       });
       // Tentativa automática: funciona no desktop, mas no celular o navegador
@@ -210,7 +210,7 @@ export default function ContactForm({
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="email" className="text-sm font-medium text-brand-navy">
-            E-mail
+            E-mail <span className="text-brand-navy/45">(opcional)</span>
           </label>
           <input
             id="email"
@@ -249,10 +249,11 @@ export default function ContactForm({
         </div>
         <div>
           <label htmlFor="roofType" className="text-sm font-medium text-brand-navy">
-            Tipo de telhado
+            Tipo de telhado *
           </label>
           <select
             id="roofType"
+            required
             value={form.roofType}
             onChange={(e) => update("roofType", e.target.value)}
             className="mt-1.5 w-full rounded-xl border border-black/10 bg-white px-4 py-2.5 text-sm outline-none focus:border-brand-orange"
