@@ -197,21 +197,6 @@ export default function SavingsCalculator({
               </div>
             </div>
 
-            <div className="mt-7 flex flex-col items-center gap-2 rounded-2xl bg-brand-navy-light px-5 py-6 text-center">
-              <p className="text-sm font-semibold text-brand-navy">
-                Gostou do número? O do seu telhado pode ser ainda melhor.
-              </p>
-              <ScrollCta
-                targetId="orcamento"
-                className="animate-cta-pulse mt-1 inline-block rounded-full bg-brand-orange px-8 py-3.5 text-sm font-bold text-white transition-colors hover:bg-brand-orange-dark"
-              >
-                Quero meu orçamento personalizado
-              </ScrollCta>
-              <span className="text-xs text-brand-navy/50">
-                Leva 1 minuto · sem custo e sem compromisso
-              </span>
-            </div>
-
             {/* O site inteiro fala de híbrido, mas o modelo precifica on-grid.
                 Sem este aviso a pessoa compara a estimativa com uma proposta
                 de híbrido e acha que o preço subiu sem explicação. */}
@@ -323,8 +308,13 @@ export default function SavingsCalculator({
               <span className="text-xs font-bold uppercase tracking-[0.18em] text-brand-orange/70">
                 Próximo passo
               </span>
-              <h3 className="mt-2 text-2xl font-extrabold leading-tight text-brand-orange sm:text-3xl">
-                Solicite agora seu orçamento personalizado
+              <h3 className="mt-3">
+                <ScrollCta
+                  targetId="orcamento"
+                  className="animate-cta-pulse shadow-glow-orange block w-full rounded-2xl bg-brand-orange px-6 py-5 text-center text-xl font-extrabold leading-tight text-white transition-colors hover:bg-brand-orange-dark sm:px-8 sm:py-6 sm:text-3xl"
+                >
+                  Solicite agora seu orçamento personalizado
+                </ScrollCta>
               </h3>
               <p className="mt-3 max-w-2xl text-sm leading-relaxed text-brand-navy/70 sm:text-base">
                 Agora que você já tem uma ideia de quanto custa um{" "}
