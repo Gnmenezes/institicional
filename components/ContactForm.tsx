@@ -289,33 +289,38 @@ export default function ContactForm({
         <legend className="text-sm font-medium text-brand-navy">
           Que tipo de sistema você quer orçar?
         </legend>
-        <div className="mt-2.5 grid gap-2.5">
+        {/* Lado a lado onde couber. O formulário aparece em dois lugares de
+            larguras bem diferentes — na calculadora e na página de Contato,
+            que ainda estreita numa coluna no tablet —, então quem decide
+            quantas colunas cabem é o auto-fit, não um breakpoint fixo. No
+            celular fica uma opção por linha. */}
+        <div className="mt-2.5 grid gap-2.5 sm:[grid-template-columns:repeat(auto-fit,minmax(150px,1fr))]">
           {SYSTEM_OPTIONS.map((option) => {
             const selected = form.systemType === option.value;
             return (
               <label
                 key={option.value}
-                className={`flex cursor-pointer items-start gap-3 rounded-xl border p-3.5 transition-colors ${
+                className={`flex cursor-pointer flex-col gap-1 rounded-xl border p-3.5 transition-colors ${
                   selected
                     ? "border-brand-orange bg-brand-orange-light"
                     : "border-black/10 hover:border-brand-orange/40"
                 }`}
               >
-                <input
-                  type="radio"
-                  name="systemType"
-                  value={option.value}
-                  checked={selected}
-                  onChange={() => update("systemType", option.value)}
-                  className="mt-0.5 h-4 w-4 shrink-0 accent-brand-orange"
-                />
-                <span>
-                  <span className="block text-sm font-semibold text-brand-navy">
+                <span className="flex items-start gap-2.5">
+                  <input
+                    type="radio"
+                    name="systemType"
+                    value={option.value}
+                    checked={selected}
+                    onChange={() => update("systemType", option.value)}
+                    className="mt-0.5 h-4 w-4 shrink-0 accent-brand-orange"
+                  />
+                  <span className="text-sm font-semibold leading-snug text-brand-navy">
                     {option.label}
                   </span>
-                  <span className="mt-0.5 block text-xs leading-relaxed text-brand-navy/55">
-                    {option.hint}
-                  </span>
+                </span>
+                <span className="text-xs leading-relaxed text-brand-navy/55">
+                  {option.hint}
                 </span>
               </label>
             );
