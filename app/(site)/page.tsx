@@ -13,6 +13,7 @@ import Reveal from "@/components/Reveal";
 import {
   SunPanelIcon,
   BatteryIcon,
+  GridIcon,
   HomeUsageIcon,
 } from "@/components/illustrations/SolarIcons";
 import {
@@ -133,42 +134,55 @@ const WARRANTIES = [
   },
 ];
 
+// Os dois lados abrem pela economia de propósito: quando só o on-grid falava
+// de conta de luz, o híbrido parecia ser o que não economiza — e é o
+// contrário, ele economiza igual e ainda guarda energia. O `flow` desenha o
+// que acontece com a energia gerada: ela não segue um caminho só, escolhe
+// entre destinos, e é isso que o "ou" entre as caixas mostra.
 const SYSTEM_COMPARISON = [
   {
     name: "On-Grid (convencional)",
-    tagline: "Conectado direto à rede, com microinversores",
+    tagline: "Ligado direto na rede, com microinversores",
     highlight: false,
-    steps: [
-      { label: "Gera", Icon: SunPanelIcon },
-      { label: "Usa", Icon: HomeUsageIcon },
+    source: { label: "Gera", Icon: SunPanelIcon },
+    outputs: [
+      { label: "Usa na hora", Icon: HomeUsageIcon },
+      { label: "Injeta na rede", Icon: GridIcon },
     ],
+    outage:
+      "O sistema desliga junto com a rede. É norma de segurança: enquanto alguém conserta o poste, nada pode estar injetando energia na linha.",
     pros: [
-      "Investimento inicial menor",
-      "Reduz bastante a conta de luz",
-      "Instalação mais simples",
-      "Ótimo custo-benefício pra quem não sofre com quedas de energia",
+      "Derruba sua conta de luz todo mês, já na primeira fatura depois da instalação",
+      "É o de menor investimento entre os dois — e o que se paga mais rápido",
+      "O que você gera e não usa não se perde: vira crédito para abater nos meses de menos sol",
+      "Instalação mais simples, sem precisar de espaço para o banco de baterias",
+      "Ideal pra quem tem energia estável e quer, acima de tudo, parar de pagar caro",
     ],
     cons: [
-      "Desliga junto com a rede em caso de queda de energia, por segurança",
+      "Na queda de energia, desliga junto com a rede",
     ],
   },
   {
     name: "Híbrido (com bateria)",
-    tagline: "Gera, armazena em bateria e continua funcionando sem rede",
+    tagline: "Gera, guarda em bateria e segue de pé sem a rede",
     highlight: true,
-    steps: [
-      { label: "Gera", Icon: SunPanelIcon },
-      { label: "Armazena", Icon: BatteryIcon },
-      { label: "Usa", Icon: HomeUsageIcon },
+    source: { label: "Gera", Icon: SunPanelIcon },
+    outputs: [
+      { label: "Usa na hora", Icon: HomeUsageIcon },
+      { label: "Carrega a bateria", Icon: BatteryIcon },
+      { label: "Injeta na rede", Icon: GridIcon },
     ],
+    outage:
+      "A bateria assume na hora e os painéis seguem gerando. Você escolhe quais cargas ficam de pé — e a casa quase não percebe que faltou.",
     pros: [
-      "Continua com energia durante quedas na rede",
-      "Armazena o excedente gerado para usar depois",
-      "Mais economia e mais autonomia",
-      "Ideal pra quem sofre com quedas de energia frequentes",
+      "Derruba sua conta de luz todo mês exatamente como o on-grid: a economia é a mesma",
+      "Continua com energia quando a rede cai — geladeira, internet, luzes, o que você definir",
+      "Guarda o sol do dia para usar à noite, em vez de devolver tudo para a rede",
+      "Aproveita mais da energia que você mesmo gerou, dependendo menos da distribuidora",
+      "Pra quem sofre com quedas frequentes, mora em zona rural ou trabalha de casa e não pode parar",
     ],
     cons: [
-      "Investimento inicial um pouco maior, por causa do banco de baterias",
+      "Investimento inicial maior, por causa do banco de baterias",
     ],
   },
 ];
@@ -414,7 +428,7 @@ export default async function HomePage() {
             <SectionHeading
               eyebrow="Qual é o ideal pra você?"
               title="Híbrido ou On-Grid"
-              description="Cada sistema tem suas vantagens. Veja a diferença e escolha com a gente o que faz mais sentido pro seu consumo e orçamento."
+              description="Os dois derrubam sua conta de luz todo mês. A diferença aparece quando a energia cai — e no quanto você aproveita do que gerou."
               center
             />
           </Reveal>
@@ -445,25 +459,56 @@ export default async function HomePage() {
                     {system.tagline}
                   </p>
 
-                  <div className="mt-6 flex items-center gap-2 rounded-2xl bg-brand-navy-light/70 p-4">
-                    {system.steps.map((step, index) => (
-                      <div
-                        key={step.label}
-                        className="flex flex-1 items-center gap-2"
-                      >
-                        <div className="flex flex-1 flex-col items-center gap-1.5">
-                          <step.Icon className="h-9 w-9" />
-                          <span className="text-[11px] font-semibold text-brand-navy/70">
-                            {step.label}
-                          </span>
-                        </div>
-                        {index < system.steps.length - 1 && (
-                          <span className="mb-5 text-lg text-brand-orange/40">
-                            →
-                          </span>
-                        )}
+                  {/* A energia gerada não segue um caminho só: ela escolhe
+                      entre destinos. Por isso a origem fica de um lado e os
+                      destinos empilhados do outro, separados por "ou" — em
+                      fila, o desenho dizia que a energia passa por todos. */}
+                  <div className="mt-6 rounded-2xl bg-brand-navy-light/70 p-4">
+                    <div className="flex items-center gap-3">
+                      <div className="flex w-16 shrink-0 flex-col items-center gap-1.5">
+                        <system.source.Icon className="h-9 w-9" />
+                        <span className="text-[11px] font-semibold text-brand-navy/70">
+                          {system.source.label}
+                        </span>
                       </div>
-                    ))}
+
+                      <span
+                        className="text-lg text-brand-orange/40"
+                        aria-hidden="true"
+                      >
+                        →
+                      </span>
+
+                      <div className="flex-1">
+                        {system.outputs.map((output, index) => (
+                          <div key={output.label}>
+                            {index > 0 && (
+                              <div className="flex items-center gap-2 py-1">
+                                <span className="h-px flex-1 bg-brand-navy/10" />
+                                <span className="text-[10px] font-bold uppercase tracking-wider text-brand-navy/35">
+                                  ou
+                                </span>
+                                <span className="h-px flex-1 bg-brand-navy/10" />
+                              </div>
+                            )}
+                            <div className="flex items-center gap-2.5">
+                              <output.Icon className="h-8 w-8 shrink-0" />
+                              <span className="text-xs font-semibold leading-snug text-brand-navy/75">
+                                {output.label}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* A pergunta que decide entre os dois sistemas. */}
+                    <p className="mt-3 border-t border-brand-navy/10 pt-3 text-xs leading-relaxed text-brand-navy/60">
+                      <strong className="font-bold text-brand-navy/85">
+                        Faltou luz?
+                      </strong>{" "}
+                      {system.outage}
+                    </p>
                   </div>
 
                   <ul className="mt-6 space-y-2.5">

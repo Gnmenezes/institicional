@@ -46,3 +46,25 @@ export function HomeUsageIcon({ className = "h-10 w-10" }: { className?: string 
     </svg>
   );
 }
+
+export function GridIcon({ className = "h-10 w-10" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 48 48" fill="none" className={className} aria-hidden="true">
+      {/* Torre de transmissão: é o desenho que as pessoas leem como "a rede",
+          sem precisar de legenda. Sem as vigas cruzadas de propósito — no
+          tamanho em que ela aparece, viram um borrão. A torre fica à
+          esquerda para o selo laranja não comer as travessas. */}
+      <path
+        d="M10 42 19 8l9 34"
+        stroke="#353693"
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <line x1="12" y1="19" x2="26" y2="19" stroke="#353693" strokeWidth="3" strokeLinecap="round" />
+      <line x1="9" y1="29" x2="29" y2="29" stroke="#353693" strokeWidth="3" strokeLinecap="round" />
+      <circle cx="37" cy="35" r="9" fill="#fff1e8" />
+      <path d="M38 29 32 36.5h3.5l-1 5.5 6-7.5h-3.5l1-5.5Z" fill="#ff6a1a" />
+    </svg>
+  );
+}
