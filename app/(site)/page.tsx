@@ -6,7 +6,6 @@ import ProjectCard from "@/components/ProjectCard";
 import TestimonialCard from "@/components/TestimonialCard";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import HeroCarousel from "@/components/HeroCarousel";
-import HeroSlides, { type HeroSlide } from "@/components/HeroSlides";
 import ScrollCta from "@/components/ScrollCta";
 import CountUp from "@/components/CountUp";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
@@ -45,29 +44,6 @@ const HERO_TRUST = [
   "Equipe capacitada",
   "Projeto sob medida",
   "Suporte pós-instalação",
-];
-
-const HERO_SLIDES: HeroSlide[] = [
-  {
-    eyebrow: "Sistemas híbridos com baterias",
-    title: "A luz caiu bem na hora do jogo?",
-    titleHighlight: "Ou no meio da ceia de Natal?",
-    paragraphs: [
-      "Todo mundo já passou por isso: a energia falta justo no jogo decisivo, na virada de Ano Novo ou no jantar em família — e a festa acaba no escuro.",
-      "Com um sistema híbrido de energia solar, isso não acontece mais. Sua casa continua com luz nos momentos que mais importam, mesmo com a rede caída.",
-    ],
-  },
-  {
-    eyebrow: "On-grid com microinversores",
-    title: "E se a economia da conta de luz",
-    // A promessa fica em "ajuda a pagar": a economia só cobre a parcela
-    // inteira acima de uma certa conta, e a calculadora mostra caso a caso.
-    titleHighlight: "ajudasse a pagar o sistema?",
-    paragraphs: [
-      "O sistema on-grid é a opção de menor investimento: gera energia durante o dia e abate direto na sua conta, já a partir da primeira fatura depois da instalação.",
-      "Como a conta cai todo mês, essa economia ajuda a cobrir a parcela do financiamento — e em muitos casos cobre ela inteira. Simule a sua e veja o número do seu caso.",
-    ],
-  },
 ];
 
 const PAIN_MOMENTS = [
@@ -253,7 +229,43 @@ export default async function HomePage() {
 
         <div className="relative mx-auto grid max-w-6xl gap-12 px-4 py-10 sm:px-6 md:grid-cols-[1.05fr_0.95fr] md:items-center md:py-14">
           <div>
-            <HeroSlides slides={HERO_SLIDES} />
+            {/* Uma abertura só, em forma de pergunta. Antes eram dois
+                slides, um para cada tipo de sistema — quem chegava tinha que
+                escolher um lado antes de saber que os lados existiam. A
+                pergunta faz o trabalho oposto: dá o contraste em duas frases
+                e manda a pessoa descobrir de qual lado ela está. */}
+            <div className="animate-hero-slide">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-white/90 backdrop-blur">
+                <span className="h-1.5 w-1.5 rounded-full bg-brand-orange" />
+                Bem-vindo à Sumart
+              </span>
+
+              <h1 className="mt-6 text-[2.6rem] font-extrabold leading-[1.08] tracking-tight text-white sm:text-6xl">
+                Qual sistema de energia solar{" "}
+                <span className="text-gradient-orange">é o certo pra sua casa?</span>
+              </h1>
+
+              <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/70">
+                Um deles derruba sua conta de luz todo mês. O outro faz isso e
+                ainda mantém sua casa acesa quando a energia cai. Vamos
+                descobrir qual é o seu?
+              </p>
+
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href="/contato"
+                  className="shadow-glow-orange rounded-full bg-brand-orange px-8 py-4 text-center text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-brand-orange-dark"
+                >
+                  Solicitar orçamento
+                </Link>
+                <ScrollCta
+                  targetId="calculadora"
+                  className="rounded-full border border-white/20 bg-white/5 px-8 py-4 text-center text-sm font-semibold text-white backdrop-blur transition-colors hover:border-white/40 hover:bg-white/10"
+                >
+                  Calcular minha economia
+                </ScrollCta>
+              </div>
+            </div>
 
             <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-3 border-t border-white/10 pt-6">
               {HERO_TRUST.map((item) => (
