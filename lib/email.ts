@@ -9,6 +9,7 @@ type LeadEmailInput = {
   systemType?: string | null;
   roofType?: string | null;
   simulation?: string | null;
+  futureLoad?: string | null;
   message?: string | null;
 };
 
@@ -42,6 +43,7 @@ export async function sendLeadNotification(lead: LeadEmailInput) {
       ? `Tipo de sistema: ${SYSTEM_TYPE_LABELS[lead.systemType] ?? lead.systemType}`
       : null,
     lead.simulation ? `Simulou no site: ${lead.simulation}` : null,
+    lead.futureLoad ? `Vai aumentar o consumo: ${lead.futureLoad}` : null,
     lead.message ? `Mensagem: ${lead.message}` : null,
   ].filter(Boolean);
 

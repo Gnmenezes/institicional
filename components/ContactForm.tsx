@@ -22,6 +22,8 @@ type FormState = {
   billAmount: string;
   roofType: string;
   systemType: SystemType;
+  futureLoad: boolean;
+  futureLoadDetail: string;
   message: string;
 };
 
@@ -33,6 +35,8 @@ const INITIAL_STATE: FormState = {
   billAmount: "",
   roofType: "",
   systemType: "INDEFINIDO",
+  futureLoad: false,
+  futureLoadDetail: "",
   message: "",
 };
 
@@ -60,6 +64,16 @@ const SYSTEM_LABELS: Record<SystemType, string> = {
   INDEFINIDO: "Ainda não sei / quero orientação",
 };
 
+/**
+ * Vira a frase única que é gravada no lead e mandada no WhatsApp. Marcar a
+ * caixa sem escrever nada ainda é informação: o dimensionamento muda, só não
+ * se sabe por quanto — melhor registrar isso do que perder o aviso.
+ */
+function describeFutureLoad(data: FormState) {
+  if (!data.futureLoad) return "";
+  return data.futureLoadDetail.trim() || "Sim, mas não disse quais aparelhos";
+}
+
 function buildWhatsappMessage(data: FormState, simulation?: string) {
   const lines = [
     "Olá! Vim pelo site e gostaria de solicitar um orçamento de energia solar.",
@@ -69,6 +83,9 @@ function buildWhatsappMessage(data: FormState, simulation?: string) {
     data.billAmount ? `Valor médio da conta de luz: ${data.billAmount}` : null,
     data.roofType ? `Telhado: ${data.roofType}` : null,
     `Tipo de sistema: ${SYSTEM_LABELS[data.systemType]}`,
+    describeFutureLoad(data)
+      ? `Vai aumentar o consumo: ${describeFutureLoad(data)}`
+      : null,
     simulation ? `Simulou no site: ${simulation}` : null,
     data.message ? `Mensagem: ${data.message}` : null,
   ];
@@ -125,7 +142,12 @@ export default function ContactForm({
       const response = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, simulation }),
+        body: JSON.stringify({
+          ...form,
+          // A API guarda uma frase só; a caixa e o texto são detalhe da tela.
+          futureLoad: describeFutureLoad(form),
+          simulation,
+        }),
       });
 
       if (!response.ok) throw new Error("Falha ao enviar");
@@ -327,6 +349,53 @@ export default function ContactForm({
           })}
         </div>
       </fieldset>
+
+      {/* Dimensionar pela conta de hoje subdimensiona quem vai consumir mais
+          amanhã: um ar-condicionado ou um carro elétrico somam mais do que a
+          casa inteira consumia antes. A caixa fica desmarcada de propósito —
+          a maioria não vai ligar nada novo, e quem vai sabe disso na hora. */}
+      <div
+        className={`rounded-xl border p-3.5 transition-colors ${
+          form.futureLoad ? "border-brand-orange bg-brand-orange-light" : "border-black/10"
+        }`}
+      >
+        <label className="flex cursor-pointer items-start gap-3">
+          <input
+            type="checkbox"
+            checked={form.futureLoad}
+            onChange={(e) => update("futureLoad", e.target.checked)}
+            className="mt-0.5 h-4 w-4 shrink-0 rounded accent-brand-orange"
+          />
+          <span>
+            <span className="block text-sm font-semibold text-brand-navy">
+              Pretendo ligar algum aparelho novo
+            </span>
+            <span className="mt-0.5 block text-xs leading-relaxed text-brand-navy/55">
+              Ar-condicionado, freezer, chuveiro elétrico, carro elétrico… A gente
+              já dimensiona o sistema contando com ele, pra sua conta não voltar
+              a subir depois.
+            </span>
+          </span>
+        </label>
+
+        {form.futureLoad && (
+          <div className="mt-3 pl-7">
+            <label
+              htmlFor="futureLoadDetail"
+              className="text-xs font-medium text-brand-navy"
+            >
+              O que pretende ligar?
+            </label>
+            <input
+              id="futureLoadDetail"
+              value={form.futureLoadDetail}
+              onChange={(e) => update("futureLoadDetail", e.target.value)}
+              placeholder="Ex.: dois ar-condicionados e um freezer"
+              className="mt-1.5 w-full rounded-xl border border-black/10 bg-white px-4 py-2.5 text-sm outline-none focus:border-brand-orange"
+            />
+          </div>
+        )}
+      </div>
 
       <div>
         <label htmlFor="message" className="text-sm font-medium text-brand-navy">

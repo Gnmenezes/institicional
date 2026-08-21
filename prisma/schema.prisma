@@ -69,8 +69,18 @@ model Lead {
   roofType   String?
   /** Resumo do que a pessoa simulou na calculadora, quando veio de lá. */
   simulation String?
+  /**
+   * Aparelho novo que a pessoa pretende ligar (ar-condicionado, freezer, carro
+   * elétrico...). Dimensionar pela conta atual subdimensiona o sistema de quem
+   * vai consumir mais depois. Vazio quando ela não marcou nada.
+   */
+  futureLoad String?
   message    String?
   createdAt  DateTime @default(now())
+
+  /// Conversas de WhatsApp que geraram este lead.
+  conversations Conversation[]
+  visits        Visit[]
 }
 
 model SiteSettings {
@@ -117,6 +127,8 @@ model City {
   source    String   @default("NASA POWER (climatologia 2001-2020)")
   active    Boolean  @default(true)
   order     Int      @default(0)
+  /// Janelas de atendimento que cobrem esta cidade.
+  serviceWindows ServiceWindow[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -137,4 +149,142 @@ model Video {
   youtubeId  String
   order      Int      @default(0)
   createdAt  DateTime @default(now())
+}
+
+/// Estado do atendimento. Enquanto está em BOT o agente responde sozinho;
+/// assim que o Gabriel manda uma mensagem pelo painel a conversa vira HUMANO
+/// e o agente cala a boca — dois interlocutores no mesmo chat confundem o
+/// cliente e queimam o atendimento.
+enum ConversationStatus {
+  BOT
+  HUMANO
+  ENCERRADA
+}
+
+enum MessageRole {
+  /// Quem escreveu do outro lado do WhatsApp.
+  CLIENTE
+  /// O agente de IA.
+  AGENTE
+  /// O Gabriel, respondendo pelo painel.
+  ATENDENTE
+  /// Nota interna (assumiu atendimento, devolveu pro bot, erro de envio).
+  SISTEMA
+}
+
+/// Uma conversa de WhatsApp, uma por número de telefone. O histórico completo
+/// vive aqui: é o que o agente relê a cada mensagem e o que aparece na caixa
+/// de entrada do painel.
+model Conversation {
+  id          String             @id @default(cuid())
+  /// Telefone em E.164 sem "+", exatamente como a Meta entrega (ex: 5532999998888).
+  phone       String             @unique
+  /// Nome do perfil do WhatsApp. Vem de graça no webhook e é o primeiro nome
+  /// que o agente tem pra usar antes de perguntar qualquer coisa.
+  profileName String?
+  status      ConversationStatus @default(BOT)
+  /// Preenchido quando o agente termina de qualificar e cria o lead.
+  leadId      String?
+  lead        Lead?              @relation(fields: [leadId], references: [id])
+  /// Última mensagem recebida do cliente. Ordena a caixa de entrada e é o que
+  /// define a janela de 24h da Meta (fora dela só dá pra responder por template).
+  lastInboundAt DateTime?
+  /// Quando o painel abriu a conversa pela última vez, pro badge de não lidas.
+  readAt      DateTime?
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  messages    Message[]
+  visits      Visit[]
+
+  @@index([lastInboundAt])
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  role           MessageRole
+  text           String
+  /// ID da mensagem na Meta (wamid). O @unique aqui não é enfeite: a Meta
+  /// reenvia o mesmo webhook quando demora a receber o 200, e sem isso o
+  /// cliente seria respondido duas vezes.
+  waMessageId    String?      @unique
+  /// Tipo original quando não é texto (image, audio, document). O agente
+  /// ainda não lê mídia — guarda o tipo pra saber o que ignorou.
+  mediaType      String?
+  createdAt      DateTime     @default(now())
+
+  @@index([conversationId, createdAt])
+}
+
+/// Pedido de visita técnica levantado no atendimento.
+///
+/// Não é agenda: a atendente não tem horários para oferecer, e inventar
+/// disponibilidade é como se marca duas visitas no mesmo horário. Ela registra
+/// a preferência do cliente em texto livre ("terça de manhã", "qualquer dia
+/// depois das 18h") e o Gabriel confirma.
+enum VisitStatus {
+  SOLICITADA
+  CONFIRMADA
+  REALIZADA
+  CANCELADA
+}
+
+model Visit {
+  id             String        @id @default(cuid())
+  conversationId String?
+  conversation   Conversation? @relation(fields: [conversationId], references: [id], onDelete: SetNull)
+  leadId         String?
+  lead           Lead?         @relation(fields: [leadId], references: [id], onDelete: SetNull)
+  /// Janela em que a visita foi encaixada. Nulo quando não havia janela para
+  /// a cidade e a atendente só registrou a preferência do cliente.
+  windowId       String?
+  window         ServiceWindow? @relation(fields: [windowId], references: [id], onDelete: SetNull)
+  /// Dia combinado, quando entrou numa janela.
+  scheduledFor   DateTime?      @db.Date
+  period         VisitPeriod?
+  /// Como o cliente descreveu a preferência, nas palavras dele.
+  preference     String
+  /// Endereço ou referência do imóvel, quando o cliente já passou.
+  address        String?
+  notes          String?
+  status         VisitStatus   @default(SOLICITADA)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@index([status, createdAt])
+}
+
+enum VisitPeriod {
+  MANHA
+  TARDE
+  DIA_TODO
+}
+
+/// Janela de atendimento: um dia em que o Gabriel estará rodando uma região.
+///
+/// É o roteiro dele, declarado por ele — "quarta e quinta eu estou na região
+/// de Ubá". A atendente só oferece horário dentro de uma janela que cubra a
+/// cidade do cliente, e é isso que impede o erro clássico de marcar Ubá às 9h
+/// e Barbacena às 11h. O deslocamento continua sendo decisão humana; o sistema
+/// só respeita a decisão já tomada.
+model ServiceWindow {
+  id       String      @id @default(cuid())
+  /// Dia do atendimento.
+  date     DateTime    @db.Date
+  period   VisitPeriod @default(DIA_TODO)
+  /// Cidades cobertas por esta janela. Vem da mesma tabela do site, então não
+  /// existe cidade digitada errado.
+  cities   City[]
+  /// Quantas visitas cabem nesta janela. A atendente para de oferecer quando
+  /// lota — é o que impede duas confirmações para o mesmo dia.
+  capacity Int         @default(3)
+  notes    String?
+  active   Boolean     @default(true)
+  visits   Visit[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([date, active])
 }

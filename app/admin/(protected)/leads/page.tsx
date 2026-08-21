@@ -49,6 +49,14 @@ export default async function AdminLeadsPage() {
                   {lead.simulation}
                 </p>
               )}
+              {lead.futureLoad && (
+                <p className="mt-3 rounded-xl border border-brand-navy/15 bg-brand-navy-light p-3 text-xs leading-relaxed text-brand-navy/70">
+                  <span className="font-semibold text-brand-navy">
+                    Vai aumentar o consumo:
+                  </span>{" "}
+                  {lead.futureLoad}
+                </p>
+              )}
               {lead.message && (
                 <p className="mt-3 rounded-xl bg-brand-navy-light p-3 text-sm text-brand-navy/70">
                   {lead.message}
