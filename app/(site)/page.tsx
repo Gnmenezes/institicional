@@ -251,19 +251,23 @@ export default async function HomePage() {
                 descobrir qual é o seu?
               </p>
 
+              {/* A calculadora vem primeiro e em destaque: quem aceita o
+                  convite da pergunta acima quer descobrir o próprio caso,
+                  não pedir orçamento ainda. Quem já decidiu tem o orçamento
+                  ao lado — e a própria calculadora termina no formulário. */}
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Link
-                  href="/contato"
-                  className="shadow-glow-orange rounded-full bg-brand-orange px-8 py-4 text-center text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-brand-orange-dark"
-                >
-                  Solicitar orçamento
-                </Link>
                 <ScrollCta
                   targetId="calculadora"
-                  className="rounded-full border border-white/20 bg-white/5 px-8 py-4 text-center text-sm font-semibold text-white backdrop-blur transition-colors hover:border-white/40 hover:bg-white/10"
+                  className="shadow-glow-orange rounded-full bg-brand-orange px-8 py-4 text-center text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-brand-orange-dark"
                 >
                   Calcular minha economia
                 </ScrollCta>
+                <Link
+                  href="/contato"
+                  className="rounded-full border border-white/20 bg-white/5 px-8 py-4 text-center text-sm font-semibold text-white backdrop-blur transition-colors hover:border-white/40 hover:bg-white/10"
+                >
+                  Solicitar orçamento
+                </Link>
               </div>
             </div>
 
